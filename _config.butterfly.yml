@@ -1,87 +1,80 @@
 # --------------------------------------
-# Butterfly 主题配置文件
-# 中文文档: https://butterfly.js.org/
+# Butterfly 主题配置文件 (v4.12.0)
+# 文档: https://butterfly.js.org/
 # --------------------------------------
 
-# --------------------------------------
 # 导航栏设置
-# --------------------------------------
-
 nav:
-  logo:
+  logo: /img/pixel-logo.png  # 建议填入一个像素画的小图标
   display_title: true
-  display_post_title: true
-  fixed: true  # 固定导航栏
+  fixed: true
 
+# 菜单
 menu:
   首页: / || fas fa-home
   归档: /archives/ || fas fa-archive
   标签: /tags/ || fas fa-tags
   分类: /categories/ || fas fa-folder-open
-  # 友链: /link/ || fas fa-link
   关于: /about/ || fas fa-heart
 
-# --------------------------------------
 # 代码块设置
-# --------------------------------------
+highlight_theme: darker
+highlight_copy: true
+highlight_lang: true
+highlight_shrink: false
+highlight_height_limit: 400
+code_word_wrap: false
 
-code_blocks:
-  theme: mac  # 代码块主题: darker / pale night / light / ocean / mac / mac light
-  macStyle: true
-  height_limit: 400
-  word_wrap: false
-  copy: true
-  language: true
-  shrink: false
-  fullpage: false
-
-# 社交媒体链接
+# 社交图标
 social:
   fab fa-github: https://github.com/yurisachan16-creator || Github || '#24292e'
-  # fas fa-envelope: mailto:your-email@example.com || Email || '#4a7dbe'
+  fas fa-envelope: mailto:yurisachan16@gmail.com || Email || '#D44638'
 
-# --------------------------------------
-# 图片设置
-# --------------------------------------
-
+# 网站图标
 favicon: /img/favicon.png
 
+# 头像设置
 avatar:
-  img: https://npm.elemecdn.com/butterfly-exsource@1/img/avatar.jpg
-  effect: true  # 头像旋转效果
+  img: /img/avatar.jpg
+  effect: true
 
-# 禁用所有顶部横幅图片
+# 禁用顶部图片
 disable_top_img: false
 
-# 默认顶部图片
-default_top_img: https://npm.elemecdn.com/butterfly-exsource@1/img/default.jpg
-
 # 首页顶部图片
-index_img: https://npm.elemecdn.com/butterfly-exsource@1/img/index.jpg
+index_img: https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+
+# 默认顶部图片
+default_top_img: https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
 
 # 归档页顶部图片
-archive_img: https://npm.elemecdn.com/butterfly-exsource@1/img/archive.jpg
+archive_img:
+
+# 标签页顶部图片
+tag_img:
+
+# 分类页顶部图片
+category_img:
 
 # 文章封面设置
 cover:
   index_enable: true
   aside_enable: true
   archives_enable: true
+  position: both
   default_cover:
-    - https://npm.elemecdn.com/butterfly-exsource@1/img/cover1.jpg
-    - https://npm.elemecdn.com/butterfly-exsource@1/img/cover2.jpg
-    - https://npm.elemecdn.com/butterfly-exsource@1/img/cover3.jpg
+    - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
 
-# 错误页面图片
+# 替换无法显示的图片
 error_img:
   flink: /img/friend_404.gif
   post_page: /img/404.jpg
 
-# 404 页面设置
+# 404 页面
 error_404:
   enable: true
   subtitle: '页面没有找到'
-  background: https://npm.elemecdn.com/butterfly-exsource@1/img/error.png
+  background: url(/img/pixel-bg.png) repeat
 
 # 文章元数据
 post_meta:
@@ -92,42 +85,31 @@ post_meta:
     tags: false
     label: true
   post:
-    position: left
     date_type: both
     date_format: date
     categories: true
     tags: true
     label: true
 
-# --------------------------------------
-# 首页设置
-# --------------------------------------
-
 # 首页副标题 - 打字机效果
 subtitle:
   enable: true
   effect: true
-  typed_option:
-    typeSpeed: 100
-    backSpeed: 50
+  loop: true
   source: false
   sub:
-    - 欢迎来到我的博客 👋
-    - 记录生活，分享技术 💻
-    - 一起学习，共同成长 🌱
+      - 正在构建我的像素世界 👾
+      - Press Start to Continue ▶
 
-# 文章布局 (1-7)
+# 文章布局
 index_layout: 3
 
-# 文章简介显示方式
+# 文章简介
 index_post_content:
-  method: 3
+  method: 2
   length: 500
 
-# --------------------------------------
-# 文章设置
-# --------------------------------------
-
+# 目录设置
 toc:
   post: true
   page: false
@@ -136,6 +118,7 @@ toc:
   style_simple: false
   scroll_percent: true
 
+# 版权信息
 post_copyright:
   enable: true
   decode: false
@@ -143,13 +126,12 @@ post_copyright:
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
-# 打赏设置
+# 打赏
 reward:
   enable: false
-  text:
   QR_code:
 
-# 相关文章推荐
+# 相关文章
 related_post:
   enable: true
   limit: 6
@@ -158,33 +140,24 @@ related_post:
 # 文章分页
 post_pagination: 1
 
-# 过期文章提醒
+# 过期提醒
 noticeOutdate:
   enable: false
   style: flat
   limit_day: 365
   position: top
   message_prev: 本文距今已有
-  message_next: 天，文章内容可能已经过时。
+  message_next: 天，内容可能已过时。
 
-# --------------------------------------
 # 页脚设置
-# --------------------------------------
-
 footer:
-  nav:
   owner:
     enable: true
     since: 2025
-  copyright:
-    enable: true
-    version: true
   custom_text: <p>🎉 欢迎来到 Yurisachan 的小站</p>
+  copyright: true
 
-# --------------------------------------
 # 侧边栏设置
-# --------------------------------------
-
 aside:
   enable: true
   hide: false
@@ -205,53 +178,33 @@ aside:
       link: https://github.com/yurisachan16-creator
   card_announcement:
     enable: true
-    content: 欢迎来到我的博客！这里记录我的学习和生活。
+    content: 欢迎来到我的博客！
   card_recent_post:
     enable: true
     limit: 5
     sort: date
-    sort_order:
-  card_newest_comments:
-    enable: false
-    sort_order:
-    limit: 6
-    storage: 10
-    avatar: true
   card_categories:
     enable: true
     limit: 8
     expand: none
-    sort_order:
   card_tags:
     enable: true
     limit: 40
     color: true
     orderby: random
     order: 1
-    sort_order:
   card_archives:
     enable: true
     type: monthly
     format: YYYY年MM月
     order: -1
     limit: 8
-    sort_order:
-  card_post_series:
-    enable: true
-    series_title: false
-    orderBy: 'date'
-    order: -1
   card_webinfo:
     enable: true
     post_count: true
     last_push_date: true
-    sort_order:
-    runtime_date:
 
-# --------------------------------------
 # 右下角按钮
-# --------------------------------------
-
 rightside_bottom:
 
 # 繁简转换
@@ -265,74 +218,49 @@ readmode: true
 darkmode:
   enable: true
   button: true
-  autoChangeMode: 1  # 跟随系统设置
+  autoChangeMode: false
 
-# 显示滚动百分比
+# 滚动百分比
 rightside_scroll_percent: true
 
-# 右下角按钮动画
-rightside_config_animation: true
-
-# --------------------------------------
-# 全局设置
-# --------------------------------------
-
+# 锚点
 anchor:
   auto_update: false
   click_to_scroll: true
 
-photofigcaption: false
-
+# 复制设置
 copy:
   enable: true
   copyright:
     enable: true
     limit_count: 150
 
-# 字数统计（需要安装 hexo-wordcount 插件）
+# 字数统计
 wordcount:
-  enable: false
+  enable: true
   post_wordcount: true
   min2read: true
   total_wordcount: true
 
-# 不蒜子访问统计
+# 访问统计
 busuanzi:
   site_uv: true
   site_pv: true
   page_pv: true
 
-# --------------------------------------
 # 搜索设置
-# --------------------------------------
+local_search:
+  enable: true
+  preload: false
+  CDN:
 
-search:
-  use: local_search
-  placeholder: 搜索文章...
-
-  local_search:
-    preload: false
-    top_n_per_article: 1
-    unescape: false
-    pagination:
-      enable: false
-      hitsPerPage: 8
-    CDN:
-
-# --------------------------------------
-# 分享功能
-# --------------------------------------
-
+# 分享
 share:
   use: sharejs
   sharejs:
     sites: weibo,qq,wechat
 
-# --------------------------------------
-# 美化 / 特效
-# --------------------------------------
-
-# 主题颜色自定义
+# 主题颜色
 theme_color:
   enable: true
   main: "#49B1F5"
@@ -351,16 +279,19 @@ theme_color:
   meta_theme_color_light: "ffffff"
   meta_theme_color_dark: "#0d0d0d"
 
-# 圆角设置
-rounded_corners_ui: true
+# 圆角
+beautify:
+  enable: true
+  field: post
+  title-prefix-icon: '\f0c1'
+  title-prefix-icon-color: '#F47466'
 
-# 文字两端对齐
-text_align_justify: false
-
-# 遮罩效果
-mask:
-  header: true
-  footer: true
+# 字体设置
+font:
+  global-font-size: 16px # 像素字体通常大一点看着清楚
+  code-font-size:
+  font-family:'Zpix', sans-serif  # 假设你安装了 Zpix
+  code-font-family:
 
 # 加载动画
 preloader:
@@ -368,27 +299,17 @@ preloader:
   source: 1
   pace_css_url:
 
-# 页面过渡效果
+# 页面过渡
 enter_transitions: true
 
-# 默认显示模式
+# 默认模式
 display_mode: light
 
-# 文章美化
-beautify:
-  enable: true
-  field: post
-  title_prefix_icon: '\f0c1'
-  title_prefix_icon_color: '#F47466'
-
 # 图片灯箱
-lightbox: fancybox
+medium_zoom: false
+fancybox: true
 
-# --------------------------------------
-# 其他设置
-# --------------------------------------
-
-# PJAX（页面无刷新加载）
+# PJAX
 pjax:
   enable: true
   exclude:
@@ -396,27 +317,72 @@ pjax:
 # 图片懒加载
 lazyload:
   enable: true
-  native: false
   field: site
   placeholder:
   blur: false
 
-# 即时页面（预加载）
-instantpage: true
-
 # PWA
 pwa:
   enable: false
+  manifest:
+  apple_touch_icon:
+  favicon_32_32:
+  favicon_16_16:
+  mask_icon:
 
 # Open Graph
-Open_Graph_meta:
-  enable: true
-  option:
+Open_Graph_meta: true
 
 # CDN 设置
 CDN:
-  internal_provider: local
-  third_party_provider: jsdelivr
-  version: true
-  custom_format:
-  option:
+  # 主题内部文件
+  main_css:
+  main:
+  utils:
+  translate:
+  local_search:
+  algolia_js:
+  algolia_search:
+  instantsearch:
+  pjax:
+  gitalk:
+  gitalk_css:
+  blueimp_md5:
+  valine:
+  disqusjs:
+  disqusjs_css:
+  twikoo:
+  waline_js:
+  waline_css:
+  sharejs:
+  sharejs_css:
+  mathjax:
+  katex:
+  katex_copytex:
+  mermaid:
+  canvas_ribbon:
+  canvas_fluttering_ribbon:
+  canvas_nest:
+  lazyload:
+  instantpage:
+  typed:
+  pangu:
+  fancybox_css:
+  fancybox:
+  medium_zoom:
+  snackbar_css:
+  snackbar:
+  activate_power_mode:
+  fireworks:
+  click_heart:
+  ClickShowText:
+  fontawesome:
+  flickr_justified_gallery_js:
+  flickr_justified_gallery_css:
+  apple_touch_icon:
+  aplayer_css:
+  aplayer_js:
+  meting_js:
+  prismjs_js:
+  prismjs_lineNumber_js:
+  prismjs_autoloader:

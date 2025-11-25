@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'PixelFont';
+  src: url('/fonts/Zpix.woff2') format('woff2');
+  font-display: swap;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, span, a {
+  font-family: 'PixelFont', sans-serif !important;
+}
