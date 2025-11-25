@@ -36,16 +36,16 @@ favicon: /img/favicon.png
 # 头像设置
 avatar:
   img: /img/avatar.jpg
-  effect: true
+  effect: false
 
 # 禁用顶部图片
 disable_top_img: false
 
 # 首页顶部图片
-index_img: https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+index_img: /img/pixel-bg.jpg
 
 # 默认顶部图片
-default_top_img: https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
+default_top_img: /img/pixel-banner.jpg
 
 # 归档页顶部图片
 archive_img:
@@ -286,12 +286,12 @@ beautify:
   title-prefix-icon: '\f0c1'
   title-prefix-icon-color: '#F47466'
 
-# 字体设置
+# 字体设置 - 像素风
 font:
-  global-font-size: 16px # 像素字体通常大一点看着清楚
-  code-font-size:
-  font-family:'Zpix', sans-serif  # 假设你安装了 Zpix
-  code-font-family:
+  global-font-size: 16px
+  code-font-size: 14px
+  font-family: "'Zpix', 'Press Start 2P', sans-serif"
+  code-font-family: "'Zpix', 'Courier New', monospace"
 
 # 加载动画
 preloader:
@@ -386,3 +386,13 @@ CDN:
   prismjs_js:
   prismjs_lineNumber_js:
   prismjs_autoloader:
+
+# 插入自定义 CSS 或 JS
+inject:
+  head:
+    # 引入我们刚才创建的 custom.css (为了加载 Zpix 字体)
+    - <link rel="stylesheet" href="/css/custom.css">
+    # 引用NES.css* (建议使用CDN)
+    - <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+  bottom:
+    # 底部暂时留空，以后可以放 JS 脚本
