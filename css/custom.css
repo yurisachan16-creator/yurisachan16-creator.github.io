@@ -27,3 +27,23 @@ code, pre {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Press Start 2P', sans-serif;
 }
+
+/* 仿 Pixelium 的配色灵感 */
+:root {
+  --pixel-primary: #f8b195; /* 它的某种主色调 */
+  --pixel-border: #353b48;  /* 深色边框 */
+  --pixel-shadow: 4px 4px 0px 0px var(--pixel-border); /* 经典的像素硬阴影 */
+}
+
+/* 模仿它的卡片风格 */
+.recent-post-item, .card-widget {
+  border: 2px solid var(--pixel-border) !important;
+  box-shadow: var(--pixel-shadow) !important;
+  transition: all 0.1s !important;
+}
+
+/* 模仿它的点击下沉效果 */
+.recent-post-item:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--pixel-border) !important;
+}

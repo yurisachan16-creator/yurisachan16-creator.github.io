@@ -1,0 +1,408 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>从巴特尔到 Nice Yee，深入解析玩家动机模型 | Yurisachan的个人博客</title><meta name="author" content="Yurisachan"><meta name="copyright" content="Yurisachan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="深度探讨玩家分类，解析巴特尔模型与八大核心驱动力。"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yurisachan16-creator.github.io/2025/11/26/player-model/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: Yurisachan","link":"链接: ","source":"来源: Yurisachan的个人博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从巴特尔到 Nice Yee，深入解析玩家动机模型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-26 18:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" /><meta name="generator" content="Hexo 8.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Yurisachan的个人博客"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/pixel-logo.png"/><span class="site-name">Yurisachan的个人博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">从巴特尔到 Nice Yee，深入解析玩家动机模型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-26T10:00:00.000Z" title="发表于 2025-11-26 18:00:00">2025-11-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-26T10:00:00.000Z" title="更新于 2025-11-26 18:00:00">2025-11-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B8%B8%E6%88%8F%E7%90%86%E8%AE%BA/">游戏理论</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="从巴特尔到 Nice Yee，深入解析玩家动机模型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="从巴特尔到-Nice-Yee，深入解析玩家动机模型"><a href="#从巴特尔到-Nice-Yee，深入解析玩家动机模型" class="headerlink" title="从巴特尔到 Nice Yee，深入解析玩家动机模型"></a>从巴特尔到 Nice Yee，深入解析玩家动机模型</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>[[#游戏动机是什么]]<ul>
+<li>[[#引言]]</li>
+<li>[[#巴图模型分类法]]</li>
+<li>[[#巴图模型下的四种玩家类型]]</li>
+<li>[[#扩展的八类型模型]]</li>
+</ul>
+</li>
+<li>[[#Nick Yee 的玩家动机模型]]<ul>
+<li>[[#三大高阶动机集群]]</li>
+<li>[[#六大类别与十二项具体动机]]</li>
+<li>[[#玩家动机档案及其应用]]</li>
+</ul>
+</li>
+<li>[[#系统与功能设计]]<ul>
+<li>[[#为特定动机设计机制]]</li>
+</ul>
+</li>
+<li>[[#叙事、任务与世界设计]]</li>
+<li>[[#在线运营与活动设计]]</li>
+<li>[[#参与度与消费的分层]]</li>
+</ul>
+<hr>
+<p>在b站上刷到了关于游戏玩家类型的探讨，感觉挺有意思的，正好结合我的一些理解发布个文章，让大家看看讨论一下。如果有哪里讲的不对，希望能有进行友好的评论。</p>
+<h2 id="游戏动机是什么"><a href="#游戏动机是什么" class="headerlink" title="游戏动机是什么"></a>游戏动机是什么</h2><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>在现代游戏设计领域，深刻理解玩家动机并非一项“锦上添花”的技能，而是设计师工具箱中最关键的核心能力。好的游戏设计，本质上是设计师将游戏所想表达的内容与玩家所希望看见理解的相一致。</p>
+<p>我会从巴图模型开始讲解，到 Nick Yee 博士与团队开发的、以数据驱动的现代动机模型，我会刨析这里理论的由来，以及其在实际开发流程中的战略应用。</p>
+<h3 id="巴图模型分类法"><a href="#巴图模型分类法" class="headerlink" title="巴图模型分类法"></a>巴图模型分类法</h3><p>理查德·巴特尔的玩家分类法诞生于20世纪70年代末至80年代的“多用户地牢”（MUDs）时代。作为现代MMORPG的文本前身，MUDs构建了最早的持久化在线虚拟世界。在运营这些虚拟世界的过程中，巴特尔发现一个核心现象：不同的玩家尽管身处同一个虚拟环境，但他们追求的乐趣和游戏目标却截然不同。这一观察促使他尝试对玩家行为进行分类，从而理解并更好地平衡游戏生态，这便是该模型的根本起源。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/player-model/Batu-model.png"></p>
+<p>巴图模型的核心是一个二维象限图，根据两个基本轴来定义玩家的爱好：</p>
+<ul>
+<li><strong>X轴：玩家与世界</strong>，此轴代表玩家的主要兴趣点。一端是关注其他玩家，热衷于社交、合作或竞争；另一端是关注游戏世界本身，沉浸于探索、发现和理解其规则。</li>
+<li><strong>Y轴：行动与交互</strong>，此轴代表玩家与兴趣对象的交互方式。顶端是“行动”，即主动对目标施加影响、改变其状态；底端是“互动”，即与目标进行交流、体验其内在属性。</li>
+</ul>
+<h3 id="巴图模型下的四种玩家类型"><a href="#巴图模型下的四种玩家类型" class="headerlink" title="巴图模型下的四种玩家类型"></a>巴图模型下的四种玩家类型</h3><p>巴特尔定义了四种经典玩家类型，并常以扑克牌花色作为其象征符号。</p>
+<h4 id="1-成就者-Achievers-♦"><a href="#1-成就者-Achievers-♦" class="headerlink" title="1. 成就者 (Achievers - ♦)"></a>1. 成就者 (Achievers - ♦)</h4><ul>
+<li><strong>核心动机</strong>：在“世界”上“行动”，通过达成游戏设定的量化目标来获得成功感。他们被积分、等级、装备、排行榜排名等具体的成功衡量标准所驱动，其核心是掌握游戏并积累地位的象征。</li>
+<li><strong>典型行为</strong>：他们会不遗余力地完成任务、挑战和收集，甚至是为了纯粹的装饰性奖励。在多人环境中，他们渴望向他人炫耀自己的成就和精英地位，并期待从社交家那里获得赞扬，同时与其他成就者展开竞争。</li>
+<li><strong>偏好系统</strong>：任何提供100%完成度的游戏都能吸引他们。排行榜、成就系统（如Xbox Gamerscore，PS白金奖杯）、清晰的进度条、可量化的目标和丰厚的奖励是为他们设计的关键系统。</li>
+</ul>
+<h4 id="2-探索者-Explorers-♠"><a href="#2-探索者-Explorers-♠" class="headerlink" title="2. 探索者 (Explorers - ♠)"></a>2. 探索者 (Explorers - ♠)</h4><ul>
+<li><strong>核心动机</strong>：与游戏“世界”进行“互动”，以发现其秘密、理解其运作机制为乐。对他们而言，发现本身就是奖励，而非外在的积分或物品。</li>
+<li><strong>典型行为</strong>：他们喜欢探索地图的每一个角落，寻找隐藏区域、复活节彩蛋甚至是游戏漏洞（glitches）。他们会深入研究游戏的背景故事和传说，并享受以自己的节奏漫游世界，因此常常对有时间限制的任务感到厌烦。当一个世界的内容被完全探索后，他们可能会感到无聊并离开游戏。</li>
+<li><strong>偏好系统</strong>：广阔的开放世界、丰富的传说和背景故事、隐藏的任务线、复杂的待解析系统以及非线性的关卡设计对他们极具吸引力。</li>
+</ul>
+<h4 id="3-社交家-Socializers-♥"><a href="#3-社交家-Socializers-♥" class="headerlink" title="3. 社交家 (Socializers - ♥)"></a>3. 社交家 (Socializers - ♥)</h4><ul>
+<li><strong>核心动机</strong>：与其他“玩家”进行“互动”。对他们而言，游戏本身往往只是一个社交平台或工具，真正的乐趣来源于人际交往。他们追求建立关系、归属感和社群体验。</li>
+<li><strong>典型行为</strong>：他们花费大量时间在聊天、组建或加入公会、帮助其他玩家以及进行角色扮演。据估算，社交家是玩家群体中占比最大的类型，高达近80%。</li>
+<li><strong>偏好系统</strong>：强大的聊天系统、公会&#x2F;部落功能、好友列表、合作任务、表情动作、共享空间和社交中心（如主城或酒馆）是服务于他们的核心设计。</li>
+</ul>
+<h4 id="4-杀手-Killers-♣"><a href="#4-杀手-Killers-♣" class="headerlink" title="4. 杀手 (Killers - ♣)"></a>4. 杀手 (Killers - ♣)</h4><ul>
+<li><strong>核心动机</strong>：对其他“玩家”采取“行动”。他们的乐趣建立在竞争、支配和对他人的影响之上，尤其是让别人“输”。</li>
+<li><strong>典型行为</strong>：他们热衷于玩家对战（PvP），追求在竞争中胜出，并享受由此带来的权力感。部分杀手可能会表现出“ganking”（以强凌弱）或“griefing”（恶意破坏他人游戏体验）等极端行为。据估算，纯粹的杀手在玩家群体中占比极小，通常不足1%。</li>
+<li><strong>偏好系统</strong>：PvP竞技场、战场、天梯排名系统、允许玩家间发生直接冲突的开放世界规则，以及能够展示其战斗实力的机制，都是为杀手设计的。</li>
+</ul>
+<h3 id="扩展的八类型模型"><a href="#扩展的八类型模型" class="headerlink" title="扩展的八类型模型"></a>扩展的八类型模型</h3><p>为了增加模型的精细度，巴特尔后来引入了第三个维度轴：内隐（implicit） vs. 外显（explicit），从而将四种基本类型扩展为八种。这个轴描述了玩家行为背后的思维方式：外显型玩家有明确的计划和目标，而内隐型玩家则更多依赖直觉和机会主义。</p>
+<ul>
+<li><strong>成就者</strong>：规划师 (Planner) (外显) vs. 机会主义者 (Opportunist) (内隐)</li>
+<li><strong>探索者</strong>：科学家 (Scientist) (外显，系统地获取知识) vs. 黑客 (Hacker) (内隐，凭直觉理解世界)</li>
+<li><strong>社交家</strong>：人脉专家 (Networker) (外显，评估他人能力) vs. 朋友 (Friend) (内隐，享受陪伴)</li>
+<li><strong>杀手</strong>：政客 (Politician) (外显，追求良好声誉) vs. 捣乱者 (Griefer) (内隐，追求恶劣声誉)</li>
+</ul>
+<p>巴特尔模型最深刻的价值，并不仅仅在于对个体进行分类，而在于它揭示了一个虚拟世界得以持续运转的社会生态学原理。它的核心不是玩家画像，而是对不同类型玩家之间共生与制衡关系的描述，这对于设计一个可持续的在线服务型游戏至关重要。</p>
+<h2 id="Nick-Yee-的玩家动机模型"><a href="#Nick-Yee-的玩家动机模型" class="headerlink" title="Nick Yee 的玩家动机模型"></a>Nick Yee 的玩家动机模型</h2><p>Nick Yee，中文名余建伦，出生地中国香港，Yee在哈福德学院获得心理学学士学位（主修计算机科学），并于2007年获得斯坦福大学传播学博士学位。尼克·Yee博士和尼古拉斯·杜切诺特（Nicolas Ducheneaut）博士共同创立的 Quantic Foundry 为代表的研究机构，引领了这场从定性观察到定量实证的变革。</p>
+<p>Quantic Foundry 的模型呈现出一个清晰的层级结构，将复杂的玩家动机系统化地组织起来。这个结构由12个具体的动机组成，这些动机两两配对，形成6个更广泛的类别，最终归属于3个高阶的动机集群。</p>
+<h3 id="三大高阶动机集群"><a href="#三大高阶动机集群" class="headerlink" title="三大高阶动机集群"></a>三大高阶动机集群</h3><ol>
+<li><p><strong>行动-社交 (Action-Social) - “明亮” (BRIGHT)</strong><br>这个集群关乎即时反馈、感官刺激和玩家间的互动。得分高的玩家渴望令人兴奋的体验，无论是来自游戏本身的快节奏，还是来自与其他玩家的直接对抗或合作。这一集群的特质与大五人格中的“外向性”（Extraversion）高度相关，后者同样包含了寻求刺激、乐于社交和果断等特点。</p>
+</li>
+<li><p><strong>精通-成就 (Mastery-Achievement) - “高耸” (TALL)</strong><br>这个集群代表了冷静的、着眼于长远的游戏方式。它追求的是渐进式、可积累的成长与进步，例如看着自己的城市或农场随时间推移而壮大。这一集群与大五人格中的“尽责性”（Conscientiousness）相呼应，该特质与组织性、纪律性和目标导向有关。</p>
+</li>
+<li><p><strong>沉浸-创造 (Immersion-Creativity) - “广阔” (WIDE)</strong><br>这个集群涵盖了广义上的“玩乐”，追求广阔的、富有表现力的游戏风格。这类玩家充满好奇心，总是试图探索和测试游戏的边界。它与大五人格中的“开放性”（Openness to Experience）紧密相连，后者描述了个体对想象力、好奇心和新体验的偏好。</p>
+</li>
+</ol>
+<h3 id="六大类别与十二项具体动机"><a href="#六大类别与十二项具体动机" class="headerlink" title="六大类别与十二项具体动机"></a>六大类别与十二项具体动机</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/player-model/Model-Overview.png"><br><em>(请确认此处图片已放置到对应文件夹)</em></p>
+<ul>
+<li><strong>类别：行动 (Action)</strong><ul>
+<li><strong>破坏 (Destruction)</strong>：享受混乱、爆炸、枪械和大规模破坏所带来的快感。典型游戏：《使命召唤》(Call of Duty)。</li>
+<li><strong>刺激 (Excitement)</strong>：偏爱快节奏、紧张、充满惊喜和能让肾上腺素飙升的游戏。典型游戏：《光环》(Halo)、《街头霸王》(Street Fighter)。</li>
+</ul>
+</li>
+<li><strong>类别：社交 (Social)</strong><ul>
+<li><strong>竞争 (Competition)</strong>：享受与其他玩家进行决斗、比赛和排名竞争的乐趣。典型游戏：《英雄联盟》(League of Legends)。</li>
+<li><strong>社群 (Community)</strong>：享受在游戏中与他人社交、合作、聊天和组队的过程。典型游戏：《魔兽世界》(World of Warcraft) 中的公会活动。</li>
+</ul>
+</li>
+<li><strong>类别：精通 (Mastery)</strong><ul>
+<li><strong>挑战 (Challenge)</strong>：偏好高难度、需要技巧和反复练习才能克服的游戏。典型游戏：《黑暗之魂》(Dark Souls)。</li>
+<li><strong>策略 (Strategy)</strong>：享受需要深思熟虑、精心规划和做出战术决策的游戏。典型游戏：《文明》(Civilization)、《XCOM》。</li>
+</ul>
+</li>
+<li><strong>类别：成就 (Achievement)</strong><ul>
+<li><strong>完成 (Completion)</strong>：有强烈的愿望去完成游戏中的每一项任务、收集每一个物品、解锁100%的内容。</li>
+<li><strong>力量 (Power)</strong>：追求在游戏世界中变得尽可能强大，获取最顶级的装备和最高的属性。</li>
+</ul>
+</li>
+<li><strong>类别：沉浸 (Immersion)</strong><ul>
+<li><strong>幻想 (Fantasy)</strong>：渴望成为另一个人，身处另一个世界，完全沉浸在一个虚构的角色和背景中。典型游戏：《上古卷轴：天际》(Skyrim)。</li>
+<li><strong>故事 (Story)</strong>：重视精心编写的故事情节、有趣的角色和丰富的背景设定。典型游戏：《最后生还者》(The Last of Us)。</li>
+</ul>
+</li>
+<li><strong>类别：创造 (Creativity)</strong><ul>
+<li><strong>发现 (Discovery)</strong>：喜欢探索、摆弄和实验，不断追问“如果……会怎样？”，以非预期的方式与游戏世界互动。典型游戏：《我的世界》(Minecraft)。</li>
+<li><strong>设计 (Design)</strong>：热衷于通过自定义角色外观、建造房屋或设计飞船来表达自我个性。</li>
+</ul>
+</li>
+</ul>
+<h3 id="玩家动机档案及其应用"><a href="#玩家动机档案及其应用" class="headerlink" title="玩家动机档案及其应用"></a>玩家动机档案及其应用</h3><p>Quantic Foundry 的核心工具是“玩家动机档案”（Gamer Motivation Profile）。通过一个5分钟的调查，可以获得一份个性化报告。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/player-model/my-model.png"><br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/player-model/my-model1.png"><br><em>(请确认此处图片已放置到对应文件夹)</em></p>
+<p>尼克·Yee的模型并非简单的类型划分，而是一个成分模型（component model），这使其在根本上比类型学更具灵活性和设计指导力。</p>
+<h2 id="系统与功能设计"><a href="#系统与功能设计" class="headerlink" title="系统与功能设计"></a>系统与功能设计</h2><p>系统设计是游戏的骨架，它直接决定了玩家的核心玩法体验。动机模型在此处的应用，主要体现在功能优先级排序、玩法平衡以及具体机制的打磨上。</p>
+<ul>
+<li><strong>功能优先级排序</strong>：在项目初期资源有限的情况下，动机模型是决定“先做什么，后做什么”的关键依据。通过使用如 Quantic Foundry 模型等工具，团队可以首先明确目标用户的核心动机画像，然后优先开发那些能直接满足这些核心动机的功能。</li>
+<li><strong>为广泛受众进行平衡设计</strong>：大多数商业游戏都希望吸引尽可能广泛的玩家。这就要求设计师巧妙地平衡和融合能满足不同动机的系统。一个经典案例是《我的世界》（Minecraft），它通过一个核心的沙盒框架，成功地服务了多种玩家类型：玩家可以通过击败末影龙来满足<strong>成就</strong>动机；通过探索无限生成的世界来满足<strong>探索</strong>动机；通过多人服务器进行合作建造来满足<strong>社交</strong>动机；并通过无限制的建造来满足<strong>创造</strong>动机。这种设计思路不是试图用一个功能满足所有人，而是提供多样化的系统，让不同类型的玩家都能在同一个世界里找到自己的乐趣。</li>
+</ul>
+<h3 id="为特定动机设计机制"><a href="#为特定动机设计机制" class="headerlink" title="为特定动机设计机制"></a>为特定动机设计机制</h3><table>
+<thead>
+<tr>
+<th align="left">玩家动机&#x2F;类型</th>
+<th align="left">对应的游戏机制与系统设计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>成就者 &#x2F; 精通 &#x2F; 成就动机</strong></td>
+<td align="left"><strong>进度系统</strong>：清晰的等级、经验条、技能树；<br><strong>量化目标</strong>：明确的任务列表、挑战模式；<br><strong>反馈与炫耀</strong>：成就&#x2F;奖杯系统、排行榜、稀有装备或称号、史诗级的Boss战。</td>
+</tr>
+<tr>
+<td align="left"><strong>探索者 &#x2F; 创造 &#x2F; 沉浸动机</strong></td>
+<td align="left"><strong>世界构建</strong>：广阔的开放世界、丰富的背景传说；<br><strong>发现元素</strong>：隐藏的秘密、复活节彩蛋、需要通过实验才能发现的合成配方；<br><strong>非线性体验</strong>：非强制性的任务线、自由探索的权利、强大的角色与环境自定义工具。</td>
+</tr>
+<tr>
+<td align="left"><strong>社交家 &#x2F; 社交动机</strong></td>
+<td align="left"><strong>沟通工具</strong>：功能完善的聊天频道、表情动作、语音系统；<br><strong>社群结构</strong>：公会&#x2F;战队系统、好友列表、师徒系统；<br><strong>合作玩法</strong>：合作任务（Co-op）、团队副本、社交中心（如主城、公会大厅）、赠礼系统。</td>
+</tr>
+<tr>
+<td align="left"><strong>杀手 &#x2F; 行动 &#x2F; 竞争动机</strong></td>
+<td align="left"><strong>对抗平台</strong>：玩家对战（PvP）竞技场、战场模式；<br><strong>排名与地位</strong>：天梯系统、段位、赛季排名；<br><strong>冲突机制</strong>：允许玩家间直接对抗的游戏规则、悬赏系统、阵营战。</td>
+</tr>
+</tbody></table>
+<h2 id="叙事、任务与世界设计"><a href="#叙事、任务与世界设计" class="headerlink" title="叙事、任务与世界设计"></a>叙事、任务与世界设计</h2><p>叙事和世界观是赋予游戏灵魂的关键。动机模型可以指导设计师创造出精彩故事，又能与核心玩法紧密结合的体验。</p>
+<ul>
+<li><strong>叙事与动机的对齐</strong>：不同动机的玩家对叙事的态度截然不同。一个在 Quantic Foundry 模型中“故事”和“幻想”动机得分很高的玩家，会享受沉浸在精心编写的情节中；而一个“行动”和“竞争”动机强烈的玩家，则可能认为冗长的过场动画和对话是玩法的障碍。</li>
+<li><strong>任务设计的差异化</strong>：<ul>
+<li><strong>成就者任务</strong>：目标明确，进度可量化，奖励丰厚。例如，“击杀10只野猪”、“收集5个稀有材料”这类任务，提供了清晰的目标和即时反馈。</li>
+<li><strong>探索者任务</strong>：线索模糊，鼓励玩家自行发现。例如，“在北方的废墟中寻找传说中的宝剑”，任务日志只提供方向性指引，具体位置需要玩家通过解读环境、与NPC交谈来发现。</li>
+<li><strong>社交家任务</strong>：强调合作与互动。例如，需要多人协作才能完成的团队副本，或者帮助某个NPC解决其人际关系烦恼的任务链。</li>
+<li><strong>杀手任务</strong>：聚焦于玩家间的对抗。例如，发布对某个敌对玩家的悬赏令，或者要求在特定的PvP区域内达成一定数量的击杀。</li>
+</ul>
+</li>
+<li><strong>世界构建的多功能性</strong>：一个成功的游戏世界，其空间设计本身就应服务于多种动机。例如，一个主城不仅是玩家交易和补给的功能中心，更应是社交中心；世界的边远地区则应布满遗迹和秘密，吸引探索者前往。</li>
+</ul>
+<h2 id="在线运营与活动设计"><a href="#在线运营与活动设计" class="headerlink" title="在线运营与活动设计"></a>在线运营与活动设计</h2><p>对于服务型游戏（Live Service Games）而言，发布只是开始。在线运营（Live Ops）是通过持续的内容更新、活动和社区管理来维持游戏生命力的艺术，而动机模型是指导这一切的罗盘。</p>
+<ul>
+<li><strong>活动日历的策略性规划</strong>：成功的在线运营需要一个精心策划的活动日历，该日历应有节奏地轮换，以满足不同玩家类型的需求。<ul>
+<li><strong>第一周</strong>：PvP赛季开启 - 核心目标是杀手和竞争型玩家。</li>
+<li><strong>第二周</strong>：公会合作建设活动 - 核心目标是社交家。</li>
+<li><strong>第三周</strong>：新地图&#x2F;副本解锁 - 核心目标是探索者和发现型玩家。</li>
+<li><strong>第四周</strong>：双倍经验&#x2F;掉落周末 - 核心目标是成就者和力量型玩家。</li>
+</ul>
+</li>
+<li><strong>个性化商业化</strong>：通过玩家分层，可以实现高度个性化的商业化策略。</li>
+<li><strong>A&#x2F;B测试与数据分析</strong>：在线运营为验证关于玩家动机的假设提供了绝佳的实验场。</li>
+</ul>
+<h2 id="参与度与消费的分层"><a href="#参与度与消费的分层" class="headerlink" title="参与度与消费的分层"></a>参与度与消费的分层</h2><p>除了玩家“为什么”玩（动机），我们还需要了解他们“如何”玩（行为）以及“是否”付费（消费）。</p>
+<ul>
+<li><p><strong>行为分层（参与度）</strong>：</p>
+<ul>
+<li><strong>休闲玩家 (Casual Gamers)</strong>：游戏时间零散，偏好简单、易上手的玩法，留存率较低但用户基数庞大。</li>
+<li><strong>中核玩家 (Midcore Gamers)</strong>：投入度和技巧介于休闲与硬核之间，寻求比休闲游戏更有深度的体验。</li>
+<li><strong>硬核玩家 (Hardcore Gamers)</strong>：将游戏视为重要爱好，投入大量时间，追求高水平的技巧和精通，是社群中的意见领袖。</li>
+</ul>
+</li>
+<li><p><strong>商业化分层（消费水平）</strong>：</p>
+<ul>
+<li><strong>鲸鱼玩家 (Whales)</strong>：占比极小（通常为1-5%），但贡献了游戏收入的大部分（40-70%甚至更高）。他们为获得竞争优势、稀有道具或尊贵身份而进行大额消费。</li>
+<li><strong>海豚玩家 (Dolphins)</strong>：构成付费用户的中间层（约15-25%），他们会进行规律性的、中等额度的消费，以提升游戏体验。</li>
+<li><strong>小鱼玩家 (Minnows)</strong>：付费金额很小或仅进行过单次小额付费的用户。他们构成了付费用户的底层，个体贡献小但总数多。</li>
+<li><strong>免费玩家 (F2P)</strong>：构成了玩家基数的绝大部分，从不进行任何付费。</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://yurisachan16-creator.github.io">Yurisachan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yurisachan16-creator.github.io/2025/11/26/player-model/">https://yurisachan16-creator.github.io/2025/11/26/player-model/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yurisachan16-creator.github.io" target="_blank">Yurisachan的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1/">游戏设计</a><a class="post-meta__tags" href="/tags/%E7%8E%A9%E5%AE%B6%E5%BF%83%E7%90%86%E5%AD%A6/">玩家心理学</a><a class="post-meta__tags" href="/tags/%E5%B7%B4%E7%89%B9%E5%B0%94%E6%A8%A1%E5%9E%8B/">巴特尔模型</a></div><div class="post_share"><div class="social-share" data-image="/img/player-model/cod.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/11/26/honkai-star-rail-analysis/" title="崩坏：星穹铁道深度游戏分析"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/star-rail/sr9.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">崩坏：星穹铁道深度游戏分析</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/11/26/honkai-star-rail-analysis/" title="崩坏：星穹铁道深度游戏分析"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/star-rail/sr9.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-26</div><div class="title">崩坏：星穹铁道深度游戏分析</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yurisachan</div><div class="author-info__description">一个热爱技术的人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yurisachan16-creator"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/yurisachan16-creator" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yurisachan16@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #D44638;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8E%E5%B7%B4%E7%89%B9%E5%B0%94%E5%88%B0-Nice-Yee%EF%BC%8C%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90%E7%8E%A9%E5%AE%B6%E5%8A%A8%E6%9C%BA%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">从巴特尔到 Nice Yee，深入解析玩家动机模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E5%8A%A8%E6%9C%BA%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.2.</span> <span class="toc-text">游戏动机是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.2.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%B4%E5%9B%BE%E6%A8%A1%E5%9E%8B%E5%88%86%E7%B1%BB%E6%B3%95"><span class="toc-number">1.2.2.</span> <span class="toc-text">巴图模型分类法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%B4%E5%9B%BE%E6%A8%A1%E5%9E%8B%E4%B8%8B%E7%9A%84%E5%9B%9B%E7%A7%8D%E7%8E%A9%E5%AE%B6%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">巴图模型下的四种玩家类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%88%90%E5%B0%B1%E8%80%85-Achievers-%E2%99%A6"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">1. 成就者 (Achievers - ♦)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%8E%A2%E7%B4%A2%E8%80%85-Explorers-%E2%99%A0"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">2. 探索者 (Explorers - ♠)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%A4%BE%E4%BA%A4%E5%AE%B6-Socializers-%E2%99%A5"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">3. 社交家 (Socializers - ♥)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%9D%80%E6%89%8B-Killers-%E2%99%A3"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">4. 杀手 (Killers - ♣)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%9A%84%E5%85%AB%E7%B1%BB%E5%9E%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.4.</span> <span class="toc-text">扩展的八类型模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nick-Yee-%E7%9A%84%E7%8E%A9%E5%AE%B6%E5%8A%A8%E6%9C%BA%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">Nick Yee 的玩家动机模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%A4%A7%E9%AB%98%E9%98%B6%E5%8A%A8%E6%9C%BA%E9%9B%86%E7%BE%A4"><span class="toc-number">1.3.1.</span> <span class="toc-text">三大高阶动机集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E5%A4%A7%E7%B1%BB%E5%88%AB%E4%B8%8E%E5%8D%81%E4%BA%8C%E9%A1%B9%E5%85%B7%E4%BD%93%E5%8A%A8%E6%9C%BA"><span class="toc-number">1.3.2.</span> <span class="toc-text">六大类别与十二项具体动机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%A9%E5%AE%B6%E5%8A%A8%E6%9C%BA%E6%A1%A3%E6%A1%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">玩家动机档案及其应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%B8%8E%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.4.</span> <span class="toc-text">系统与功能设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E7%89%B9%E5%AE%9A%E5%8A%A8%E6%9C%BA%E8%AE%BE%E8%AE%A1%E6%9C%BA%E5%88%B6"><span class="toc-number">1.4.1.</span> <span class="toc-text">为特定动机设计机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%99%E4%BA%8B%E3%80%81%E4%BB%BB%E5%8A%A1%E4%B8%8E%E4%B8%96%E7%95%8C%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.5.</span> <span class="toc-text">叙事、任务与世界设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E7%BA%BF%E8%BF%90%E8%90%A5%E4%B8%8E%E6%B4%BB%E5%8A%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.6.</span> <span class="toc-text">在线运营与活动设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E4%B8%8E%E5%BA%A6%E4%B8%8E%E6%B6%88%E8%B4%B9%E7%9A%84%E5%88%86%E5%B1%82"><span class="toc-number">1.7.</span> <span class="toc-text">参与度与消费的分层</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/11/26/player-model/" title="从巴特尔到 Nice Yee，深入解析玩家动机模型"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/player-model/cod.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从巴特尔到 Nice Yee，深入解析玩家动机模型"/></a><div class="content"><a class="title" href="/2025/11/26/player-model/" title="从巴特尔到 Nice Yee，深入解析玩家动机模型">从巴特尔到 Nice Yee，深入解析玩家动机模型</a><time datetime="2025-11-26T10:00:00.000Z" title="发表于 2025-11-26 18:00:00">2025-11-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/26/honkai-star-rail-analysis/" title="崩坏：星穹铁道深度游戏分析"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/star-rail/sr9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="崩坏：星穹铁道深度游戏分析"/></a><div class="content"><a class="title" href="/2025/11/26/honkai-star-rail-analysis/" title="崩坏：星穹铁道深度游戏分析">崩坏：星穹铁道深度游戏分析</a><time datetime="2025-11-26T06:00:00.000Z" title="发表于 2025-11-26 14:00:00">2025-11-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/25/hello-world/" title="Hello World"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2025/11/25/hello-world/" title="Hello World">Hello World</a><time datetime="2025-11-25T14:30:33.608Z" title="发表于 2025-11-25 22:30:33">2025-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/25/my-first-blog/" title="欢迎来到我的博客！"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="欢迎来到我的博客！"/></a><div class="content"><a class="title" href="/2025/11/25/my-first-blog/" title="欢迎来到我的博客！">欢迎来到我的博客！</a><time datetime="2025-11-25T02:00:00.000Z" title="发表于 2025-11-25 10:00:00">2025-11-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 By Yurisachan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p>🎉 欢迎来到 Yurisachan 的小站</p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
