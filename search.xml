@@ -1,47 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2025/11/25/hello-world/"/>
-      <url>/2025/11/25/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>欢迎来到我的博客！</title>
-      <link href="/2025/11/25/my-first-blog/"/>
-      <url>/2025/11/25/my-first-blog/</url>
-      
-        <content type="html"><![CDATA[<h2 id="你好，世界！"><a href="#你好，世界！" class="headerlink" title="你好，世界！"></a>你好，世界！</h2><p>欢迎来到我的个人博客！这是我的第一篇文章。</p><h3 id="关于这个博客"><a href="#关于这个博客" class="headerlink" title="关于这个博客"></a>关于这个博客</h3><p>这个博客使用 Hexo 搭建，托管在 GitHub Pages 上。我会在这里分享：</p><ul><li>💻 技术学习笔记</li><li>📚 读书心得</li><li>🌟 生活感悟</li><li>🎨 有趣的项目</li></ul><h3 id="未来计划"><a href="#未来计划" class="headerlink" title="未来计划"></a>未来计划</h3><ul><li><input disabled="" type="checkbox"> 完善博客主题</li><li><input disabled="" type="checkbox"> 添加评论功能</li><li><input disabled="" type="checkbox"> 编写更多技术文章</li><li><input disabled="" type="checkbox"> 分享学习经验</li></ul><p>感谢你的访问，期待与你分享更多内容！</p><span id="more"></span><h2 id="开始写作"><a href="#开始写作" class="headerlink" title="开始写作"></a>开始写作</h2><p>从今天开始，我将定期更新博客，记录我的学习和生活。</p><h3 id="Markdown-语法示例"><a href="#Markdown-语法示例" class="headerlink" title="Markdown 语法示例"></a>Markdown 语法示例</h3><p><strong>粗体文字</strong> 和 <em>斜体文字</em></p><p>代码示例：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Hello, World!&#x27;</span>);</span><br></pre></td></tr></table></figure><p>引用：</p><blockquote><p>千里之行，始于足下。</p></blockquote><p>列表：</p><ol><li>第一项</li><li>第二项</li><li>第三项</li></ol><hr><p>期待下次见面！ 👋</p>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2025/11/25/hello-world/</url>
+    <content><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post$ hexo new &quot;My New Post&quot;
+
+More info: Writing
+Run server$ hexo server
+
+More info: Server
+Generate static files$ hexo generate
+
+More info: Generating
+Deploy to remote sites$ hexo deploy
+
+More info: Deployment
+]]></content>
+  </entry>
+  <entry>
+    <title>欢迎来到我的博客！</title>
+    <url>/2025/11/25/my-first-blog/</url>
+    <content><![CDATA[你好，世界！欢迎来到我的个人博客！这是我的第一篇文章。
+关于这个博客这个博客使用 Hexo 搭建，托管在 GitHub Pages 上。我会在这里分享：
+
+💻 技术学习笔记
+📚 读书心得
+🌟 生活感悟
+🎨 有趣的项目
+
+未来计划
+ 完善博客主题
+ 添加评论功能
+ 编写更多技术文章
+ 分享学习经验
+
+感谢你的访问，期待与你分享更多内容！
+
+
+开始写作从今天开始，我将定期更新博客，记录我的学习和生活。
+Markdown 语法示例粗体文字 和 斜体文字
+代码示例：
+console.log(&#x27;Hello, World!&#x27;);
+
+引用：
+
+千里之行，始于足下。
+
+列表：
+
+第一项
+第二项
+第三项
+
+
+期待下次见面！ 👋
+]]></content>
       <categories>
-          
-          <category> 生活 </category>
-          
+        <category>生活</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 博客 </tag>
-            
-            <tag> 开始 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>博客</tag>
+        <tag>开始</tag>
+      </tags>
+  </entry>
 </search>
