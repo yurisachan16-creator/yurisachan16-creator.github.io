@@ -1,9 +1,29 @@
+/* 1. 定义字体：告诉浏览器字体在哪里 */
 @font-face {
-  font-family: 'PixelFont';
-  src: url('/fonts/Zpix.woff2') format('woff2');
+  font-family: 'Zpix';
+  src: url('/fonts/zpix.ttf') format('truetype');
   font-display: swap;
+  font-weight: normal;
+  font-style: normal;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, span, a {
-  font-family: 'PixelFont', sans-serif !important;
+/* 2. 应用字体：强制全站使用 Zpix */
+body, h1, h2, h3, h4, h5, h6, p, span, a, li, div {
+  font-family: 'Zpix', 'Press Start 2P', sans-serif !important;
+}
+
+/* 3. (可选) 稍微调整一下字体大小，像素字太小看不清 */
+body {
+  font-size: 16px;
+}
+
+/* Ensure code blocks and inline code use pixel-style fonts */
+code, pre {
+  font-family: 'Zpix', 'Courier New', monospace;
+  font-size: 14px;
+}
+
+/* Additional pixel-style adjustments for headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Press Start 2P', sans-serif;
 }
