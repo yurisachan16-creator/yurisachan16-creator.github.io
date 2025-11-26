@@ -1,49 +1,124 @@
-/* 1. 定义字体：告诉浏览器字体在哪里 */
+/* ============================================
+   🌸 粉色云朵动态背景 - 修复版
+   ============================================ */
+
+/* 1. 引入像素字体 */
 @font-face {
   font-family: 'Zpix';
   src: url('/fonts/zpix.ttf') format('truetype');
   font-display: swap;
-  font-weight: normal;
-  font-style: normal;
 }
-
-/* 2. 应用字体：强制全站使用 Zpix */
-body, h1, h2, h3, h4, h5, h6, p, span, a, li, div {
-  font-family: 'Zpix', 'Press Start 2P', sans-serif !important;
-}
-
-/* 3. (可选) 稍微调整一下字体大小，像素字太小看不清 */
 body {
+  font-family: 'Zpix', 'Press Start 2P', sans-serif !important;
   font-size: 16px;
 }
 
-/* Ensure code blocks and inline code use pixel-style fonts */
-code, pre {
-  font-family: 'Zpix', 'Courier New', monospace;
-  font-size: 14px;
+/* 2. 🌸 粉色渐变背景基底 - 直接应用到 body */
+body {
+  background: linear-gradient(180deg, #FFB6C1 0%, #FFC0CB 30%, #FFE4E1 60%, #FFF0F5 100%) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh;
 }
 
-/* Additional pixel-style adjustments for headings */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Press Start 2P', sans-serif;
+/* 3. 🔴 强制移除主题默认背景 */
+#web_bg {
+  display: none !important;
 }
 
-/* 仿 Pixelium 的配色灵感 */
-:root {
-  --pixel-primary: #f8b195; /* 它的某种主色调 */
-  --pixel-border: #353b48;  /* 深色边框 */
-  --pixel-shadow: 4px 4px 0px 0px var(--pixel-border); /* 经典的像素硬阴影 */
+/* 4. 🌸 视差背景层 - 云朵动画 */
+#pixel-parallax-bg {
+  display: block !important;
+  position: fixed !important;
+  top: 0; 
+  left: 0;
+  width: 100vw; 
+  height: 100vh;
+  z-index: 0 !important;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-/* 模仿它的卡片风格 */
-.recent-post-item, .card-widget {
-  border: 2px solid var(--pixel-border) !important;
-  box-shadow: var(--pixel-shadow) !important;
-  transition: all 0.1s !important;
+/* 5. 🌸 使用伪元素分层显示云朵图片 */
+#pixel-parallax-bg::before,
+#pixel-parallax-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-position: 0 bottom;
+  background-size: auto 60%;
 }
 
-/* 模仿它的点击下沉效果 */
-.recent-post-item:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px 0px var(--pixel-border) !important;
+/* 远景云朵 - 慢速移动 */
+#pixel-parallax-bg::before {
+  background-image: url('/img/pink-sky/far-pink.png');
+  animation: cloud-move-slow 120s linear infinite;
+  opacity: 0.8;
+}
+
+/* 近景云朵 - 快速移动 */
+#pixel-parallax-bg::after {
+  background-image: url('/img/pink-sky/near-pink.png');
+  animation: cloud-move-fast 60s linear infinite;
+  background-size: auto 40%;
+}
+
+/* 6. 🎬 云朵移动动画 */
+@keyframes cloud-move-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes cloud-move-fast {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 7. 🔴 让页面内容浮在背景之上 */
+#page-header,
+#content-inner,
+#aside-content,
+#footer,
+#nav,
+.layout {
+  position: relative;
+  z-index: 1;
+}
+
+/* 8. 🌸 导航栏和页头透明化 */
+#page-header {
+  background: transparent !important;
+}
+
+#nav {
+  background: rgba(255, 182, 193, 0.7) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* 9. 🌸 文章卡片半透明粉色风格 */
+.layout,
+.recent-post-item,
+.card-widget,
+#post,
+#page,
+.post-content {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+}
+
+/* 10. 🌸 侧边栏卡片样式 */
+.card-widget {
+  background: rgba(255, 240, 245, 0.9) !important;
+  border: 2px solid rgba(255, 182, 193, 0.5);
+}
+
+/* 11. 🌸 页脚透明 */
+#footer {
+  background: rgba(255, 182, 193, 0.6) !important;
+  backdrop-filter: blur(10px);
 }
