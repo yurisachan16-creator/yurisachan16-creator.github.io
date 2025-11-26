@@ -44,7 +44,7 @@ avatar:
 disable_top_img: false
 
 # 首页顶部图片 - 设置一张漂亮的Banner图
-index_img: /img/pixel-banner.jpg
+index_img: /img/pixel-banner.png
 
 # 默认顶部图片
 default_top_img: /img/pixel-bg.png

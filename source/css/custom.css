@@ -46,12 +46,12 @@ body {
   --yellow-border: rgba(255, 228, 181, 0.5);
   --yellow-shadow: rgba(255, 228, 181, 0.3);
   
-  /* 💚 关于页 - 绿色主题 */
-  --green-gradient: linear-gradient(180deg, #98FB98 0%, #C1FFC1 30%, #E8FFE8 60%, #F5FFF5 100%);
-  --green-nav: rgba(152, 251, 152, 0.8);
-  --green-card: rgba(245, 255, 245, 0.9);
-  --green-border: rgba(152, 251, 152, 0.5);
-  --green-shadow: rgba(152, 251, 152, 0.3);
+  /* 💎 关于页 - 青色主题 */
+  --cyan-gradient: linear-gradient(180deg, #00CED1 0%, #7FFFD4 30%, #E0FFFF 60%, #F0FFFF 100%);
+  --cyan-nav: rgba(0, 206, 209, 0.8);
+  --cyan-card: rgba(224, 255, 255, 0.9);
+  --cyan-border: rgba(0, 206, 209, 0.5);
+  --cyan-shadow: rgba(0, 206, 209, 0.3);
 }
 
 /* ==================== 3. 动态背景容器 ==================== */
@@ -227,29 +227,29 @@ body.page-type-category #footer {
   backdrop-filter: blur(10px);
 }
 
-/* ==================== 10. 关于页 - 绿色主题 💚 ==================== */
+/* ==================== 10. 关于页 - 青色主题 💎 ==================== */
 body.page-type-about #cloud-bg .bg-layer {
-  background: var(--green-gradient);
+  background: var(--cyan-gradient);
 }
 body.page-type-about #cloud-bg .far-cloud {
-  /* 远景绿色云朵 - 替换为你的图片路径 */
-  background-image: url('/img/green-sky/far-green.png');
+  /* 远景青色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/cyan-sky/far-cyan.png');
 }
 body.page-type-about #cloud-bg .near-cloud {
-  /* 近景绿色云朵 - 替换为你的图片路径 */
-  background-image: url('/img/green-sky/near-green.png');
+  /* 近景青色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/cyan-sky/near-cyan.png');
 }
 body.page-type-about #nav {
-  background: var(--green-nav) !important;
+  background: var(--cyan-nav) !important;
   backdrop-filter: blur(10px);
 }
 body.page-type-about .card-widget {
-  background: var(--green-card) !important;
-  border: 2px solid var(--green-border);
-  box-shadow: 0 4px 15px var(--green-shadow);
+  background: var(--cyan-card) !important;
+  border: 2px solid var(--cyan-border);
+  box-shadow: 0 4px 15px var(--cyan-shadow);
 }
 body.page-type-about #footer {
-  background: var(--green-nav) !important;
+  background: var(--cyan-nav) !important;
   backdrop-filter: blur(10px);
 }
 
