@@ -43,20 +43,20 @@ avatar:
 # 禁用顶部图片
 disable_top_img: false
 
-# 首页顶部图片
-index_img: false
+# 首页顶部图片 - 设置一张漂亮的Banner图
+index_img: /img/pixel-banner.jpg
 
 # 默认顶部图片
-default_top_img: false
+default_top_img: /img/pixel-bg.png
 
 # 归档页顶部图片
-archive_img:
+archive_img: /img/pixel-bg.png
 
 # 标签页顶部图片
-tag_img:
+tag_img: /img/pixel-bg.png
 
 # 分类页顶部图片
-category_img:
+category_img: /img/pixel-bg.png
 
 # 文章封面设置
 cover:
@@ -392,13 +392,13 @@ CDN:
 # 插入自定义 CSS 或 JS
 inject:
   head:
-    # 引入 custom.css (里面包含了字体和视差背景的样式)
+    # 引入 custom.css (里面包含了字体和多彩云朵背景的样式)
     - <link rel="stylesheet" href="/css/custom.css">
     # 引入 NES.css 像素库
     - <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
   bottom:
-    # 1. 放置视差背景的容器 div (样式由 CSS 控制)
-    - <div id="pixel-parallax-bg"></div>
+    # 1. 引入云朵背景JS (自动创建背景元素并检测页面类型)
+    - <script src="/js/cloud-bg.js"></script>
 
     # 2. APlayer 音乐播放器 (请把 "你的歌单ID" 换成数字，例如 88888888)
     - <div class="aplayer no-destroy" data-id="你的歌单ID" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-volume="0.4"></div>
