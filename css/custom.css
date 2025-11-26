@@ -1,124 +1,865 @@
 /* ============================================
-   🌸 粉色云朵动态背景 - 修复版
+   🌸 多彩动态云朵背景 - 完整版
+   保留顶部Banner + 内容区动态云朵
+   不同页面不同颜色主题
    ============================================ */
 
-/* 1. 引入像素字体 */
+/* ==================== 1. 字体设置 ==================== */
 @font-face {
   font-family: 'Zpix';
   src: url('/fonts/zpix.ttf') format('truetype');
   font-display: swap;
 }
+
 body {
   font-family: 'Zpix', 'Press Start 2P', sans-serif !important;
   font-size: 16px;
 }
 
-/* 2. 🌸 粉色渐变背景基底 - 直接应用到 body */
-body {
-  background: linear-gradient(180deg, #FFB6C1 0%, #FFC0CB 30%, #FFE4E1 60%, #FFF0F5 100%) !important;
-  background-attachment: fixed !important;
-  min-height: 100vh;
+/* ==================== 2. CSS 变量定义 ==================== */
+:root {
+  /* 🌸 首页 - 粉色主题 */
+  --pink-gradient: linear-gradient(180deg, #FFB6C1 0%, #FFC0CB 30%, #FFE4E1 60%, #FFF0F5 100%);
+  --pink-nav: rgba(255, 182, 193, 0.8);
+  --pink-card: rgba(255, 240, 245, 0.9);
+  --pink-border: rgba(255, 182, 193, 0.5);
+  --pink-shadow: rgba(255, 182, 193, 0.3);
+  
+  /* 🔵 归档 - 蓝色主题 */
+  --blue-gradient: linear-gradient(180deg, #87CEEB 0%, #B0E0E6 30%, #E0F7FA 60%, #F0FFFF 100%);
+  --blue-nav: rgba(135, 206, 235, 0.8);
+  --blue-card: rgba(240, 248, 255, 0.9);
+  --blue-border: rgba(135, 206, 235, 0.5);
+  --blue-shadow: rgba(135, 206, 235, 0.3);
+  
+  /* 💜 标签 - 紫色主题 */
+  --purple-gradient: linear-gradient(180deg, #DDA0DD 0%, #E6E6FA 30%, #F5F0FF 60%, #FAF8FF 100%);
+  --purple-nav: rgba(221, 160, 221, 0.8);
+  --purple-card: rgba(250, 240, 255, 0.9);
+  --purple-border: rgba(221, 160, 221, 0.5);
+  --purple-shadow: rgba(221, 160, 221, 0.3);
+  
+  /* 💛 分类 - 黄色主题 */
+  --yellow-gradient: linear-gradient(180deg, #FFE4B5 0%, #FFEFD5 30%, #FFF8DC 60%, #FFFAF0 100%);
+  --yellow-nav: rgba(255, 228, 181, 0.8);
+  --yellow-card: rgba(255, 250, 240, 0.9);
+  --yellow-border: rgba(255, 228, 181, 0.5);
+  --yellow-shadow: rgba(255, 228, 181, 0.3);
+  
+  /* 💎 关于页 - 青色主题 */
+  --cyan-gradient: linear-gradient(180deg, #00CED1 0%, #7FFFD4 30%, #E0FFFF 60%, #F0FFFF 100%);
+  --cyan-nav: rgba(0, 206, 209, 0.8);
+  --cyan-card: rgba(224, 255, 255, 0.9);
+  --cyan-border: rgba(0, 206, 209, 0.5);
+  --cyan-shadow: rgba(0, 206, 209, 0.3);
 }
 
-/* 3. 🔴 强制移除主题默认背景 */
-#web_bg {
-  display: none !important;
+/* ==================== 3. 动态背景容器 ==================== */
+/* 背景容器 - 只在内容区域显示，不影响顶部Banner */
+#content-inner {
+  position: relative;
 }
 
-/* 4. 🌸 视差背景层 - 云朵动画 */
-#pixel-parallax-bg {
-  display: block !important;
-  position: fixed !important;
-  top: 0; 
+/* 动态云朵背景层 - 固定在内容区域后面 */
+#cloud-bg {
+  position: fixed;
+  top: 0;
   left: 0;
-  width: 100vw; 
-  height: 100vh;
-  z-index: 0 !important;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
 }
 
-/* 5. 🌸 使用伪元素分层显示云朵图片 */
-#pixel-parallax-bg::before,
-#pixel-parallax-bg::after {
-  content: '';
+/* ==================== 4. 云朵图片层 ==================== */
+/* 背景基底层 */
+#cloud-bg .bg-layer {
   position: absolute;
   top: 0;
   left: 0;
-  width: 200%;
+  width: 100%;
   height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 远景云朵层 */
+#cloud-bg .far-cloud {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 50%;
   background-repeat: repeat-x;
   background-position: 0 bottom;
-  background-size: auto 60%;
+  background-size: auto 100%;
+  animation: cloud-drift-slow 120s linear infinite;
+  opacity: 0.7;
 }
 
-/* 远景云朵 - 慢速移动 */
-#pixel-parallax-bg::before {
+/* 近景云朵层 */
+#cloud-bg .near-cloud {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 35%;
+  background-repeat: repeat-x;
+  background-position: 0 bottom;
+  background-size: auto 100%;
+  animation: cloud-drift-fast 60s linear infinite;
+}
+
+/* ==================== 5. 云朵漂移动画 ==================== */
+@keyframes cloud-drift-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes cloud-drift-fast {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ==================== 6. 首页 - 粉色主题 🌸 ==================== */
+body.page-type-home #cloud-bg .bg-layer {
+  background: var(--pink-gradient);
+}
+body.page-type-home #cloud-bg .far-cloud {
+  /* 远景粉色云朵 - 替换为你的图片路径 */
   background-image: url('/img/pink-sky/far-pink.png');
-  animation: cloud-move-slow 120s linear infinite;
-  opacity: 0.8;
 }
-
-/* 近景云朵 - 快速移动 */
-#pixel-parallax-bg::after {
+body.page-type-home #cloud-bg .near-cloud {
+  /* 近景粉色云朵 - 替换为你的图片路径 */
   background-image: url('/img/pink-sky/near-pink.png');
-  animation: cloud-move-fast 60s linear infinite;
-  background-size: auto 40%;
 }
-
-/* 6. 🎬 云朵移动动画 */
-@keyframes cloud-move-slow {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+body.page-type-home #nav {
+  background: var(--pink-nav) !important;
+  backdrop-filter: blur(10px);
 }
-
-@keyframes cloud-move-fast {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+body.page-type-home .card-widget {
+  background: var(--pink-card) !important;
+  border: 2px solid var(--pink-border);
+  box-shadow: 0 4px 15px var(--pink-shadow);
 }
-
-/* 7. 🔴 让页面内容浮在背景之上 */
-#page-header,
-#content-inner,
-#aside-content,
-#footer,
-#nav,
-.layout {
-  position: relative;
-  z-index: 1;
-}
-
-/* 8. 🌸 导航栏和页头透明化 */
-#page-header {
-  background: transparent !important;
-}
-
-#nav {
-  background: rgba(255, 182, 193, 0.7) !important;
+body.page-type-home #footer {
+  background: var(--pink-nav) !important;
   backdrop-filter: blur(10px);
 }
 
-/* 9. 🌸 文章卡片半透明粉色风格 */
+/* ==================== 7. 归档页 - 蓝色主题 🔵 ==================== */
+body.page-type-archive #cloud-bg .bg-layer {
+  background: var(--blue-gradient);
+}
+body.page-type-archive #cloud-bg .far-cloud {
+  /* 远景蓝色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/blue-sky/far-blue.png');
+}
+body.page-type-archive #cloud-bg .near-cloud {
+  /* 近景蓝色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/blue-sky/near-blue.png');
+}
+body.page-type-archive #nav {
+  background: var(--blue-nav) !important;
+  backdrop-filter: blur(10px);
+}
+body.page-type-archive .card-widget {
+  background: var(--blue-card) !important;
+  border: 2px solid var(--blue-border);
+  box-shadow: 0 4px 15px var(--blue-shadow);
+}
+body.page-type-archive #footer {
+  background: var(--blue-nav) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== 8. 标签页 - 紫色主题 💜 ==================== */
+body.page-type-tag #cloud-bg .bg-layer {
+  background: var(--purple-gradient);
+}
+body.page-type-tag #cloud-bg .far-cloud {
+  /* 远景紫色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/purple-sky/far-purple.png');
+}
+body.page-type-tag #cloud-bg .near-cloud {
+  /* 近景紫色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/purple-sky/near-purple.png');
+}
+body.page-type-tag #nav {
+  background: var(--purple-nav) !important;
+  backdrop-filter: blur(10px);
+}
+body.page-type-tag .card-widget {
+  background: var(--purple-card) !important;
+  border: 2px solid var(--purple-border);
+  box-shadow: 0 4px 15px var(--purple-shadow);
+}
+body.page-type-tag #footer {
+  background: var(--purple-nav) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== 9. 分类页 - 黄色主题 💛 ==================== */
+body.page-type-category #cloud-bg .bg-layer {
+  background: var(--yellow-gradient);
+}
+body.page-type-category #cloud-bg .far-cloud {
+  /* 远景黄色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/yellow-sky/far-yellow.png');
+}
+body.page-type-category #cloud-bg .near-cloud {
+  /* 近景黄色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/yellow-sky/near-yellow.png');
+}
+body.page-type-category #nav {
+  background: var(--yellow-nav) !important;
+  backdrop-filter: blur(10px);
+}
+body.page-type-category .card-widget {
+  background: var(--yellow-card) !important;
+  border: 2px solid var(--yellow-border);
+  box-shadow: 0 4px 15px var(--yellow-shadow);
+}
+body.page-type-category #footer {
+  background: var(--yellow-nav) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== 10. 关于页 - 青色主题 💎 ==================== */
+body.page-type-about #cloud-bg .bg-layer {
+  background: var(--cyan-gradient);
+}
+body.page-type-about #cloud-bg .far-cloud {
+  /* 远景青色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/cyan-sky/far-cyan.png');
+}
+body.page-type-about #cloud-bg .near-cloud {
+  /* 近景青色云朵 - 替换为你的图片路径 */
+  background-image: url('/img/cyan-sky/near-cyan.png');
+}
+body.page-type-about #nav {
+  background: var(--cyan-nav) !important;
+  backdrop-filter: blur(10px);
+}
+body.page-type-about .card-widget {
+  background: var(--cyan-card) !important;
+  border: 2px solid var(--cyan-border);
+  box-shadow: 0 4px 15px var(--cyan-shadow);
+}
+body.page-type-about #footer {
+  background: var(--cyan-nav) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== 11. 文章页 - 使用粉色主题 ==================== */
+body.page-type-post #cloud-bg .bg-layer {
+  background: var(--pink-gradient);
+}
+body.page-type-post #cloud-bg .far-cloud {
+  background-image: url('/img/pink-sky/far-pink.png');
+}
+body.page-type-post #cloud-bg .near-cloud {
+  background-image: url('/img/pink-sky/near-pink.png');
+}
+body.page-type-post #nav {
+  background: var(--pink-nav) !important;
+  backdrop-filter: blur(10px);
+}
+body.page-type-post .card-widget {
+  background: var(--pink-card) !important;
+  border: 2px solid var(--pink-border);
+  box-shadow: 0 4px 15px var(--pink-shadow);
+}
+body.page-type-post #footer {
+  background: var(--pink-nav) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== 12. 通用样式 ==================== */
+/* 保持顶部Banner正常显示 */
+#page-header {
+  position: relative;
+  z-index: 2;
+}
+
+#page-header.full_page {
+  height: 100vh;
+}
+
+#page-header .full_page {
+  background-size: cover;
+  background-position: center;
+}
+
+/* 内容区域卡片样式 */
+.layout,
+.recent-post-item,
+#post,
+#page,
+.post-content {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+}
+
+/* 侧边栏通用样式 */
+.card-widget {
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+}
+
+/* 页脚通用样式 */
+#footer {
+  backdrop-filter: blur(10px);
+}
+
+/* 导航栏通用样式 */
+#nav {
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== 13. 默认背景（无页面类型时） ==================== */
+#cloud-bg .bg-layer {
+  background: var(--pink-gradient);
+}
+#cloud-bg .far-cloud {
+  background-image: url('/img/pink-sky/far-pink.png');
+}
+#cloud-bg .near-cloud {
+  background-image: url('/img/pink-sky/near-pink.png');
+}
+
+/* ============================================
+   🌙 深色模式样式
+   ============================================ */
+
+/* 深色模式过渡动画 */
+#cloud-bg,
+#cloud-bg .bg-layer,
+#cloud-bg .far-cloud,
+#cloud-bg .near-cloud,
+body,
+#nav,
+#footer,
 .layout,
 .recent-post-item,
 .card-widget,
 #post,
 #page,
 .post-content {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+  transition: all 0.5s ease-in-out;
 }
 
-/* 10. 🌸 侧边栏卡片样式 */
-.card-widget {
-  background: rgba(255, 240, 245, 0.9) !important;
-  border: 2px solid rgba(255, 182, 193, 0.5);
+/* ==================== 14. 深色模式 - 背景变黑，隐藏云朵 ==================== */
+[data-theme="dark"] #cloud-bg .bg-layer {
+  background: linear-gradient(180deg, #0d0d0d 0%, #1a1a2e 50%, #16213e 100%) !important;
 }
 
-/* 11. 🌸 页脚透明 */
-#footer {
-  background: rgba(255, 182, 193, 0.6) !important;
+[data-theme="dark"] #cloud-bg .far-cloud,
+[data-theme="dark"] #cloud-bg .near-cloud {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
+/* ==================== 15. 深色模式 - 导航栏 ==================== */
+[data-theme="dark"] #nav {
+  background: rgba(22, 33, 62, 0.9) !important;
   backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] #nav a,
+[data-theme="dark"] #nav .site-name {
+  color: #e0e0e0 !important;
+}
+
+/* ==================== 16. 深色模式 - 内容卡片 ==================== */
+[data-theme="dark"] .layout,
+[data-theme="dark"] .recent-post-item,
+[data-theme="dark"] #post,
+[data-theme="dark"] #page,
+[data-theme="dark"] .post-content {
+  background: rgba(30, 30, 46, 0.95) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ==================== 17. 深色模式 - 侧边栏卡片 ==================== */
+[data-theme="dark"] .card-widget {
+  background: rgba(30, 30, 46, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ==================== 18. 深色模式 - 页脚 ==================== */
+[data-theme="dark"] #footer {
+  background: rgba(22, 33, 62, 0.9) !important;
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] #footer a,
+[data-theme="dark"] #footer span,
+[data-theme="dark"] #footer p {
+  color: #b0b0b0 !important;
+}
+
+/* ==================== 19. 深色模式 - 文字颜色 ==================== */
+[data-theme="dark"] .post-content,
+[data-theme="dark"] .post-content p,
+[data-theme="dark"] .post-content li,
+[data-theme="dark"] .post-content span,
+[data-theme="dark"] .post-content a,
+[data-theme="dark"] .recent-post-info .article-title,
+[data-theme="dark"] .recent-post-info .article-meta-wrap,
+[data-theme="dark"] .card-widget .item-headline,
+[data-theme="dark"] .card-widget .author-info__name,
+[data-theme="dark"] .card-widget .author-info__description,
+[data-theme="dark"] .card-widget .card-info-data,
+[data-theme="dark"] .card-widget .card-content,
+[data-theme="dark"] #article-container,
+[data-theme="dark"] #article-container p,
+[data-theme="dark"] #article-container li,
+[data-theme="dark"] #article-container h1,
+[data-theme="dark"] #article-container h2,
+[data-theme="dark"] #article-container h3,
+[data-theme="dark"] #article-container h4,
+[data-theme="dark"] #article-container h5,
+[data-theme="dark"] #article-container h6 {
+  color: #e0e0e0 !important;
+}
+
+/* 深色模式链接颜色 */
+[data-theme="dark"] a {
+  color: #7dd3fc !important;
+}
+
+[data-theme="dark"] a:hover {
+  color: #38bdf8 !important;
+}
+
+/* ==================== 20. 深色模式 - 标题样式 ==================== */
+[data-theme="dark"] .post-title,
+[data-theme="dark"] .article-title,
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4 {
+  color: #ffffff !important;
+}
+
+/* ==================== 21. 深色模式 - 代码块 ==================== */
+[data-theme="dark"] code {
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: #f472b6 !important;
+}
+
+[data-theme="dark"] pre {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] pre code {
+  color: #e0e0e0 !important;
+}
+
+/* ==================== 22. 深色模式 - 目录 ==================== */
+[data-theme="dark"] #card-toc .toc-content .toc-link {
+  color: #b0b0b0 !important;
+}
+
+[data-theme="dark"] #card-toc .toc-content .toc-link.active {
+  color: #7dd3fc !important;
+}
+
+/* ==================== 23. 深色模式 - 分割线和边框 ==================== */
+[data-theme="dark"] hr {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] .recent-post-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ==================== 24. 深色模式 - 标签和分类 ==================== */
+[data-theme="dark"] .tag-cloud a,
+[data-theme="dark"] .category-lists a {
+  color: #b0b0b0 !important;
+}
+
+[data-theme="dark"] .tag-cloud a:hover,
+[data-theme="dark"] .category-lists a:hover {
+  color: #7dd3fc !important;
+}
+
+/* ==================== 25. 深色模式 - 按钮样式 ==================== */
+[data-theme="dark"] .card-widget .button--animated {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] #rightside > div > button,
+[data-theme="dark"] #rightside > div > a {
+  background: rgba(30, 30, 46, 0.9) !important;
+  color: #e0e0e0 !important;
+}
+
+/* ==================== 26. 深色模式 - 搜索框 ==================== */
+[data-theme="dark"] #local-search-input {
+  background: rgba(30, 30, 46, 0.95) !important;
+  color: #e0e0e0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ==================== 27. 深色模式 - 引用块 ==================== */
+[data-theme="dark"] blockquote {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-left: 4px solid #667eea !important;
+  color: #b0b0b0 !important;
+}
+
+/* ==================== 28. 深色模式 - 表格 ==================== */
+[data-theme="dark"] table {
+  background: rgba(30, 30, 46, 0.95) !important;
+}
+
+[data-theme="dark"] table th {
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] table td {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #e0e0e0 !important;
+}
+
+/* ==================== 29. 深色模式 - 图片和头像 ==================== */
+[data-theme="dark"] .avatar-img {
+  border: 3px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.3) !important;
+}
+
+/* ==================== 30. 深色模式 - 滚动条 ==================== */
+[data-theme="dark"]::-webkit-scrollbar-thumb {
+  background: #667eea !important;
+}
+
+[data-theme="dark"]::-webkit-scrollbar-track {
+  background: #1a1a2e !important;
+}
+
+/* ==================== 31. 深色模式 - 全局背景强制深色 ==================== */
+[data-theme="dark"] body {
+  background: #0d0d0d !important;
+  background-color: #0d0d0d !important;
+}
+
+[data-theme="dark"] html {
+  background: #0d0d0d !important;
+}
+
+[data-theme="dark"] #web_bg {
+  background: #0d0d0d !important;
+}
+
+/* ==================== 32. 深色模式 - 文章列表卡片 ==================== */
+[data-theme="dark"] .recent-post-item {
+  background: rgba(30, 30, 46, 0.95) !important;
+}
+
+[data-theme="dark"] .recent-post-item .recent-post-info {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .recent-post-item .article-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .recent-post-item .content {
+  color: #b0b0b0 !important;
+}
+
+[data-theme="dark"] .recent-post-item .article-meta-wrap {
+  color: #888888 !important;
+}
+
+/* ==================== 33. 深色模式 - 分页器 ==================== */
+[data-theme="dark"] .pagination .page-number {
+  background: rgba(30, 30, 46, 0.95) !important;
+  color: #e0e0e0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] .pagination .page-number.current {
+  background: #667eea !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .pagination .page-number:hover {
+  background: rgba(102, 126, 234, 0.5) !important;
+}
+
+/* ==================== 34. 深色模式 - 版权信息框 ==================== */
+[data-theme="dark"] .post-copyright {
+  background: rgba(30, 30, 46, 0.95) !important;
+  border-left: 4px solid #667eea !important;
+}
+
+[data-theme="dark"] .post-copyright-info {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .post-copyright .post-copyright-title {
+  color: #ffffff !important;
+}
+
+/* ==================== 35. 深色模式 - 文章标签 ==================== */
+[data-theme="dark"] .post-meta__tag-list a,
+[data-theme="dark"] #post-info .post-meta a,
+[data-theme="dark"] .article-sort-item-info a {
+  color: #7dd3fc !important;
+}
+
+[data-theme="dark"] .post-tag a {
+  background: rgba(102, 126, 234, 0.3) !important;
+  color: #e0e0e0 !important;
+  border: 1px solid rgba(102, 126, 234, 0.5) !important;
+}
+
+/* ==================== 36. 深色模式 - 相关文章推荐 ==================== */
+[data-theme="dark"] .relatedPosts-list > div {
+  background: rgba(30, 30, 46, 0.95) !important;
+}
+
+[data-theme="dark"] .relatedPosts-list .content {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .relatedPosts > .relatedPosts-title {
+  color: #ffffff !important;
+}
+
+/* ==================== 37. 深色模式 - 分享按钮 ==================== */
+[data-theme="dark"] .social-share .social-share-icon {
+  background: rgba(30, 30, 46, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ==================== 38. 深色模式 - 侧边栏所有卡片内容 ==================== */
+[data-theme="dark"] .card-widget *:not(a):not(.iconfont):not(i) {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .card-widget .card-info-data-num {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .card-widget .card-info-data span {
+  color: #888888 !important;
+}
+
+[data-theme="dark"] .card-widget .item-headline span {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .card-widget .aside-list-item .content {
+  color: #b0b0b0 !important;
+}
+
+[data-theme="dark"] .card-widget .aside-list-item .title {
+  color: #7dd3fc !important;
+}
+
+/* ==================== 39. 深色模式 - 归档页面 ==================== */
+[data-theme="dark"] .article-sort {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .article-sort-item {
+  background: rgba(30, 30, 46, 0.95) !important;
+  border-left: 2px solid #667eea !important;
+}
+
+[data-theme="dark"] .article-sort-item-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .article-sort-item-time {
+  color: #888888 !important;
+}
+
+/* ==================== 40. 深色模式 - 标签页面 ==================== */
+[data-theme="dark"] #tag-page-tags a {
+  background: rgba(102, 126, 234, 0.2) !important;
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] #tag-page-tags a:hover {
+  background: rgba(102, 126, 234, 0.5) !important;
+  color: #ffffff !important;
+}
+
+/* ==================== 41. 深色模式 - 分类页面 ==================== */
+[data-theme="dark"] .category-list a {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .category-list .category-list-count {
+  color: #888888 !important;
+}
+
+/* ==================== 42. 深色模式 - 所有文字强制亮色 ==================== */
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] div,
+[data-theme="dark"] li,
+[data-theme="dark"] td,
+[data-theme="dark"] th,
+[data-theme="dark"] label,
+[data-theme="dark"] .content,
+[data-theme="dark"] .text,
+[data-theme="dark"] .title,
+[data-theme="dark"] .info,
+[data-theme="dark"] .meta,
+[data-theme="dark"] .description,
+[data-theme="dark"] .time,
+[data-theme="dark"] .date {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] .headline,
+[data-theme="dark"] strong,
+[data-theme="dark"] b {
+  color: #ffffff !important;
+}
+
+/* ==================== 43. 深色模式 - 所有背景强制深色 ==================== */
+[data-theme="dark"] .layout > div,
+[data-theme="dark"] #content-inner > div,
+[data-theme="dark"] .card,
+[data-theme="dark"] .post-card,
+[data-theme="dark"] .aside-content > div,
+[data-theme="dark"] #aside-content > .card-widget {
+  background: rgba(30, 30, 46, 0.95) !important;
+}
+
+/* ==================== 44. 深色模式 - 输入框和表单 ==================== */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: rgba(30, 30, 46, 0.95) !important;
+  color: #e0e0e0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #666666 !important;
+}
+
+/* ==================== 45. 深色模式 - 评论区 ==================== */
+[data-theme="dark"] .comment-wrap {
+  background: rgba(30, 30, 46, 0.95) !important;
+}
+
+[data-theme="dark"] .comment-list .comment-content {
+  color: #e0e0e0 !important;
+}
+
+/* ==================== 46. 深色模式 - TOC 目录卡片 ==================== */
+[data-theme="dark"] #card-toc {
+  background: rgba(30, 30, 46, 0.95) !important;
+}
+
+[data-theme="dark"] #card-toc .toc-content {
+  color: #b0b0b0 !important;
+}
+
+[data-theme="dark"] #card-toc .toc-link {
+  color: #b0b0b0 !important;
+}
+
+[data-theme="dark"] #card-toc .toc-link.active,
+[data-theme="dark"] #card-toc .toc-link:hover {
+  color: #7dd3fc !important;
+}
+
+/* ==================== 47. 深色模式 - 网站信息卡片 ==================== */
+[data-theme="dark"] #card-webinfo .webinfo-item {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] #card-webinfo .webinfo-item .item-name {
+  color: #888888 !important;
+}
+
+/* ==================== 48. 深色模式 - 最新文章卡片 ==================== */
+[data-theme="dark"] #card-newest-comments,
+[data-theme="dark"] #card-recent-post {
+  background: rgba(30, 30, 46, 0.95) !important;
+}
+
+[data-theme="dark"] .aside-list-item .title {
+  color: #7dd3fc !important;
+}
+
+[data-theme="dark"] .aside-list-item .time {
+  color: #666666 !important;
+}
+
+/* ==================== 49. 深色模式 - 公告卡片 ==================== */
+[data-theme="dark"] #card-announcement .announcement-content {
+  color: #e0e0e0 !important;
+}
+
+/* ==================== 50. 深色模式 - 右下角按钮组 ==================== */
+[data-theme="dark"] #rightside button,
+[data-theme="dark"] #rightside a {
+  background: rgba(30, 30, 46, 0.95) !important;
+  color: #e0e0e0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] #rightside button:hover,
+[data-theme="dark"] #rightside a:hover {
+  background: rgba(102, 126, 234, 0.5) !important;
+}
+
+/* ==================== 51. 深色模式 - 移除所有粉色主题（覆盖页面类型样式） ==================== */
+[data-theme="dark"] #nav,
+[data-theme="dark"] body.page-type-home #nav,
+[data-theme="dark"] body.page-type-archive #nav,
+[data-theme="dark"] body.page-type-tag #nav,
+[data-theme="dark"] body.page-type-category #nav,
+[data-theme="dark"] body.page-type-about #nav,
+[data-theme="dark"] body.page-type-post #nav {
+  background: rgba(22, 33, 62, 0.95) !important;
+}
+
+[data-theme="dark"] #footer,
+[data-theme="dark"] body.page-type-home #footer,
+[data-theme="dark"] body.page-type-archive #footer,
+[data-theme="dark"] body.page-type-tag #footer,
+[data-theme="dark"] body.page-type-category #footer,
+[data-theme="dark"] body.page-type-about #footer,
+[data-theme="dark"] body.page-type-post #footer {
+  background: rgba(22, 33, 62, 0.95) !important;
+}
+
+[data-theme="dark"] .card-widget,
+[data-theme="dark"] body.page-type-home .card-widget,
+[data-theme="dark"] body.page-type-archive .card-widget,
+[data-theme="dark"] body.page-type-tag .card-widget,
+[data-theme="dark"] body.page-type-category .card-widget,
+[data-theme="dark"] body.page-type-about .card-widget,
+[data-theme="dark"] body.page-type-post .card-widget {
+  background: rgba(30, 30, 46, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
 }
