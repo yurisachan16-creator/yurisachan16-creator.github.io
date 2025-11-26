@@ -103,5 +103,5 @@ theme: butterfly
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/yurisachan16-creator/Yurisachan.github.io.git
+  repo: https://github.com/yurisachan16-creator/yurisachan16-creator.github.io.git
   branch: main
