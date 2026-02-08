@@ -28,10 +28,17 @@
 
 ```bash
 npm install
+npx hexo new post "第一篇文章"
 npm run server
 ```
 
 访问 `http://localhost:4000/` 预览。
+
+## 写作
+
+- 新建文章：`npx hexo new post "标题"`（生成到 `source/_posts/`）
+- 新建页面：`npx hexo new page "页面名"`（生成到 `source/页面名/index.md`）
+- 图片资源：放到 `source/img/`，文章里用 `/img/xxx.png` 引用（当前未启用文章资源文件夹）
 
 ## 构建
 
@@ -54,7 +61,13 @@ npm run sync-themes
 
 ## 部署
 
-推荐使用 GitHub Actions 自动构建并发布到 GitHub Pages（仓库 Settings → Pages 中选择 “GitHub Actions” 作为 Source）。
+推荐使用 GitHub Actions 自动构建并发布到 GitHub Pages：
+
+1) 仓库 Settings → Pages → Source 选择 `GitHub Actions`
+2) 推送源码到 `main` 分支，Actions 会自动构建并发布
+3) 在 Actions 页签查看工作流日志与站点 URL
+
+说明：如果你以前用过 `hexo deploy`，本地可能会出现 `.deploy_git/` 目录（部署缓存），使用本路线可直接删除它。
 
 如仍需本地一键部署，可使用：
 
