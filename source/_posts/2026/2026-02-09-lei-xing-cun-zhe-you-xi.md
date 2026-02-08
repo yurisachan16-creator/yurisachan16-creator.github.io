@@ -6,7 +6,7 @@ tags: [ survivor-like, 数值设计, 游戏策划 ]
 categories: 游戏开发
 keywords: survivor-like, 数值曲线, 怪物刷新
 description: 本文拆解类幸存者游戏的玩法循环，分享数值与关卡节奏调优经验
-cover: 2026-02-09-lei-xing-cun-zhe-you-xi/cover.jpg
+cover: /2026/02/09/lei-xing-cun-zhe-you-xi/cover.jpg
 permalink: /2026/02/09/lei-xing-cun-zhe-you-xi/
 ---
 
