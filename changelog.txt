@@ -1,0 +1,14 @@
+版式
+- 为文章添加 front-matter（标题、日期、标签、分类、关键词、描述、封面）
+- 统一标题层级为二级标题与三级标题
+- 增加 <!-- more --> 摘要截断并调整段落排版
+- 图片改为 asset_img 标签并添加 full-width 类
+- 增加“参考资料”有序列表
+
+路径
+- 文章路径调整为 source/_posts/2026/2026-02-09-lei-xing-cun-zhe-you-xi.md
+- 启用 post_asset_folder 并创建同名资源目录
+
+资源
+- 将两张图片迁移并重命名为 gameplay-1.png、gameplay-2.png
+- 复制 gameplay-1.png 为 cover.jpg 作为封面
