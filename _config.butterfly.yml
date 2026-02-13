@@ -389,6 +389,20 @@ CDN:
   prismjs_lineNumber_js:
   prismjs_autoloader:
 
+# 音乐播放器配置
+music_player:
+  enable: true
+  # 音频源: local / netease / both
+  source: both
+  # 网易云歌单 ID（source 为 netease 或 both 时需要填写）
+  netease_playlist_id: "6894709007"
+  # 默认音量 0~1
+  volume: 0.1
+  # 是否自动播放
+  autoplay: true
+  # 播放顺序: list / random
+  order: list
+
 # 插入自定义 CSS 或 JS
 inject:
   head:
@@ -400,8 +414,10 @@ inject:
     # 1. 引入云朵背景JS (自动创建背景元素并检测页面类型)
     - <script src="/js/cloud-bg.js"></script>
 
-    # 2. APlayer 音乐播放器 (请把 "你的歌单ID" 换成数字，例如 88888888)
-    - <div class="aplayer no-destroy" data-id="你的歌单ID" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-volume="0.4"></div>
+    # 2. APlayer 音乐播放器 CDN 资源
     - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
     - <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
     - <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    # 3. 自定义音乐播放器（侧边抽屉 + rightside 入口）
+    - <script src="/js/music-player.js"></script>
