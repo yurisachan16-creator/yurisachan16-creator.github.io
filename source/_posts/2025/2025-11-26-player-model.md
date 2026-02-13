@@ -1,4 +1,4 @@
----
+﻿---
 title: 从巴特尔到 Nice Yee，深入解析玩家动机模型
 date: 2025-11-26 18:00:00  # 根据当前时间修改
 updated: 2025-11-26 18:00:00
@@ -8,8 +8,9 @@ tags:
   - 巴特尔模型
 categories:
   - 游戏理论
-cover: /img/player-model/cod.png  # 设置一张好看的封面图
+cover: /2025/11/26/player-model/cod.png
 description: 深度探讨玩家分类，解析巴特尔模型与八大核心驱动力。
+permalink: /2025/11/26/player-model/
 top_img: false
 ---
 # 从巴特尔到 Nice Yee，深入解析玩家动机模型
@@ -43,7 +44,7 @@ top_img: false
 
 ### 巴图模型分类法
 理查德·巴特尔的玩家分类法诞生于20世纪70年代末至80年代的“多用户地牢”（MUDs）时代。作为现代MMORPG的文本前身，MUDs构建了最早的持久化在线虚拟世界。在运营这些虚拟世界的过程中，巴特尔发现一个核心现象：不同的玩家尽管身处同一个虚拟环境，但他们追求的乐趣和游戏目标却截然不同。这一观察促使他尝试对玩家行为进行分类，从而理解并更好地平衡游戏生态，这便是该模型的根本起源。
-![](/img/player-model/Batu-model.png)
+{% asset_img Batu-model.png %}
 
 巴图模型的核心是一个二维象限图，根据两个基本轴来定义玩家的爱好：
 
@@ -102,7 +103,7 @@ Quantic Foundry 的模型呈现出一个清晰的层级结构，将复杂的玩�
 
 ### 六大类别与十二项具体动机
 
-![](/img/player-model/Model-Overview.png)
+{% asset_img Model-Overview.png %}
 *(请确认此处图片已放置到对应文件夹)*
 
 *   **类别：行动 (Action)**
@@ -127,8 +128,8 @@ Quantic Foundry 的模型呈现出一个清晰的层级结构，将复杂的玩�
 ### 玩家动机档案及其应用
 Quantic Foundry 的核心工具是“玩家动机档案”（Gamer Motivation Profile）。通过一个5分钟的调查，可以获得一份个性化报告。
 
-![](/img/player-model/my-model.png)
-![](/img/player-model/my-model1.png)
+{% asset_img my-model.png %}
+{% asset_img my-model1.png %}
 *(请确认此处图片已放置到对应文件夹)*
 
 尼克·Yee的模型并非简单的类型划分，而是一个成分模型（component model），这使其在根本上比类型学更具灵活性和设计指导力。

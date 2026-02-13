@@ -6,6 +6,7 @@ tags:
   - 开始
 categories: 
   - 生活
+permalink: /2025/11/25/my-first-blog/
 ---
 
 ## 你好，世界！
@@ -48,12 +49,3 @@ console.log('Hello, World!');
 
 引用：
 > 千里之行，始于足下。
-
-列表：
-1. 第一项
-2. 第二项
-3. 第三项
-
----
-
-期待下次见面！ 👋
