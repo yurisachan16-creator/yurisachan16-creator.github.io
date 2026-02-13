@@ -1,7 +1,7 @@
 /**
  * music-player.js — 音乐播放器控制脚本
  * 侧边抽屉 UI + 原生 Audio 引擎
- * 支持本地 FLAC 和网易云歌单双源播放
+ * 支持本地音频文件 (mp3/ogg/wav/aac/m4a/opus/flac) 和网易云歌单双源播放
  *
  * ★ 所有 DOM 均通过 JS 动态注入，不依赖主题 pug 模板修改 ★
  * 这样 sync-themes.mjs 重置主题文件也不会影响功能
@@ -446,11 +446,24 @@
     this.currentIndex = index
     var track = list[index]
 
-    // 检查 FLAC 兼容性
-    if (track.url && track.url.endsWith('.flac') && !this.bridge.canPlayType('audio/flac')) {
-      console.warn('[MusicPlayer] Browser cannot play FLAC, skipping:', track.title)
-      this._setState(State.ERROR)
-      return
+    // 检查音频格式兼容性
+    if (track.url) {
+      var formatMap = {
+        '.mp3': 'audio/mpeg',
+        '.ogg': 'audio/ogg',
+        '.wav': 'audio/wav',
+        '.aac': 'audio/aac',
+        '.m4a': 'audio/mp4',
+        '.opus': 'audio/opus',
+        '.flac': 'audio/flac'
+      }
+      var ext = track.url.substring(track.url.lastIndexOf('.')).toLowerCase()
+      var mime = formatMap[ext]
+      if (mime && !this.bridge.canPlayType(mime)) {
+        console.warn('[MusicPlayer] Browser cannot play ' + ext + ' format, skipping:', track.title)
+        this._setState(State.ERROR)
+        return
+      }
     }
 
     this.bridge.load(track.url)

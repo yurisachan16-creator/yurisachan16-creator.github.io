@@ -410,6 +410,8 @@ inject:
     - <link rel="stylesheet" href="/css/custom.css">
     # 引入 NES.css 像素库
     - <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    # 音乐播放器 - 传递网易云歌单 ID 到前端
+    - <meta name="music-netease-id" content="6894709007">
   bottom:
     # 1. 引入云朵背景JS (自动创建背景元素并检测页面类型)
     - <script src="/js/cloud-bg.js"></script>
