@@ -10,6 +10,7 @@ CORS_ORIGIN = "*"
 binding = "DB"
 database_name = "blog_d1"
 database_id = "2efd44aa-b30c-455f-ad89-679adb22b67f"
+migrations_dir = "src/db/migrations"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"

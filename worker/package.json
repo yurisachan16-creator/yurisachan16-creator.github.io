@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy",
     "typecheck": "tsc --noEmit",
-    "migrate:local": "wrangler d1 migrations apply blog_d1 --local",
-    "migrate:remote": "wrangler d1 migrations apply blog_d1 --remote"
+    "migrate:local": "npx wrangler d1 migrations apply blog_d1 --local",
+    "migrate:remote": "npx wrangler d1 migrations apply blog_d1 --remote"
   },
   "devDependencies": {
     "typescript": "^5.7.3",
