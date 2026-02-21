@@ -1,0 +1,19 @@
+name = "yurisachan-blog-api"
+main = "src/index.ts"
+compatibility_date = "2026-02-18"
+workers_dev = true
+
+[vars]
+CORS_ORIGIN = "*"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "blog_d1"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[observability.logs]
+enabled = true

@@ -16,6 +16,7 @@
   var STORAGE_KEY = 'music_player_state'
   var RETRY_DELAYS = [2000, 4000, 8000]
   var PLAYLIST_URL = '/music/playlist.json'
+  var DEFAULT_CONFIG = { source: 'both', volume: 0.1, autoplayHome: true, order: 'list', neteaseId: '' }
 
   /* ============================
      工具函数
@@ -51,6 +52,38 @@
     })
   }
 
+  function parseBool (value, fallback) {
+    if (value === undefined || value === null || value === '') return fallback
+    var normalized = String(value).toLowerCase()
+    if (normalized === 'true' || normalized === '1' || normalized === 'yes' || normalized === 'on') return true
+    if (normalized === 'false' || normalized === '0' || normalized === 'no' || normalized === 'off') return false
+    return fallback
+  }
+
+  function readConfigFromMeta () {
+    function meta (name) {
+      var el = document.querySelector('meta[name="' + name + '"]')
+      return el ? el.content : ''
+    }
+
+    var source = (meta('music-default-source') || '').toLowerCase()
+    if (['local', 'netease', 'both'].indexOf(source) < 0) source = DEFAULT_CONFIG.source
+
+    var volumeRaw = parseFloat(meta('music-default-volume'))
+    var volume = isNaN(volumeRaw) ? DEFAULT_CONFIG.volume : Math.max(0, Math.min(1, volumeRaw))
+
+    var order = (meta('music-default-order') || '').toLowerCase()
+    if (order !== 'list' && order !== 'random') order = DEFAULT_CONFIG.order
+
+    return {
+      source: source,
+      volume: volume,
+      autoplayHome: parseBool(meta('music-autoplay-home'), DEFAULT_CONFIG.autoplayHome),
+      order: order,
+      neteaseId: meta('music-netease-id') || DEFAULT_CONFIG.neteaseId
+    }
+  }
+
   /* ============================
      createDOM — 动态注入按钮 + 抽屉
      ============================ */
@@ -76,7 +109,7 @@
           '<select id="music-source-switch">' +
             '<option value="local">本地音乐</option>' +
             '<option value="netease">网易云</option>' +
-            '<option value="both">全部</option>' +
+            '<option value="both" selected>全部</option>' +
           '</select>' +
           '<button id="music-drawer-close" title="关闭"><i class="fas fa-times"></i></button>' +
         '</div>' +
@@ -100,7 +133,7 @@
         '<button id="music-next" title="下一首"><i class="fas fa-step-forward"></i></button>' +
         '<div class="music-volume-wrapper">' +
           '<button id="music-mute" title="静音"><i class="fas fa-volume-up"></i></button>' +
-          '<input id="music-volume" type="range" min="0" max="100" value="40">' +
+          '<input id="music-volume" type="range" min="0" max="100" value="10">' +
         '</div>' +
       '</div>' +
       '<div class="music-drawer-status">' +
@@ -137,11 +170,12 @@
   /* ============================
      PlaylistManager — 播放列表管理
      ============================ */
-  function PlaylistManager () {
+  function PlaylistManager (config) {
     this.localTracks = []
     this.neteaseTracks = []
     this.merged = []
-    this.source = 'local'
+    this.source = (config && config.source) || DEFAULT_CONFIG.source
+    this.neteaseId = (config && config.neteaseId) || DEFAULT_CONFIG.neteaseId
   }
 
   PlaylistManager.prototype.loadLocal = function () {
@@ -187,10 +221,11 @@
   /* ============================
      AudioBridge — 音频引擎桥接
      ============================ */
-  function AudioBridge () {
+  function AudioBridge (config) {
     this.audio = new Audio()
     this.audio.preload = 'auto'
-    this.audio.volume = 0.4
+    var defaultVolume = (config && typeof config.volume === 'number') ? config.volume : DEFAULT_CONFIG.volume
+    this.audio.volume = Math.max(0, Math.min(1, defaultVolume))
     this._onTimeUpdate = null
     this._onEnded = null
     this._onError = null
@@ -239,11 +274,13 @@
   function DrawerController (opts) {
     this.playlist = opts.playlist
     this.bridge = opts.bridge
+    this.config = opts.config || DEFAULT_CONFIG
     this.currentIndex = 0
     this.state = State.IDLE
-    this.order = 'list' // 'list' or 'random'
+    this.order = this.config.order // 'list' or 'random'
     this.isOpen = false
     this._animFrame = null
+    this._hasSavedState = false
 
     // DOM 引用
     this.els = {}
@@ -318,12 +355,7 @@
     var self = this
 
     // 抽屉 开/关
-    if (this.els.openBtn) {
-      this.els.openBtn.addEventListener('click', function (e) {
-        e.stopPropagation()
-        self.toggleDrawer()
-      })
-    }
+    this._bindOpenButton()
     if (this.els.closeBtn) this.els.closeBtn.addEventListener('click', function () { self.closeDrawer() })
     if (this.els.mask) this.els.mask.addEventListener('click', function () { self.closeDrawer() })
 
@@ -369,7 +401,7 @@
           if (self.els.volume) self.els.volume.value = 0
           self._updateVolumeIcon(0)
         } else {
-          var restore = self._prevVolume || 0.4
+          var restore = self._prevVolume || self.config.volume
           self.bridge.setVolume(restore)
           if (self.els.volume) self.els.volume.value = restore * 100
           self._updateVolumeIcon(restore)
@@ -417,6 +449,17 @@
         e.preventDefault(); self.bridge.seek(Math.min(self.bridge.getDuration(), self.bridge.getCurrentTime() + 5))
       }
     })
+  }
+
+  DrawerController.prototype._bindOpenButton = function () {
+    var self = this
+    if (!this.els.openBtn) return
+    if (this.els.openBtn.dataset.musicBound === '1') return
+    this.els.openBtn.addEventListener('click', function (e) {
+      e.stopPropagation()
+      self.toggleDrawer()
+    })
+    this.els.openBtn.dataset.musicBound = '1'
   }
 
   /* --- Drawer 开关 --- */
@@ -606,19 +649,21 @@
 
   DrawerController.prototype._restoreState = function () {
     var s = loadState()
-    if (s.volume !== undefined) {
-      this.bridge.setVolume(s.volume)
-      if (this.els.volume) this.els.volume.value = s.volume * 100
-      this._updateVolumeIcon(s.volume)
-    }
-    if (s.order) {
-      this.order = s.order
-      this._updateOrderIcon()
-    }
-    if (s.source && this.els.sourceSwitch) {
-      this.playlist.source = s.source
-      this.els.sourceSwitch.value = s.source
-    }
+    this._hasSavedState = !!(
+      s && (s.index !== undefined || s.time !== undefined || s.volume !== undefined || s.order || s.source)
+    )
+
+    var volume = s.volume !== undefined ? s.volume : this.config.volume
+    this.bridge.setVolume(volume)
+    if (this.els.volume) this.els.volume.value = Math.round(volume * 100)
+    this._updateVolumeIcon(volume)
+
+    this.order = s.order || this.config.order
+    this._updateOrderIcon()
+
+    this.playlist.source = s.source || this.config.source
+    if (this.els.sourceSwitch) this.els.sourceSwitch.value = this.playlist.source
+
     // Track & position restored after playlists load
     this._savedIndex = s.index || 0
     this._savedTime = s.time || 0
@@ -647,15 +692,14 @@
 
     var promises = [this.playlist.loadLocal()]
     // 网易云歌单（如果配置了）
-    var configEl = document.querySelector('meta[name="music-netease-id"]')
-    var neteaseId = configEl ? configEl.content : ''
-    if (neteaseId) promises.push(this.playlist.loadNetease(neteaseId))
+    if (this.playlist.neteaseId) promises.push(this.playlist.loadNetease(this.playlist.neteaseId))
 
     Promise.all(promises).then(function () {
       self.playlist.merge()
       self._renderPlaylist()
       self._restoreTrack()
       self._setState(State.IDLE)
+      self._tryAutoplayOnHome()
     }).catch(function (err) {
       console.error('[MusicPlayer] Failed to load playlists:', err)
       if (self.els.errorMsg) self.els.errorMsg.textContent = '加载播放列表失败'
@@ -663,10 +707,25 @@
     })
   }
 
+  DrawerController.prototype._isHomePage = function () {
+    var path = (window.location && window.location.pathname) || '/'
+    return path === '/' || path === '/index.html'
+  }
+
+  DrawerController.prototype._tryAutoplayOnHome = function () {
+    if (!this.config.autoplayHome) return
+    if (this._hasSavedState) return
+    if (!this._isHomePage()) return
+    var list = this.playlist.getList()
+    if (!list.length) return
+    this.play()
+  }
+
   /* ============================
      初始化入口
      ============================ */
   function init () {
+    var config = readConfigFromMeta()
     // 动态创建所有 DOM（按钮 + 抽屉 + 遮罩）
     createDOM()
 
@@ -676,9 +735,9 @@
       return
     }
 
-    var pm = new PlaylistManager()
-    var bridge = new AudioBridge()
-    var ctrl = new DrawerController({ playlist: pm, bridge: bridge })
+    var pm = new PlaylistManager(config)
+    var bridge = new AudioBridge(config)
+    var ctrl = new DrawerController({ playlist: pm, bridge: bridge, config: config })
     ctrl._loadPlaylists()
 
     // 暴露给全局以便调试
@@ -701,18 +760,13 @@
     var ctrl = window.__musicPlayer && window.__musicPlayer.ctrl
     if (ctrl) {
       ctrl.els.openBtn = document.getElementById('music-player-btn')
-      if (ctrl.els.openBtn) {
-        ctrl.els.openBtn.addEventListener('click', function (e) {
-          e.stopPropagation()
-          ctrl.toggleDrawer()
-        })
-        ctrl._updateRightsideIcon()
-      }
+      ctrl._bindOpenButton()
+      ctrl._updateRightsideIcon()
     }
   })
 
   // 导出给测试用
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { PlaylistManager: PlaylistManager, AudioBridge: AudioBridge, DrawerController: DrawerController, State: State, formatTime: formatTime, fetchWithRetry: fetchWithRetry, createDOM: createDOM, injectRightsideButton: injectRightsideButton }
+    module.exports = { PlaylistManager: PlaylistManager, AudioBridge: AudioBridge, DrawerController: DrawerController, State: State, formatTime: formatTime, fetchWithRetry: fetchWithRetry, createDOM: createDOM, injectRightsideButton: injectRightsideButton, readConfigFromMeta: readConfigFromMeta }
   }
 })()

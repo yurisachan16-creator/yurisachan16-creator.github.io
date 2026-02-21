@@ -61,13 +61,17 @@ npm run sync-themes
 
 ## 部署
 
-推荐使用 GitHub Actions 自动构建并发布到 GitHub Pages：
+当前默认部署目标是 **Cloudflare Pages**（由 GitHub Actions 触发构建与发布）：
 
-1) 仓库 Settings → Pages → Source 选择 `GitHub Actions`
-2) 推送源码到 `main` 分支，Actions 会自动构建并发布
-3) 在 Actions 页签查看工作流日志与站点 URL
+1) 在 Cloudflare 创建 Pages 项目并绑定仓库
+2) 在 GitHub 仓库 Secrets 配置：
+   - `CLOUDFLARE_API_TOKEN`
+   - `CLOUDFLARE_ACCOUNT_ID`
+3) 推送到 `main` 分支后，`.github/workflows/pages.yml` 会自动构建并部署 `public/`
 
-说明：如果你以前用过 `hexo deploy`，本地可能会出现 `.deploy_git/` 目录（部署缓存），使用本路线可直接删除它。
+动态接口由 `worker/` 子项目提供，部署见 `doc/cloudflare-dynamic-blog.md`。
+
+说明：如果你以前用过 `hexo deploy`，本地可能会出现 `.deploy_git/` 目录（部署缓存），可直接删除。
 
 如仍需本地一键部署，可使用：
 

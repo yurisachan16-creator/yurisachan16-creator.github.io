@@ -31,6 +31,7 @@ function setupDOM () {
           <select id="music-source-switch">
             <option value="local">本地音乐</option>
             <option value="netease">网易云</option>
+            <option value="both">全部</option>
           </select>
           <button id="music-drawer-close"><i class="fas fa-times"></i></button>
         </div>
@@ -54,7 +55,7 @@ function setupDOM () {
         <button id="music-next"><i class="fas fa-step-forward"></i></button>
         <div class="music-volume-wrapper">
           <button id="music-mute"><i class="fas fa-volume-up"></i></button>
-          <input id="music-volume" type="range" min="0" max="100" value="40">
+          <input id="music-volume" type="range" min="0" max="100" value="10">
         </div>
       </div>
       <div class="music-drawer-status">
@@ -97,6 +98,47 @@ describe('formatTime', () => {
 })
 
 /* ============================
+   readConfigFromMeta
+   ============================ */
+describe('readConfigFromMeta', () => {
+  beforeEach(() => {
+    setupDOM()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    document.head.innerHTML = ''
+    document.body.innerHTML = ''
+  })
+
+  it('returns defaults when meta tags are missing', () => {
+    const { readConfigFromMeta } = loadModule()
+    const config = readConfigFromMeta()
+    expect(config.source).toBe('both')
+    expect(config.volume).toBe(0.1)
+    expect(config.autoplayHome).toBe(true)
+    expect(config.order).toBe('list')
+  })
+
+  it('reads and validates meta config values', () => {
+    document.head.innerHTML = `
+      <meta name="music-default-source" content="netease" />
+      <meta name="music-default-volume" content="0.35" />
+      <meta name="music-autoplay-home" content="false" />
+      <meta name="music-default-order" content="random" />
+      <meta name="music-netease-id" content="123456" />
+    `
+    const { readConfigFromMeta } = loadModule()
+    const config = readConfigFromMeta()
+    expect(config.source).toBe('netease')
+    expect(config.volume).toBe(0.35)
+    expect(config.autoplayHome).toBe(false)
+    expect(config.order).toBe('random')
+    expect(config.neteaseId).toBe('123456')
+  })
+})
+
+/* ============================
    PlaylistManager
    ============================ */
 describe('PlaylistManager', () => {
@@ -118,7 +160,7 @@ describe('PlaylistManager', () => {
     expect(pm.localTracks).toEqual([])
     expect(pm.neteaseTracks).toEqual([])
     expect(pm.merged).toEqual([])
-    expect(pm.source).toBe('local')
+    expect(pm.source).toBe('both')
   })
 
   it('loadLocal fetches and parses playlist.json', async () => {
@@ -210,9 +252,9 @@ describe('AudioBridge', () => {
     document.body.innerHTML = ''
   })
 
-  it('sets default volume to 0.4', () => {
+  it('sets default volume to 0.1', () => {
     const ab = new AudioBridge()
-    expect(ab.audio.volume).toBe(0.4)
+    expect(ab.audio.volume).toBe(0.1)
   })
 
   it('setVolume clamps to 0-1', () => {
@@ -322,7 +364,11 @@ describe('DrawerController', () => {
       { title: 'Track 2', artist: 'A2', url: '/2.flac' }
     ]
     const bridge = new mod.AudioBridge()
-    const ctrl = new mod.DrawerController({ playlist: pm, bridge: bridge })
+    const ctrl = new mod.DrawerController({
+      playlist: pm,
+      bridge: bridge,
+      config: { source: 'local', volume: 0.1, autoplayHome: false, order: 'list', neteaseId: '' }
+    })
     ctrl._renderPlaylist()
 
     const items = document.querySelectorAll('#music-playlist li')
@@ -340,7 +386,11 @@ describe('DrawerController', () => {
     // jsdom doesn't support canPlayType, stub it to allow FLAC
     bridge.canPlayType = () => true
     bridge.audio.load = () => {} // stub not-implemented
-    const ctrl = new mod.DrawerController({ playlist: pm, bridge: bridge })
+    const ctrl = new mod.DrawerController({
+      playlist: pm,
+      bridge: bridge,
+      config: { source: 'local', volume: 0.1, autoplayHome: false, order: 'list', neteaseId: '' }
+    })
     ctrl._renderPlaylist()
     ctrl.loadTrack(0)
 
@@ -355,7 +405,11 @@ describe('DrawerController', () => {
     // jsdom doesn't support canPlayType, stub it to allow FLAC
     bridge.canPlayType = () => true
     bridge.audio.load = () => {} // stub not-implemented
-    const ctrl = new mod.DrawerController({ playlist: pm, bridge: bridge })
+    const ctrl = new mod.DrawerController({
+      playlist: pm,
+      bridge: bridge,
+      config: { source: 'local', volume: 0.1, autoplayHome: false, order: 'list', neteaseId: '' }
+    })
     ctrl.loadTrack(0)
 
     // Check localStorage was written
