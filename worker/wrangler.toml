@@ -9,11 +9,11 @@ CORS_ORIGIN = "*"
 [[d1_databases]]
 binding = "DB"
 database_name = "blog_d1"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "2efd44aa-b30c-455f-ad89-679adb22b67f"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "7981bfd8885042e9a2961e2061bb1f57"
 
 [observability.logs]
 enabled = true
