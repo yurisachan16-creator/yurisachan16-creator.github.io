@@ -1,0 +1,44 @@
+name: Deploy GitHub Pages Redirect
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "404.html"
+      - ".github/workflows/github-pages-redirect.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare redirect artifact
+        run: |
+          mkdir -p .pages-redirect
+          cp index.html .pages-redirect/index.html
+          cp 404.html .pages-redirect/404.html
+          touch .pages-redirect/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .pages-redirect
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

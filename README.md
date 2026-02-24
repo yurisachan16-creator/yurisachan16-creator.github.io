@@ -74,6 +74,8 @@ npm run sync-themes
    - `CLOUDFLARE_ACCOUNT_ID`
 3) 推送到 `main` 分支后，`.github/workflows/pages.yml` 会自动构建并部署 `public/`
 
+说明：`https://yurisachan16-creator.github.io/` 作为旧地址，仅通过 `.github/workflows/github-pages-redirect.yml` 发布重定向页，用于跳转到 Cloudflare 主站。
+
 动态接口由 `worker/` 子项目提供，部署见 `doc/cloudflare-dynamic-blog.md`。
 
 说明：如果你以前用过 `hexo deploy`，本地可能会出现 `.deploy_git/` 目录（部署缓存），可直接删除。
