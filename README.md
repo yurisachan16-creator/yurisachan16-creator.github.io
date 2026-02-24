@@ -34,6 +34,11 @@ npm run server
 
 访问 `http://localhost:4000/` 预览。
 
+## 线上访问
+
+- 主站（Cloudflare Pages）：`https://yurisachan16-creator-github-io.pages.dev/`
+- 旧地址（GitHub Pages）：`https://yurisachan16-creator.github.io/`（仅跳转到主站）
+
 ## 写作
 
 - 新建文章：`npx hexo new post "标题"`（生成到 `source/_posts/`）
