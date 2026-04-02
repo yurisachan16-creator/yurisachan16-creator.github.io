@@ -1,7 +1,7 @@
 ---
 title: Claude Code 源码深度解析：一个 AI 编程 CLI 的完整架构拆解
 date: 2026-04-02 18:00:00
-updated: 2026-04-02 18:00:00
+updated: 2026-04-02 20:00:00
 tags:
   - 源码分析
   - AI
@@ -148,7 +148,68 @@ for await (const event of stream) {
 
 ### 3.2 `QueryEngine.ts`（1295 行）——会话生命周期
 
-`QueryEngine` 是一个类，持有会话级别的状态，被 SDK 路径（headless）和 REPL 路径共用。它的构造参数 `QueryEngineConfig` 非常能说明整个系统的依赖关系：
+`QueryEngine` 是一个类，持有会话级别的状态，被 SDK 路径（headless）和 REPL 路径共用。**一个 QueryEngine 实例对应一个完整会话**，每次 `submitMessage()` 调用开启新的 Turn，消息历史、文件缓存、用量统计等**跨 Turn 持久化**。
+
+**类的私有字段**（揭示了会话状态的全部组成）：
+
+```typescript
+class QueryEngine {
+  private config: QueryEngineConfig
+  private mutableMessages: Message[]            // 完整消息历史
+  private abortController: AbortController      // 用于中断当前 Turn
+  private permissionDenials: SDKPermissionDenial[]  // 收集权限拒绝记录（SDK 模式用）
+  private totalUsage: NonNullableUsage          // 累计 token 用量
+  private hasHandledOrphanedPermission = false  // 孤儿权限处理标记
+  private readFileState: FileStateCache         // 文件读取状态缓存
+  private discoveredSkillNames = new Set<string>()     // 动态发现的 Skill
+  private loadedNestedMemoryPaths = new Set<string>()  // 已加载的嵌套 Memory 路径
+}
+```
+
+**submitMessage 方法签名**：
+
+```typescript
+async *submitMessage(
+  prompt: string | ContentBlockParam[],
+  options?: { uuid?: string; isMeta?: boolean },
+): AsyncGenerator<SDKMessage, void, unknown>
+```
+
+返回值是一个 `AsyncGenerator`，每次 `yield` 一条 SDK 消息（文本流片段、工具调用、工具结果等），调用方通过 `for await` 实时消费。
+
+**多层 System Prompt 拼装**（`asSystemPrompt` 把多段合并为一个数组）：
+
+```typescript
+const systemPrompt = asSystemPrompt([
+  // 默认系统提示，或用户自定义提示
+  ...(customPrompt !== undefined ? [customPrompt] : defaultSystemPrompt),
+  // Memory 文件注入的记忆机制说明
+  ...(memoryMechanicsPrompt ? [memoryMechanicsPrompt] : []),
+  // 用户追加的额外提示（通过 --append-system-prompt 传入）
+  ...(appendSystemPrompt ? [appendSystemPrompt] : []),
+])
+```
+
+**权限拦截包装**（`wrappedCanUseTool` 在真实权限检查之上叠加一层 denial 追踪，供 SDK 层汇报）：
+
+```typescript
+const wrappedCanUseTool: CanUseToolFn = async (
+  tool, input, toolUseContext, assistantMessage, toolUseID, forceDecision,
+) => {
+  const result = await canUseTool(tool, input, toolUseContext, assistantMessage, toolUseID, forceDecision)
+  // 非 allow 时记录 denial，SDK 消费端可以知道哪些工具调用被拒绝了
+  if (result.behavior !== 'allow') {
+    this.permissionDenials.push({
+      tool_name: sdkCompatToolName(tool.name),
+      tool_use_id: toolUseID,
+      tool_input: input,
+    })
+  }
+  return result
+}
+```
+
+它的构造参数 `QueryEngineConfig` 同样非常值得细读：
 
 ```typescript
 export type QueryEngineConfig = {
@@ -171,6 +232,52 @@ export type QueryEngineConfig = {
 }
 ```
 
+### 3.3 `query.ts` 内部的循环状态机
+
+`query.ts` 的主循环维护一个可变的 `State` 对象，在每轮迭代之间传递：
+
+```typescript
+type State = {
+  messages: Message[]
+  toolUseContext: ToolUseContext
+  autoCompactTracking: AutoCompactTrackingState | undefined
+  maxOutputTokensRecoveryCount: number  // max_output_tokens 错误恢复计数
+  hasAttemptedReactiveCompact: boolean
+  maxOutputTokensOverride: number | undefined
+  pendingToolUseSummary: Promise<ToolUseSummaryMessage | null> | undefined
+  stopHookActive: boolean | undefined
+  turnCount: number                    // 本轮对话已用 Turn 数
+  transition: Continue | undefined     // 上一次迭代为何继续循环
+}
+```
+
+**工具结果缺失时的错误恢复**——当某个 `tool_use` 块没有收到对应的 `tool_result` 时（比如因为网络中断），`yieldMissingToolResultBlocks` 会补充错误消息，保证消息序列合法：
+
+```typescript
+function* yieldMissingToolResultBlocks(
+  assistantMessages: AssistantMessage[],
+  errorMessage: string,
+) {
+  for (const assistantMessage of assistantMessages) {
+    const toolUseBlocks = assistantMessage.message.content
+      .filter(c => c.type === 'tool_use') as ToolUseBlock[]
+
+    for (const toolUse of toolUseBlocks) {
+      yield createUserMessage({
+        content: [{
+          type: 'tool_result',
+          content: errorMessage,
+          is_error: true,
+          tool_use_id: toolUse.id,
+        }],
+        toolUseResult: errorMessage,
+        sourceToolAssistantUUID: assistantMessage.uuid,
+      })
+    }
+  }
+}
+```
+
 ---
 
 ## 四、工具系统
@@ -179,28 +286,96 @@ export type QueryEngineConfig = {
 
 ### 4.1 工具基础接口 `Tool.ts`（792 行）
 
-每个工具实现一个标准接口（通过 `buildTool` 工厂创建）：
+`Tool.ts` 定义了完整的工具契约。每个工具通过 `buildTool` 工厂函数创建，工厂会补全所有有默认值的方法：
 
 ```typescript
-type ToolDef<InputSchema extends z.ZodObject<any>> = {
-  name: string
-  description: string
-  inputSchema: InputSchema           // Zod schema，自动生成 JSON Schema
-  
-  // 权限检查（在真正执行前调用）
-  checkPermissions?: (input, context) => Promise<PermissionResult>
-  
-  // 实际执行
-  call: (input, context) => Promise<ToolResultBlockParam>
-  
-  // UI 渲染（Ink JSX，显示在终端）
-  renderToolUseMessage?: (input, context) => React.ReactNode
-  renderToolResultMessage?: (result, context) => React.ReactNode
-  
-  // 进度更新（长时间运行时实时推送）
-  setToolJSX?: SetToolJSXFn
+export type Tool<
+  Input extends AnyObject = AnyObject,
+  Output = unknown,
+  P extends ToolProgressData = ToolProgressData,
+> = {
+  readonly name: string
+  aliases?: string[]            // 工具别名（用于向后兼容重命名）
+  searchHint?: string           // 在 ToolSearchTool 中的搜索提示
+
+  // ── 核心执行 ──────────────────────────────────────────────
+  call(
+    args: z.infer<Input>,
+    context: ToolUseContext,
+    canUseTool: CanUseToolFn,
+    parentMessage: AssistantMessage,
+    onProgress?: ToolCallProgress<P>,
+  ): Promise<ToolResult<Output>>
+
+  description(input, options): Promise<string>    // 动态描述（发给 Claude 的）
+
+  // ── Schema ───────────────────────────────────────────────
+  readonly inputSchema: Input                     // Zod schema（双用途：验证 + 类型推断）
+  readonly inputJSONSchema?: ToolInputJSONSchema  // 手动覆盖的 JSON Schema
+  outputSchema?: z.ZodType<unknown>
+
+  // ── 行为控制标记 ─────────────────────────────────────────
+  isConcurrencySafe(input): boolean     // false = 不允许与其他工具并行执行（默认 false，fail-closed）
+  isEnabled(): boolean                  // 当前是否可用（默认 true）
+  isReadOnly(input): boolean            // Plan 模式下只有此方法返回 true 的工具才被允许
+  isDestructive?(input): boolean        // 标记破坏性操作（用于 UI 警告）
+  interruptBehavior?(): 'cancel' | 'block'  // 用户按 Ctrl+C 时：cancel=取消工具, block=等待完成
+
+  // ── UI 折叠提示 ──────────────────────────────────────────
+  isSearchOrReadCommand?(input): {
+    isSearch: boolean   // 折叠为"搜索了 N 次"
+    isRead: boolean     // 折叠为"读取了 N 个文件"
+    isList?: boolean    // 折叠为"列举了 N 个目录"
+  }
+
+  // ── 验证与权限 ────────────────────────────────────────────
+  validateInput?(input, context): Promise<ValidationResult>  // API 调用前的参数合法性校验
+  checkPermissions?(input, context?): Promise<PermissionResult>
+
+  // ── 延迟加载 ─────────────────────────────────────────────
+  readonly shouldDefer?: boolean    // true = 此工具延迟加载（不在首次列表中）
+  readonly alwaysLoad?: boolean     // true = 即便在延迟模式下也始终加载
+
+  // ── 结果限制 ─────────────────────────────────────────────
+  maxResultSizeChars: number        // 超过此长度的结果会被截断后存储到磁盘
+
+  // ── MCP / LSP 标记 ───────────────────────────────────────
+  isMcp?: boolean
+  isLsp?: boolean
+  mcpInfo?: { serverName: string; toolName: string }
+  readonly strict?: boolean
 }
 ```
+
+**`buildTool` 工厂与 Fail-Closed 默认值**
+
+不是所有方法都必须实现——`buildTool` 提供了一组安全的默认值：
+
+```typescript
+// 这些方法有默认实现，ToolDef 中可以不写
+type DefaultableToolKeys =
+  | 'isEnabled'         // 默认 true
+  | 'isConcurrencySafe' // 默认 false（fail-closed：不确定就不并行）
+  | 'isReadOnly'        // 默认 false（不确定就视为写操作）
+  | 'isDestructive'     // 默认 false
+  | 'checkPermissions'  // 默认 allow（执行层面的兜底）
+
+const TOOL_DEFAULTS = {
+  isEnabled: () => true,
+  isConcurrencySafe: (_input?) => false,
+  isReadOnly: (_input?) => false,
+  isDestructive: (_input?) => false,
+  checkPermissions: (input, _ctx?) =>
+    Promise.resolve({ behavior: 'allow', updatedInput: input }),
+  userFacingName: (_input?) => '',
+}
+
+export function buildTool<D extends AnyToolDef>(def: D): BuiltTool<D> {
+  return { ...TOOL_DEFAULTS, userFacingName: () => def.name, ...def } as BuiltTool<D>
+}
+```
+
+这个设计的安全哲学是：**对于权限和并发，默认选择限制最严格的那个**——`checkPermissions` 默认 `allow` 是因为实际权限检查在更上层的 `canUseTool` 中进行；`isConcurrencySafe` 默认 `false` 则是防止新工具未经评估就被并行调用。
 
 `inputSchema` 用 Zod 定义后，会被自动序列化为 JSON Schema 发给 Claude API，这样 Claude 就"知道"每个工具接受什么参数。
 
@@ -362,7 +537,69 @@ handlers/（根据运行模式分发）
 | `bypassPermissions` | 绕过所有权限检查（需明确授权） |
 | `auto` | 自动批准，用于无人值守场景 |
 
-### 6.3 BashTool 权限规则
+### 6.3 PermissionContext 的核心类型
+
+`PermissionContext.ts` 对"谁批准了这次操作"和"谁拒绝了这次操作"做了精确建模：
+
+```typescript
+// 批准来源
+type PermissionApprovalSource =
+  | { type: 'hook'; permanent?: boolean }   // 由配置 hook 自动批准
+  | { type: 'user'; permanent: boolean }    // 用户手动批准（permanent=true 表示记住选择）
+  | { type: 'classifier' }                  // 由自动分类器批准
+
+// 拒绝来源
+type PermissionRejectionSource =
+  | { type: 'hook' }                        // hook 规则拒绝
+  | { type: 'user_abort' }                  // 用户中止（Ctrl+C）
+  | { type: 'user_reject'; hasFeedback: boolean }  // 用户明确拒绝（可附带文字反馈）
+```
+
+### 6.4 竞态安全的 ResolveOnce 模式
+
+权限弹窗是异步的，可能同时有多个路径（hook、分类器、用户点击）触发 resolve。`ResolveOnce` 通过闭包实现原子性的 `claim()` 方法，确保同一个 Promise 只被 resolve 一次：
+
+```typescript
+type ResolveOnce<T> = {
+  resolve(value: T): void
+  isResolved(): boolean
+  claim(): boolean  // 原子检查-标记，返回 false 则表示已被其他路径抢先
+}
+
+function createResolveOnce<T>(resolve: (value: T) => void): ResolveOnce<T> {
+  let claimed = false
+  let delivered = false
+  return {
+    resolve(value: T) {
+      if (delivered) return
+      delivered = true
+      resolve(value)
+    },
+    isResolved: () => delivered,
+    claim(): boolean {
+      if (claimed) return false
+      claimed = true
+      return true
+    }
+  }
+}
+```
+
+使用方式：每个异步路径调用 `claim()` 前先竞争，只有抢到 `true` 的路径才能继续 resolve，其他路径直接放弃。这避免了 hook 和用户点击同时触发时的双重 resolve。
+
+### 6.5 权限队列 UI 接口
+
+```typescript
+type PermissionQueueOps = {
+  push(item: ToolUseConfirm): void      // 推入待确认项（显示弹窗）
+  remove(toolUseID: string): void       // 移除（用户已处理）
+  update(toolUseID: string, patch: Partial<ToolUseConfirm>): void  // 更新状态
+}
+```
+
+这个接口连接权限逻辑层与 React UI 层——权限系统把待确认事项推入队列，UI 组件订阅队列变化渲染弹窗，用户操作后通过 `remove/update` 反馈结果。
+
+### 6.6 BashTool 权限规则
 
 `bashPermissions.ts` 实现了一套规则系统：
 - **路径前缀匹配**：允许或拒绝特定目录下的命令
@@ -429,6 +666,33 @@ BRIDGE_MODE feature flag 控制整个 bridge 子系统的编译进入，非 IDE 
 - `built-in/`：内置 Agent 定义（如 Plan Agent、Explore Agent 等）
 
 子 Agent 拥有完整独立的工具集、消息历史和上下文，与主 Agent 通过 `SendMessageTool` 通信。
+
+**AgentTool 内的时间阈值常量**（控制后台化行为）：
+
+```typescript
+// 2秒后开始显示"后台任务进行中"提示
+const PROGRESS_THRESHOLD_MS = 2000
+
+// KAIROS 模式下，主 Agent 中的阻塞式 Agent 超过 15 秒自动转后台
+const ASSISTANT_BLOCKING_BUDGET_MS = 15_000
+
+// 环境变量可完全禁用后台任务（调试用）
+const isBackgroundTasksDisabled =
+  isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_BACKGROUND_TASKS)
+
+// 动态决定自动后台化阈值（0 = 不自动后台化）
+function getAutoBackgroundMs(): number {
+  if (
+    isEnvTruthy(process.env.CLAUDE_AUTO_BACKGROUND_TASKS) ||
+    getFeatureValue_CACHED_MAY_BE_STALE('tengu_auto_background_agents', false)
+  ) {
+    return 120_000  // 2 分钟后自动转后台（由 feature flag 或环境变量启用）
+  }
+  return 0
+}
+```
+
+**远程 Agent 支持**：AgentTool 不只能在本地 fork 子 Agent，还支持远程执行（`checkRemoteAgentEligibility` 判断是否符合条件，`registerRemoteAgentTask` 注册远程任务，进度通过回调异步推送）。这是 Claude Code 云端化/分布式化的基础设施。
 
 ### 8.3 Swarm / Team 系统
 
@@ -597,6 +861,40 @@ const SleepTool = feature('PROACTIVE') || feature('KAIROS')
 
 这些信息被注入到 System Prompt 中，是 Claude 理解工作环境的基础。
 
+### 12.1 memoize + 并行 git 命令
+
+`getGitStatus` 用 `lodash/memoize` 包裹，整个会话期间只执行一次。内部通过 `Promise.all` 把 5 条 git 命令并行发射，完全消除串行等待：
+
+```typescript
+export const getGitStatus = memoize(async (): Promise<string | null> => {
+  const [branch, mainBranch, status, log, userName] = await Promise.all([
+    getBranch(),                                                       // git rev-parse --abbrev-ref HEAD
+    getDefaultBranch(),                                                // 判断主分支（main/master）
+    execFileNoThrow(gitExe(), ['--no-optional-locks', 'status', '--short']),
+    execFileNoThrow(gitExe(), ['--no-optional-locks', 'log', '--oneline', '-n', '5']),
+    execFileNoThrow(gitExe(), ['config', 'user.name']),
+  ])
+  // 拼装为 System Prompt 中的 gitStatus 段落
+})
+```
+
+### 12.2 调试逃生门：setSystemPromptInjection
+
+`context.ts` 暴露了一个内部调试接口，可以在运行时临时替换整个 System Prompt 的内容，修改后会**立即使缓存失效**：
+
+```typescript
+let systemPromptInjection: string | null = null
+
+export function setSystemPromptInjection(value: string | null): void {
+  systemPromptInjection = value
+  // 清除 getUserContext 和 getSystemContext 的 memoize 缓存
+  getUserContext.cache.clear?.()
+  getSystemContext.cache.clear?.()
+}
+```
+
+这个接口不对外暴露给用户，但对 Anthropic 内部的 prompt 调试极为有用——可以在不重启进程的情况下热替换 System Prompt，下一次 Turn 就会生效。
+
 ---
 
 ## 十三、一些值得关注的工程细节
@@ -631,6 +929,39 @@ const getTeammateUtils = () => require('./utils/teammate.js')
 ### 13.4 VCR 录放
 
 `services/vcr.ts` 实现了 API 调用的录放功能——可以录制真实的 API 交互，然后在测试中回放，避免昂贵的 API 调用。
+
+### 13.5 AppStateProvider 嵌套保护
+
+`src/state/AppState.tsx` 中的 `AppStateProvider` 组件在 mount 时会检测 Context 是否已存在，一旦发现嵌套就直接抛出错误：
+
+```typescript
+export function AppStateProvider({ children, initialState, onChangeAppState }: Props) {
+  // 通过读取 Context 判断是否已被外层挂载
+  const hasAppStateContext = useContext(AppStoreContext) !== null
+  if (hasAppStateContext) {
+    throw new Error('AppStateProvider can not be nested within another AppStateProvider')
+  }
+  // 只在 mount 时创建一次 store，永不重建
+  const [store] = useState(() =>
+    createStore(initialState ?? getDefaultAppState(), onChangeAppState)
+  )
+  // ...
+}
+```
+
+这种"防御性断言"（Defensive Assertion）比运行时数据错误更容易定位问题——开发者在搭建复杂的 Agent/多面板 UI 时，如果不小心嵌套了两层 Provider，会立刻看到清晰的错误而不是诡异的状态不一致。
+
+### 13.6 FileEditTool 的 V8/Bun 字符串长度上限
+
+`FileEditTool.ts` 开头有一段注释，处理了一个容易被忽视的边界条件：
+
+```typescript
+// V8/Bun string length limit is ~2^30 characters (~1 billion).
+// For typical ASCII/Latin-1 files, 1 byte on disk = 1 character,
+// so 1 GiB in stat bytes is approximately the limit.
+```
+
+这意味着超过 1 GiB 的纯 ASCII 文件在读入为 JS 字符串时会溢出。`FileEditTool` 会在处理前检查文件大小，避免触碰这个上限——这是真正处理过"用户把大文件扔给 AI 编辑"场景后才会发现的 corner case。
 
 ---
 
