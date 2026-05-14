@@ -43,12 +43,10 @@ article_history:
 
 所以我把 provider 分成四类：
 
-| Tier | Provider | 用途 |
-| --- | --- | --- |
-| `core` | Brave、Tavily、Exa、Firecrawl | v1 稳定实现和测试 |
-| `local` | SearXNG、ddgs、native fetch | 免费、自托管、本地兜底 |
-| `answer` | OpenAI、Anthropic、Perplexity、Linkup | 带引用答案，不伪装成搜索 |
-| `experimental` | Parallel、Serper、SerpApi、SearchAPI.io | 先纳入对比和适配器骨架 |
+- `core`：Brave、Tavily、Exa、Firecrawl。v1 稳定实现和测试。
+- `local`：SearXNG、ddgs、native fetch。免费、自托管、本地兜底。
+- `answer`：OpenAI、Anthropic、Perplexity、Linkup。带引用答案，不伪装成搜索。
+- `experimental`：Parallel、Serper、SerpApi、SearchAPI.io。先纳入对比和适配器骨架。
 
 ---
 
