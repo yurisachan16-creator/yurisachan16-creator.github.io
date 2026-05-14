@@ -12,6 +12,11 @@ cover: /2025/11/26/honkai-star-rail-analysis/sr9.png
 description: 深度拆解崩坏：星穹铁道的核心体验、玩法设计与游戏循环机制。
 permalink: /2025/11/26/honkai-star-rail-analysis/
 top_img: false                 # 设为 false 显示你的像素背景，或者填入一张大图链接
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2025-11-26
+    summary: 首次发布
 ---
 # 游戏版本号3.2
 

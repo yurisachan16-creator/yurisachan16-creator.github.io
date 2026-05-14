@@ -10,7 +10,9 @@
     "migrate:remote": "npx wrangler d1 migrations apply blog_d1 --remote"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260415.1",
     "typescript": "^5.7.3",
     "wrangler": "^4.1.0"
-  }
+  },
+  "version": "0.1.0"
 }

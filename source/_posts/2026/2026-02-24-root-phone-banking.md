@@ -11,6 +11,11 @@ cover: Cover.jpg
 description: 手机Root后，手机银行App检测到Root权限无法打开？本文教你用Magisk+Shamiko模块屏蔽检测，正常使用手机银行。
 permalink: /2026/02/24/root-phone-banking/
 top_img: false
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2026-02-24
+    summary: 首次发布
 ---
 
 最近在搞入职相关的内容，发现社保卡还是小学时候办理的，现在都过期了。在网上看见说可以在对应的手机银行上办理社保卡的激活，结果发现我这个 root 后的手机根本打不开手机银行 app。

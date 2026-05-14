@@ -14,6 +14,16 @@ function loadModule () {
 }
 
 function setupDOM () {
+  const storage = createStorageMock()
+  Object.defineProperty(window, 'localStorage', {
+    configurable: true,
+    value: storage
+  })
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    value: storage
+  })
+
   document.body.innerHTML = `
     <div id="rightside">
       <div id="rightside-config-hide"></div>
@@ -65,6 +75,25 @@ function setupDOM () {
       <ul id="music-playlist"></ul>
     </div>
   `
+}
+
+function createStorageMock () {
+  const store = {}
+
+  return {
+    getItem (key) {
+      return Object.prototype.hasOwnProperty.call(store, key) ? store[key] : null
+    },
+    setItem (key, value) {
+      store[key] = String(value)
+    },
+    removeItem (key) {
+      delete store[key]
+    },
+    clear () {
+      Object.keys(store).forEach((key) => delete store[key])
+    }
+  }
 }
 
 /* ============================
@@ -245,6 +274,7 @@ describe('AudioBridge', () => {
     setupDOM()
     const mod = loadModule()
     AudioBridge = mod.AudioBridge
+    vi.spyOn(window.HTMLMediaElement.prototype, 'load').mockImplementation(() => {})
   })
 
   afterEach(() => {

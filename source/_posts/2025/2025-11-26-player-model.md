@@ -12,6 +12,11 @@ cover: /2025/11/26/player-model/cod.png
 description: 深度探讨玩家分类，解析巴特尔模型与八大核心驱动力。
 permalink: /2025/11/26/player-model/
 top_img: false
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2025-11-26
+    summary: 首次发布
 ---
 # 从巴特尔到 Nice Yee，深入解析玩家动机模型
 

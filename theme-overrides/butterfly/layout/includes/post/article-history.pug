@@ -1,0 +1,13 @@
+- const articleVersion = article_version_meta(page)
+if articleVersion && articleVersion.history.length > 0
+  section.article-version
+    .article-version__header
+      h2.article-version__title 更新记录
+      span.article-version__current 当前版本 v#{articleVersion.currentVersion}
+    ul.article-version__timeline
+      each item in articleVersion.history
+        li.article-version__item
+          .article-version__meta
+            strong.article-version__number v#{item.version}
+            time.article-version__date(datetime=item.date)= item.date
+          p.article-version__summary= item.summary

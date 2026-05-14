@@ -13,6 +13,11 @@ categories:
 keywords: Claude Code, 记忆系统, Auto Memory, Session Memory, Team Memory, Agent Memory
 description: 从 Claude Code 泄露源码出发，系统拆解其记忆架构：跨会话文件记忆、查询期相关记忆召回、会话摘要、后台提取、AutoDream 整理，以及团队与 Agent 级扩展。
 permalink: /2026/04/07/claude-code-memory-architecture/
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2026-04-07
+    summary: 首次发布
 ---
 
 2026 年 3 月 31 日，Anthropic 在 npm 发布包中意外暴露了 `.map` 文件，使 Claude Code CLI 的完整 TypeScript 源码得以公开。继上一篇对整体架构的拆解之后，这次我们只聚焦一个更有意思、也更容易被外界误解的部分：**Claude Code 的记忆系统**。

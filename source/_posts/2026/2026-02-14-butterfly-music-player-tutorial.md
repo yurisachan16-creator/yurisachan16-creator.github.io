@@ -13,6 +13,11 @@ cover: /2026/02/14/butterfly-music-player-tutorial/cover.jpeg
 description: 不修改主题源码，用纯 JS 动态注入的方式为 Butterfly 主题添加一个侧边抽屉音乐播放器，支持本地音频文件 (mp3/ogg/wav/aac/m4a/opus/flac) + 网易云歌单双源播放。
 permalink: /2026/02/14/butterfly-music-player-tutorial/
 top_img: false
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2026-02-14
+    summary: 首次发布
 ---
 
 # Hexo Butterfly 主题：从零打造侧边栏音乐播放器

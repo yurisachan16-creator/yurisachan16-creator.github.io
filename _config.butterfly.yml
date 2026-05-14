@@ -172,7 +172,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: 一个热爱技术的人
+    description: 持续发布技术与创作记录的开发者
     button:
       enable: true
       icon: fab fa-github
@@ -180,7 +180,7 @@ aside:
       link: https://github.com/yurisachan16-creator
   card_announcement:
     enable: true
-    content: 欢迎来到我的博客！
+    content: 博客已启用正式版本发布与文章更新记录。
   card_recent_post:
     enable: true
     limit: 5

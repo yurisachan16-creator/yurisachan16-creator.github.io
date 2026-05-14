@@ -10,7 +10,7 @@ type: "about"
 
 ### 🎯 关于这个博客
 
-这是我的个人博客，使用 [Hexo](https://hexo.io/) 搭建，采用 [Butterfly](https://butterfly.js.org/) 主题。
+这是我的个人博客，使用 [Hexo](https://hexo.io/) 搭建，采用 [Butterfly](https://butterfly.js.org/) 主题，并围绕“静态前台 + 动态能力 + 正式版本管理”持续维护。
 
 在这里我会分享：
 
@@ -23,7 +23,14 @@ type: "about"
 
 - 静态博客生成器：Hexo
 - 主题：Butterfly
-- 托管平台：GitHub Pages
+- 主站部署：Cloudflare Pages
+- 动态接口：Cloudflare Worker + D1 / KV
+
+### 🚀 发布方式
+
+- 仓库版本使用 `SemVer`
+- 正式发布通过 Git tag、GitHub Release 和 `CHANGELOG.md` 统一管理
+- 文章会在正文中展示自己的“更新记录”，方便追踪修订历史
 
 ### 📫 联系方式
 
@@ -35,4 +42,4 @@ type: "about"
 
 ---
 
-感谢你的访问！如果觉得内容对你有帮助，欢迎留言交流~ 💬
+感谢你的访问！如果觉得内容对你有帮助，欢迎通过评论区或 GitHub 和我交流。 💬

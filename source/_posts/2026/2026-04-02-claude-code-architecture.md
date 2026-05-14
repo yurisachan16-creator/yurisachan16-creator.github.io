@@ -14,6 +14,11 @@ keywords: Claude Code, 源码分析, AI CLI, TypeScript, 多智能体, MCP, Tool
 description: 通过对 Claude Code CLI 泄露源码的逐层解析，深入理解一个生产级 AI 驱动命令行工具的完整架构——从启动优化、工具系统、权限模型，到多智能体协调与 IDE 桥接。
 cover: /2026/04/02/claude-code-architecture/cover.png
 permalink: /2026/04/02/claude-code-architecture/
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2026-04-02
+    summary: 首次发布
 ---
 
 2026 年 3 月 31 日，Anthropic 在 npm 发布包中意外暴露了 `.map` 文件，使 Claude Code CLI 的完整 TypeScript 源码得以公开。这份快照让我们第一次得以从源码层面审视一个生产级 AI 驱动命令行工具的内部构造。

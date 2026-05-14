@@ -8,6 +8,11 @@ keywords: survivor-like, 数值曲线, 怪物刷新
 description: 本文拆解类幸存者游戏的玩法循环，分享数值与关卡节奏调优经验
 cover: /2026/02/09/lei-xing-cun-zhe-you-xi/cover.jpg
 permalink: /2026/02/09/lei-xing-cun-zhe-you-xi/
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2026-02-09
+    summary: 首次发布
 ---
 
 这个 demo 我花了 2 个月完成，目标是验证类幸存者游戏的玩法循环与数值节奏。

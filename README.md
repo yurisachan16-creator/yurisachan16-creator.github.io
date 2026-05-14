@@ -85,3 +85,50 @@ npm run sync-themes
 ```bash
 npm run deploy
 ```
+
+## 版本管理
+
+仓库版本与文章版本现在分开管理：
+
+- 仓库版本：根 [package.json](./package.json) 是唯一版本源，`worker/package.json` 会在发版时同步到同一版本。
+- 仓库发版：使用 `SemVer`，标签格式固定为 `vX.Y.Z`，GitHub Release 与 tag 同名。
+- 仓库变更记录：统一写入 [CHANGELOG.md](./CHANGELOG.md)，分类固定为 `Features`、`Content`、`Fixes`、`Performance`、`SEO`、`Infra`。
+- 文章版本：每篇文章通过 `article_version` 和 `article_history` 记录修订历史，并在文章页展示“更新记录”。
+
+### 提交与分支约定
+
+- 分支命名：`feat/*`、`fix/*`、`content/*`、`chore/*`
+- 提交格式：Conventional Commits
+- 推荐 scope：`site`、`worker`、`content`、`seo`、`perf`、`release`
+
+示例：
+
+```bash
+feat(site): add article version timeline
+fix(worker): tighten comment moderation guard
+content(article): revise welcome post deployment notes
+perf(site): defer post-only dynamic scripts
+```
+
+### 发布流程
+
+正式发版通过 `release-please` 管理：
+
+1. 功能分支合并到 `main`
+2. `Release Please` workflow 基于提交历史生成 release PR
+3. release PR 更新版本号与 `CHANGELOG.md`
+4. PR 合并后自动创建 Git tag 与 GitHub Release
+
+本地/CI 可先跑 dry-run：
+
+```bash
+npm run release:dry-run
+```
+
+说明：本地 dry-run 需要可用的 `GITHUB_TOKEN` 才能读取 Release / PR 元数据；在 GitHub Actions 中会自动注入。
+
+完整门禁：
+
+```bash
+npm run verify
+```
