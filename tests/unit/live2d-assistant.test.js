@@ -125,4 +125,25 @@ describe('live2d-assistant DOM helpers', () => {
     expect(() => show()).not.toThrow()
     expect(document.getElementById('waifu').classList.contains('waifu-hidden')).toBe(false)
   })
+
+  it('does not mark the assistant initialized when widget DOM is absent', async () => {
+    globalThis.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({}) })
+    const { init } = loadModule()
+
+    const originalAppendChild = document.head.appendChild.bind(document.head)
+    document.head.appendChild = (element) => {
+      const result = originalAppendChild(element)
+      if (element.tagName === 'LINK' || element.tagName === 'SCRIPT') {
+        setTimeout(() => element.onload && element.onload())
+      }
+      return result
+    }
+    window.initWidget = () => {}
+
+    await init()
+
+    const debug = window.__live2dAssistant.debug()
+    expect(debug.initialized).toBe(false)
+    expect(debug.status).toBe('widget-disabled')
+  })
 })

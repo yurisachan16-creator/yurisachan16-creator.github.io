@@ -128,6 +128,10 @@
     })
   }
 
+  function hasWidgetDom () {
+    return !!(document.getElementById('waifu') || document.getElementById('waifu-toggle'))
+  }
+
   function say (text, priority) {
     var now = Date.now()
     if (!text || (priority || 0) < 9 && now - state.lastMessageAt < 8000) return false
@@ -289,9 +293,9 @@
         showToggleAfterQuit: config.showToggleAfterQuit,
         logLevel: config.logLevel
       })
-      state.initialized = true
       state.loading = false
-      setStatus('visible')
+      state.initialized = hasWidgetDom()
+      setStatus(document.getElementById('waifu') ? 'visible' : (state.initialized ? 'hidden' : 'widget-disabled'))
       return true
     }).catch(function (error) {
       state.loading = false
