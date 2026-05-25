@@ -127,6 +127,11 @@ describe('live2d-assistant DOM helpers', () => {
   })
 
   it('does not mark the assistant initialized when widget DOM is absent', async () => {
+    Object.defineProperty(window, 'WebGLRenderingContext', {
+      configurable: true,
+      value: function WebGLRenderingContext () {}
+    })
+    HTMLCanvasElement.prototype.getContext = () => ({})
     globalThis.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({}) })
     const { init } = loadModule()
 
@@ -145,5 +150,18 @@ describe('live2d-assistant DOM helpers', () => {
     const debug = window.__live2dAssistant.debug()
     expect(debug.initialized).toBe(false)
     expect(debug.status).toBe('widget-disabled')
+  })
+
+  it('disables the assistant without injecting UI when WebGL is unavailable', async () => {
+    Object.defineProperty(window, 'WebGLRenderingContext', {
+      configurable: true,
+      value: undefined
+    })
+    const { init } = loadModule()
+
+    await init()
+
+    expect(document.getElementById('live2d-assistant-btn')).toBeNull()
+    expect(window.__live2dAssistant.debug().status).toBe('webgl-disabled')
   })
 })

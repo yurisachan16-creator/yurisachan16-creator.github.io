@@ -132,6 +132,15 @@
     return !!(document.getElementById('waifu') || document.getElementById('waifu-toggle'))
   }
 
+  function supportsWebGL () {
+    try {
+      var canvas = document.createElement('canvas')
+      return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')))
+    } catch (_) {
+      return false
+    }
+  }
+
   function say (text, priority) {
     var now = Date.now()
     if (!text || (priority || 0) < 9 && now - state.lastMessageAt < 8000) return false
@@ -269,6 +278,10 @@
       setStatus('mobile-disabled')
       return Promise.resolve(false)
     }
+    if (!supportsWebGL()) {
+      setStatus('webgl-disabled')
+      return Promise.resolve(false)
+    }
 
     injectRightsideButton()
     bindBlogEvents()
@@ -322,6 +335,7 @@
       DEFAULT_CONFIG: DEFAULT_CONFIG,
       init: init,
       show: show,
+      supportsWebGL: supportsWebGL,
       readConfigFromMeta: readConfigFromMeta,
       injectRightsideButton: injectRightsideButton,
       getDebugState: getDebugState,
