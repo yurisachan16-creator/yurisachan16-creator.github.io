@@ -113,12 +113,12 @@ test.describe('音乐播放器 E2E 测试', () => {
   })
 
   /* === 音量控制 === */
-  test('默认音源为全部且默认音量为10%', async ({ page }) => {
+  test('默认音源为网易云且默认音量为10%', async ({ page }) => {
     await page.evaluate(() => window.scrollTo(0, 300))
     await page.waitForTimeout(500)
     await page.click('#music-player-btn')
 
-    await expect(page.locator('#music-source-switch')).toHaveValue('both')
+    await expect(page.locator('#music-source-switch')).toHaveValue('netease')
     await expect(page.locator('#music-volume')).toHaveValue('10')
   })
 

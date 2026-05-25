@@ -1,0 +1,104 @@
+{
+  "mouseover": [
+    {
+      "selector": "#waifu-tool-hitokoto",
+      "text": ["想听一句随机的话吗？"]
+    },
+    {
+      "selector": "#waifu-tool-switch-model",
+      "text": ["换一个模型看看？"]
+    },
+    {
+      "selector": "#waifu-tool-switch-texture",
+      "text": ["换套衣服试试看。"]
+    },
+    {
+      "selector": "#waifu-tool-photo",
+      "text": ["要拍一张纪念照吗？"]
+    },
+    {
+      "selector": "#music-player-btn",
+      "text": ["音乐播放器在这里。"]
+    },
+    {
+      "selector": "#live2d-assistant-btn",
+      "text": ["点这里可以隐藏或叫回我。"]
+    },
+    {
+      "selector": "a",
+      "text": ["要去看看「{text}」吗？"]
+    }
+  ],
+  "click": [
+    {
+      "selector": "#music-player-btn",
+      "text": ["播放器打开啦。"]
+    },
+    {
+      "selector": "#music-play",
+      "text": ["音乐准备好了。"]
+    }
+  ],
+  "seasons": [
+    {
+      "date": "01/01",
+      "text": "新年快乐，今天也要好好记录。"
+    },
+    {
+      "date": "12/24-12/25",
+      "text": "节日快乐，愿今天有好心情。"
+    }
+  ],
+  "time": [
+    {
+      "hour": "6-8",
+      "text": "早上好，今天先读哪篇？"
+    },
+    {
+      "hour": "9-11",
+      "text": "上午好，适合写点技术笔记。"
+    },
+    {
+      "hour": "12-13",
+      "text": "午休时间，慢慢看就好。"
+    },
+    {
+      "hour": "14-17",
+      "text": "下午好，继续保持专注。"
+    },
+    {
+      "hour": "18-23",
+      "text": "晚上好，读完记得休息眼睛。"
+    },
+    {
+      "hour": "0-5",
+      "text": "夜深了，别熬太久。"
+    }
+  ],
+  "message": {
+    "default": [
+      "欢迎回来，今天也在这里陪你。",
+      "先看文章，还是先听一首歌？",
+      "遇到喜欢的代码可以复制下来慢慢改。"
+    ],
+    "console": "你打开了控制台，可以试试 window.__live2dAssistant.debug()。",
+    "copy": "代码已复制，记得按自己的环境改路径。",
+    "visibilitychange": "欢迎回来，刚刚读到哪里了？",
+    "changeSuccess": "模型切换好了。",
+    "changeFail": "暂时没有更多可切换内容。",
+    "photo": "照片已准备好。",
+    "goodbye": "我先收起来，需要时再叫我。",
+    "hitokoto": "这句一言来自「$1」，投稿者是 $2。",
+    "welcome": "欢迎阅读「$1」。",
+    "referrer": "来自 $1 的朋友，欢迎。",
+    "hoverBody": [
+      "我在这里，不会打扰你读文章。",
+      "需要帮忙时点一下按钮就好。"
+    ],
+    "tapBody": [
+      "我听到了。",
+      "继续读吧。"
+    ]
+  },
+  "models": []
+}

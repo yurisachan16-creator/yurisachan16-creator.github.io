@@ -421,6 +421,14 @@ inject:
     - <meta name="dynamic-api-base" content="https://yurisachan-blog-api.yurisachan16.workers.dev/api/v1">
     # Turnstile 站点公钥（评论防刷）
     - <meta name="turnstile-site-key" content="">
+    # Live2D 看板娘配置
+    - <meta name="live2d-enabled" content="true">
+    - <meta name="live2d-debug" content="false">
+    - <meta name="live2d-widget-base" content="/live2d-widget/dist/">
+    - <meta name="live2d-tips-path" content="/live2d-widget/waifu-tips-yurisa.json">
+    - <meta name="live2d-cdn-path" content="https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/">
+    - <meta name="live2d-model-id" content="0">
+    - <meta name="live2d-tools" content="hitokoto,switch-model,switch-texture,photo,info,quit">
   bottom:
     # 1. 引入云朵背景JS (自动创建背景元素并检测页面类型)
     - <script src="/js/cloud-bg.js"></script>
@@ -438,3 +446,6 @@ inject:
 
     # 5. 动态博客前端脚本（评论/点赞/阅读量）
     - <script src="/js/dynamic-blog.js"></script>
+
+    # 6. Live2D 看板娘（本地 widget dist + 博客桥接层）
+    - <script src="/js/live2d-assistant.js"></script>

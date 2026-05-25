@@ -34,6 +34,12 @@ npm run server
 
 访问 `http://localhost:4000/` 预览。
 
+## Live2D 看板娘
+
+站点已通过本地 vendored `live2d-widget` 接入看板娘，入口脚本是 `source/js/live2d-assistant.js`，静态资源在 `source/live2d-widget/`。
+
+开发、调试、更新和关闭方式见 [docs/live2d-assistant-dev.md](./docs/live2d-assistant-dev.md)，许可记录见 [license-matrix.md](./license-matrix.md)。
+
 ## 线上访问
 
 - 主站（Cloudflare Pages）：`https://yurisachan16-creator-github-io.pages.dev/`

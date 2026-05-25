@@ -695,6 +695,81 @@ body.page-type-post #footer {
   }
 }
 
+/* ==================== 12.7 Live2D 看板娘 ==================== */
+#live2d-assistant-btn {
+  color: inherit;
+}
+
+#waifu {
+  z-index: 998;
+  font-family: 'Zpix', 'Press Start 2P', sans-serif;
+}
+
+#waifu-tips {
+  background: rgba(255, 255, 255, 0.88);
+  border: 2px solid rgba(255, 182, 193, 0.72);
+  box-shadow: 0 6px 18px rgba(255, 105, 180, 0.18);
+  color: #444;
+  font-family: 'Zpix', 'Press Start 2P', sans-serif;
+  font-size: 13px;
+}
+
+#waifu-tool svg {
+  fill: var(--pink-primary, #ff69b4);
+}
+
+#waifu-tool svg:hover {
+  fill: #ff8fc7;
+}
+
+#waifu-toggle {
+  background: var(--pink-primary, #ff69b4);
+  z-index: 997;
+}
+
+#live2d {
+  height: 280px;
+  width: 280px;
+}
+
+@media screen and (max-width: 768px) {
+  #waifu {
+    transform: scale(0.78) translateY(25px);
+    transform-origin: left bottom;
+  }
+
+  #waifu:hover {
+    transform: scale(0.78) translateY(20px);
+  }
+
+  #waifu-tips {
+    width: 220px;
+    min-height: 58px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  #live2d {
+    height: 220px;
+    width: 220px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #waifu {
+    left: -24px;
+    transform: scale(0.62) translateY(30px);
+  }
+
+  #waifu:hover {
+    transform: scale(0.62) translateY(24px);
+  }
+
+  #waifu-tips {
+    display: none;
+  }
+}
+
 /* ==================== 13. 默认背景（无页面类型时） ==================== */
 #cloud-bg .bg-layer {
   background: var(--pink-gradient);

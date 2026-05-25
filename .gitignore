@@ -11,3 +11,4 @@ public/
 .deploy*/
 _multiconfig.yml
 themes/butterfly/
+.gstack/
