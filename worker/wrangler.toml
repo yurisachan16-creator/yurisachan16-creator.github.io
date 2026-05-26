@@ -2,9 +2,12 @@ name = "yurisachan-blog-api"
 main = "src/index.ts"
 compatibility_date = "2026-02-18"
 workers_dev = true
+routes = [
+  { pattern = "api.yurisa.top/*", zone_name = "yurisa.top" },
+]
 
 [vars]
-CORS_ORIGIN = "*"
+CORS_ORIGIN = "https://yurisa.top"
 
 [[d1_databases]]
 binding = "DB"

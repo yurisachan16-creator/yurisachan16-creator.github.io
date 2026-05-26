@@ -284,7 +284,7 @@ theme_color:
 # 圆角
 beautify:
   enable: true
-  field: post
+  field: site
   title-prefix-icon: '\f0c1'
   title-prefix-icon-color: '#F47466'
 
@@ -418,7 +418,7 @@ inject:
     # 音乐播放器 - 传递网易云歌单 ID 到前端
     - <meta name="music-netease-id" content="6894709007">
     # 动态博客 API 基础路径（Cloudflare Pages + Worker）
-    - <meta name="dynamic-api-base" content="https://yurisachan-blog-api.yurisachan16.workers.dev/api/v1">
+    - <meta name="dynamic-api-base" content="https://api.yurisa.top/api/v1">
     # Turnstile 站点公钥（评论防刷）
     - <meta name="turnstile-site-key" content="">
     # Live2D 看板娘配置
