@@ -283,7 +283,7 @@ theme_color:
 
 # 圆角
 beautify:
-  enable: true
+  enable: false
   field: site
   title-prefix-icon: '\f0c1'
   title-prefix-icon-color: '#F47466'
