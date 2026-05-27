@@ -399,7 +399,7 @@ music_player:
   # 默认音量 0~1
   volume: 0.1
   # 是否自动播放
-  autoplay: true
+  autoplay: false
   # 播放顺序: list / random
   order: list
 
@@ -413,7 +413,7 @@ inject:
     # 音乐播放器默认配置
     - <meta name="music-default-source" content="netease">
     - <meta name="music-default-volume" content="0.1">
-    - <meta name="music-autoplay-home" content="true">
+    - <meta name="music-autoplay-home" content="false">
     - <meta name="music-default-order" content="list">
     # 音乐播放器 - 传递网易云歌单 ID 到前端
     - <meta name="music-netease-id" content="6894709007">

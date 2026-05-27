@@ -16,7 +16,7 @@
   var STORAGE_KEY = 'music_player_state'
   var RETRY_DELAYS = [2000, 4000, 8000]
   var PLAYLIST_URL = '/music/playlist.json'
-  var DEFAULT_CONFIG = { source: 'both', volume: 0.1, autoplayHome: true, order: 'list', neteaseId: '' }
+  var DEFAULT_CONFIG = { source: 'both', volume: 0.1, autoplayHome: false, order: 'list', neteaseId: '' }
 
   /* ============================
      工具函数

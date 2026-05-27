@@ -145,7 +145,7 @@ describe('readConfigFromMeta', () => {
     const config = readConfigFromMeta()
     expect(config.source).toBe('both')
     expect(config.volume).toBe(0.1)
-    expect(config.autoplayHome).toBe(true)
+    expect(config.autoplayHome).toBe(false)
     expect(config.order).toBe('list')
   })
 
