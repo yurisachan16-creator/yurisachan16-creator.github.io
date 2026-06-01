@@ -406,10 +406,28 @@ music_player:
 # 插入自定义 CSS 或 JS
 inject:
   head:
+    # 风格切换首屏状态：尽早设置 html[data-style]，减少换肤闪烁
+    - |
+      <script>
+        (function () {
+          var key = 'site_style_v1';
+          var fallback = 'pixel';
+          var allowed = ['pixel', 'vereis'];
+          var style = fallback;
+          try {
+            var saved = localStorage.getItem(key);
+            if (allowed.indexOf(saved) >= 0) style = saved;
+          } catch (_) {}
+          document.documentElement.dataset.style = style;
+        })();
+      </script>
+    - <meta name="color-scheme" content="light dark">
     # 引入 custom.css (里面包含了字体和多彩云朵背景的样式)
     - <link rel="stylesheet" href="/css/custom.css">
     # 引入 NES.css 像素库
     - <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    # 风格预设覆盖层
+    - <link rel="stylesheet" href="/css/theme-preset.css">
     # 音乐播放器默认配置
     - <meta name="music-default-source" content="netease">
     - <meta name="music-default-volume" content="0.1">
@@ -444,8 +462,11 @@ inject:
     # 4. 自定义音乐播放器（侧边抽屉 + rightside 入口）
     - <script src="/js/music-player.js"></script>
 
-    # 5. 动态博客前端脚本（评论/点赞/阅读量）
+    # 5. 一键风格切换按钮
+    - <script src="/js/style-switcher.js"></script>
+
+    # 6. 动态博客前端脚本（评论/点赞/阅读量）
     - <script src="/js/dynamic-blog.js"></script>
 
-    # 6. Live2D 看板娘（本地 widget dist + 博客桥接层）
+    # 7. Live2D 看板娘（本地 widget dist + 博客桥接层）
     - <script src="/js/live2d-assistant.js"></script>
