@@ -700,42 +700,600 @@ body.page-type-post #footer {
   color: inherit;
 }
 
+#waifu-toggle {
+  align-items: center;
+  background: var(--pink-primary, #ff69b4);
+  border: 0;
+  border-radius: 6px;
+  bottom: 24px;
+  box-shadow: 0 8px 22px rgba(255, 105, 180, 0.26);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  right: 24px;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  width: 44px;
+  z-index: 1001;
+}
+
+#waifu-toggle.waifu-toggle-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+#waifu-toggle:hover {
+  background: #ff8fc7;
+  transform: translateY(-2px);
+}
+
 #waifu {
-  z-index: 998;
+  bottom: 8px;
   font-family: 'Zpix', 'Press Start 2P', sans-serif;
+  height: 320px;
+  max-width: calc(100vw - 112px);
+  overflow: visible;
+  position: fixed;
+  transform: translateY(12px);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+  user-select: none;
+  width: 280px;
+  z-index: 998;
+}
+
+#waifu.waifu-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#waifu.waifu-hidden {
+  display: none;
+}
+
+#waifu[data-live2d-placement='right'] {
+  transform-origin: right bottom;
+}
+
+#waifu[data-live2d-placement='left'] {
+  transform-origin: left bottom;
+}
+
+#waifu[data-live2d-placement='custom'] {
+  transform-origin: left bottom;
+}
+
+#waifu.waifu-dragging {
+  transition: none;
 }
 
 #waifu-tips {
   background: rgba(255, 255, 255, 0.88);
   border: 2px solid rgba(255, 182, 193, 0.72);
+  border-radius: 8px;
   box-shadow: 0 6px 18px rgba(255, 105, 180, 0.18);
   color: #444;
   font-family: 'Zpix', 'Press Start 2P', sans-serif;
   font-size: 13px;
+  line-height: 20px;
+  margin-bottom: 0;
+  min-height: 44px;
+  opacity: 0;
+  overflow: hidden;
+  padding: 7px 10px;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  text-overflow: ellipsis;
+  transition: opacity 0.2s ease;
+  width: 240px;
+  word-break: break-word;
+  z-index: 2;
 }
 
-#waifu-tool svg {
-  fill: var(--pink-primary, #ff69b4);
+#waifu-tips.waifu-tips-active {
+  opacity: 1;
 }
 
-#waifu-tool svg:hover {
-  fill: #ff8fc7;
+#waifu-bubble {
+  background: rgba(10, 14, 24, 0.92);
+  border: 2px solid rgba(80, 185, 255, 0.86);
+  border-radius: 8px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255, 105, 180, 0.18) inset;
+  color: #eaf4ff;
+  font-family: 'Zpix', 'Press Start 2P', sans-serif;
+  font-size: 13px;
+  line-height: 22px;
+  max-height: min(360px, calc(100vh - 360px));
+  max-width: calc(100vw - 48px);
+  overflow: auto;
+  padding: 16px 18px 14px;
+  position: absolute;
+  right: calc(100% - 30px);
+  bottom: 92px;
+  width: clamp(320px, calc(100vw - 1080px), 420px);
+  z-index: 4;
 }
 
-#waifu-toggle {
+#waifu-bubble[hidden] {
+  display: none;
+}
+
+#waifu-bubble::after {
+  border-color: transparent transparent transparent rgba(80, 185, 255, 0.86);
+  border-style: solid;
+  border-width: 11px 0 11px 16px;
+  content: '';
+  height: 0;
+  position: absolute;
+  right: -16px;
+  top: 58%;
+  width: 0;
+}
+
+#waifu-bubble.waifu-bubble-right {
+  left: calc(100% - 30px);
+  right: auto;
+}
+
+#waifu-bubble.waifu-bubble-right::after {
+  border-color: transparent rgba(80, 185, 255, 0.86) transparent transparent;
+  border-width: 11px 16px 11px 0;
+  left: -16px;
+  right: auto;
+}
+
+.waifu-bubble-close {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: rgba(234, 244, 255, 0.72);
+  cursor: pointer;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 24px;
+}
+
+.waifu-bubble-title,
+.waifu-bubble-kicker {
+  color: #75c8ff;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+#waifu-bubble p {
+  margin: 0 24px 7px 0;
+}
+
+.waifu-bubble-stats {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+  margin: 12px 0 10px;
+}
+
+.waifu-bubble-stats button {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(117, 200, 255, 0.36);
+  border-radius: 6px;
+  color: #eaf4ff;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 46px;
+}
+
+.waifu-bubble-stats strong {
+  color: #ff8fc7;
+  display: block;
+  font-size: 16px;
+}
+
+.waifu-bubble-stats span {
+  display: block;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.waifu-bubble-links {
+  display: grid;
+  gap: 4px;
+}
+
+.waifu-bubble-links button {
+  background: transparent;
+  border: 0;
+  color: #eaf4ff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 24px;
+  padding: 0;
+  text-align: left;
+}
+
+.waifu-bubble-links button:hover,
+.waifu-bubble-results-list a:hover {
+  color: #75c8ff;
+}
+
+.waifu-bubble-search {
+  margin: 8px 0;
+}
+
+#waifu-bubble-search-input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(117, 200, 255, 0.48);
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #eaf4ff;
+  font-family: inherit;
+  font-size: 12px;
+  height: 34px;
+  outline: none;
+  padding: 0 9px;
+  width: 100%;
+}
+
+#waifu-bubble-search-input::placeholder {
+  color: rgba(234, 244, 255, 0.56);
+}
+
+.waifu-bubble-results-list {
+  list-style: none;
+  margin: 8px 0 0;
+  max-height: 150px;
+  overflow: auto;
+  padding: 0;
+}
+
+.waifu-bubble-results-list li {
+  border-top: 1px dashed rgba(117, 200, 255, 0.22);
+}
+
+.waifu-bubble-results-list a {
+  color: #eaf4ff;
+  display: block;
+  font-size: 12px;
+  line-height: 18px;
+  overflow: hidden;
+  padding: 7px 0;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.waifu-bubble-empty {
+  color: rgba(234, 244, 255, 0.68);
+  font-size: 12px;
+  padding-top: 8px;
+}
+
+#waifu-panel {
+  background: rgba(255, 250, 253, 0.94);
+  border: 2px solid rgba(255, 182, 193, 0.78);
+  border-radius: 8px;
+  box-shadow: 0 10px 26px rgba(255, 105, 180, 0.2);
+  color: #3d3d3d;
+  margin-bottom: 0;
+  max-height: min(430px, calc(100vh - 360px));
+  overflow: auto;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  width: 280px;
+  z-index: 3;
+}
+
+#waifu-panel[hidden] {
+  display: none;
+}
+
+.waifu-panel-header {
+  align-items: center;
+  background: rgba(255, 182, 193, 0.42);
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 8px 10px;
+}
+
+.waifu-panel-close {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  padding: 0;
+  width: 24px;
+}
+
+.waifu-panel-status {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: 1fr 1fr;
+  padding: 8px;
+}
+
+.waifu-panel-status button,
+.waifu-panel-actions button {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 105, 180, 0.36);
+  border-radius: 6px;
+  color: #444;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.waifu-panel-status button {
+  min-height: 48px;
+}
+
+.waifu-panel-status strong {
+  color: var(--pink-primary, #ff69b4);
+  display: block;
+  font-size: 17px;
+}
+
+.waifu-panel-status span {
+  display: block;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.waifu-panel-search {
+  padding: 0 8px 8px;
+}
+
+#waifu-search-input {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 105, 180, 0.38);
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #333;
+  font-family: inherit;
+  font-size: 12px;
+  height: 32px;
+  outline: none;
+  padding: 0 8px;
+  width: 100%;
+}
+
+.waifu-panel-list-label {
+  color: #777;
+  font-size: 11px;
+  padding: 0 10px 4px;
+}
+
+.waifu-panel-list {
+  list-style: none;
+  margin: 0;
+  max-height: 126px;
+  overflow: auto;
+  padding: 0 8px 8px;
+}
+
+.waifu-panel-list li {
+  border-top: 1px solid rgba(255, 182, 193, 0.26);
+}
+
+.waifu-panel-list a {
+  color: #444;
+  display: block;
+  font-size: 12px;
+  line-height: 18px;
+  overflow: hidden;
+  padding: 6px 2px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.waifu-panel-list a:hover {
+  color: var(--pink-primary, #ff69b4);
+}
+
+.waifu-panel-empty {
+  color: #777;
+  font-size: 12px;
+  padding: 10px;
+}
+
+.waifu-panel-actions {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0 8px 8px;
+}
+
+.waifu-panel-actions button {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  gap: 3px;
+  height: 46px;
+  justify-content: center;
+}
+
+.waifu-panel-actions button:hover,
+.waifu-panel-status button:hover {
   background: var(--pink-primary, #ff69b4);
-  z-index: 997;
+  color: #fff;
+}
+
+.waifu-model-controls {
+  padding: 0 8px 8px;
+}
+
+.waifu-model-range {
+  align-items: center;
+  display: grid;
+  gap: 7px;
+  grid-template-columns: 42px 36px 1fr;
+  margin-bottom: 8px;
+}
+
+.waifu-model-range span,
+.waifu-model-range output {
+  color: #555;
+  font-size: 11px;
+}
+
+.waifu-model-range output {
+  text-align: right;
+}
+
+.waifu-model-range input {
+  accent-color: var(--pink-primary, #ff69b4);
+  min-width: 0;
+}
+
+.waifu-model-presets {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 4px;
+}
+
+.waifu-model-presets button {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 105, 180, 0.36);
+  border-radius: 6px;
+  color: #444;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  height: 30px;
+}
+
+.waifu-model-presets button:hover {
+  background: var(--pink-primary, #ff69b4);
+  color: #fff;
+}
+
+#waifu-canvas {
+  cursor: grab;
+  height: 320px;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  width: 280px;
+}
+
+#waifu-actionbar {
+  align-items: center;
+  background: rgba(34, 36, 42, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  bottom: 6px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+  display: flex;
+  gap: 4px;
+  left: 50%;
+  min-height: 44px;
+  opacity: 0;
+  padding: 4px;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, 10px) scale(0.96);
+  transform-origin: 50% 100%;
+  transition: opacity 0.16s ease, transform 0.18s ease;
+  z-index: 5;
+}
+
+#waifu-canvas:hover + #waifu-actionbar,
+#waifu-actionbar:hover,
+#waifu.waifu-actionbar-visible #waifu-actionbar {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+}
+
+#waifu-actionbar button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  color: #f4f4f6;
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 12px;
+  gap: 5px;
+  height: 36px;
+  justify-content: center;
+  min-width: 50px;
+  padding: 0 9px;
+  transition: background 0.18s ease, transform 0.18s ease;
+  white-space: nowrap;
+}
+
+#waifu-actionbar button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+#waifu-actionbar button:active {
+  transform: scale(0.96);
+}
+
+#waifu.waifu-dragging #waifu-canvas {
+  cursor: grabbing;
+}
+
+#waifu-tool {
+  display: none;
+}
+
+#waifu-tool button {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 105, 180, 0.42);
+  border-radius: 6px;
+  color: var(--pink-primary, #ff69b4);
+  cursor: pointer;
+  display: flex;
+  height: 28px;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+  width: 28px;
+}
+
+#waifu-tool button:hover {
+  background: var(--pink-primary, #ff69b4);
+  color: #fff;
 }
 
 #live2d {
-  height: 280px;
-  width: 280px;
+  display: block;
+  height: 100% !important;
+  width: 100% !important;
 }
 
 @media screen and (max-width: 768px) {
   #waifu {
     transform: scale(0.78) translateY(25px);
-    transform-origin: left bottom;
+    max-width: calc(100vw - 24px);
+  }
+
+  #waifu.waifu-active {
+    transform: scale(0.78) translateY(0);
   }
 
   #waifu:hover {
@@ -749,16 +1307,50 @@ body.page-type-post #footer {
     line-height: 20px;
   }
 
+  #waifu-panel {
+    width: 250px;
+  }
+
+  #waifu-bubble {
+    bottom: 104px;
+    font-size: 12px;
+    line-height: 20px;
+    max-height: 320px;
+    padding: 14px 15px 12px;
+    right: calc(100% - 22px);
+    width: min(340px, calc(100vw - 40px));
+  }
+
+  #waifu-actionbar {
+    min-height: 42px;
+    transform: translate(-50%, 8px) scale(0.96);
+  }
+
+  #waifu-canvas:hover + #waifu-actionbar,
+  #waifu-actionbar:hover,
+  #waifu.waifu-actionbar-visible #waifu-actionbar {
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  #waifu-actionbar button {
+    font-size: 11px;
+    min-width: 46px;
+    padding: 0 7px;
+  }
+
   #live2d {
-    height: 220px;
-    width: 220px;
+    height: 100% !important;
+    width: 100% !important;
   }
 }
 
 @media screen and (max-width: 480px) {
   #waifu {
-    left: -24px;
     transform: scale(0.62) translateY(30px);
+  }
+
+  #waifu.waifu-active {
+    transform: scale(0.62) translateY(0);
   }
 
   #waifu:hover {
@@ -766,6 +1358,14 @@ body.page-type-post #footer {
   }
 
   #waifu-tips {
+    display: none;
+  }
+
+  #waifu-panel {
+    display: none;
+  }
+
+  #waifu-bubble {
     display: none;
   }
 }
