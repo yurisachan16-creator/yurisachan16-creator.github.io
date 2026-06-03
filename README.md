@@ -36,7 +36,9 @@ npm run server
 
 ## Live2D 看板娘
 
-站点已通过本地 vendored `live2d-widget` 接入看板娘，入口脚本是 `source/js/live2d-assistant.js`，静态资源在 `source/live2d-widget/`。
+站点已通过 PixiJS + `pixi-live2d-display` 接入 Live2D 看板娘，入口脚本是 `source/js/live2d-assistant.js`，模型静态资源在 `source/live2d-widget/`。
+
+看板娘不是单纯装饰：当前已内置站内助理面板，可搜索文章、随机跳转、汇报阅读进度、调整模型全身/半身构图，并联动音乐播放器和站点风格切换。
 
 开发、调试、更新和关闭方式见 [docs/live2d-assistant-dev.md](./docs/live2d-assistant-dev.md)，许可记录见 [license-matrix.md](./license-matrix.md)。
 

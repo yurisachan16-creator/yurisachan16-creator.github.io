@@ -100,5 +100,12 @@
       "继续读吧。"
     ]
   },
-  "models": []
+  "models": [
+    {
+      "message": "阿芙洛狄忒加载好了。",
+      "paths": [
+        "/live2d-widget/models/aphrodite/fense.model3.json"
+      ]
+    }
+  ]
 }

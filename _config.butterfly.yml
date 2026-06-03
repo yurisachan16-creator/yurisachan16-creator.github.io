@@ -223,7 +223,7 @@ darkmode:
   autoChangeMode: false
 
 # 滚动百分比
-rightside_scroll_percent: true
+rightside_scroll_percent: false
 
 # 锚点
 anchor:
@@ -442,11 +442,24 @@ inject:
     # Live2D 看板娘配置
     - <meta name="live2d-enabled" content="true">
     - <meta name="live2d-debug" content="false">
-    - <meta name="live2d-widget-base" content="/live2d-widget/dist/">
     - <meta name="live2d-tips-path" content="/live2d-widget/waifu-tips-yurisa.json">
-    - <meta name="live2d-cdn-path" content="https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/">
+    - <meta name="live2d-site-index-path" content="/search.xml">
+    - <meta name="live2d-model-path" content="/live2d-widget/models/aphrodite/fense.model3.json">
     - <meta name="live2d-model-id" content="0">
-    - <meta name="live2d-tools" content="hitokoto,switch-model,switch-texture,photo,info,quit">
+    - <meta name="live2d-tools" content="assistant,model,search,random,progress,music,style,photo,quit">
+    - <meta name="live2d-pixi-path" content="https://cdn.jsdelivr.net/npm/pixi.js@6.5.10/dist/browser/pixi.min.js">
+    - <meta name="live2d-pixi-live2d-path" content="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/cubism4.min.js">
+    - <meta name="live2d-render-scale" content="1.5">
+    - <meta name="live2d-max-fps" content="45">
+    - <meta name="live2d-max-panel-posts" content="5">
+    - <meta name="live2d-width" content="280">
+    - <meta name="live2d-height" content="320">
+    - <meta name="live2d-model-scale" content="2.4">
+    - <meta name="live2d-model-x" content="0">
+    - <meta name="live2d-model-y" content="135">
+    - <meta name="live2d-position" content="right">
+    - <meta name="live2d-right" content="96px">
+    - <meta name="live2d-bottom" content="8px">
   bottom:
     # 1. 引入云朵背景JS (自动创建背景元素并检测页面类型)
     - <script src="/js/cloud-bg.js"></script>
