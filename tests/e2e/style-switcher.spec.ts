@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('风格切换器 E2E 测试', () => {
+  test.describe.configure({ mode: 'serial' })
+
   async function toggleStyle (page) {
     await page.locator('#style-switcher-btn').dispatchEvent('click')
   }
@@ -31,6 +33,18 @@ test.describe('风格切换器 E2E 测试', () => {
     await expect(page.locator('#style-switcher-btn')).toHaveAttribute('aria-pressed', 'true')
   })
 
+  test('Vereis 首页展示面板只在柔和风格显示', async ({ page }) => {
+    const panel = page.locator('#vereis-home-panel')
+    await expect(panel).toBeHidden()
+
+    await toggleStyle(page)
+
+    await expect(page.locator('html')).toHaveAttribute('data-style', 'vereis')
+    await expect(panel).toBeVisible()
+    await expect(panel).toContainText('Yurisachan studio')
+    await expect(panel).toContainText('Writing')
+  })
+
   test('刷新后保留已选择的风格', async ({ page }) => {
     await page.evaluate(() => window.scrollTo(0, 300))
     await page.waitForTimeout(500)
@@ -58,6 +72,7 @@ test.describe('风格切换器 E2E 测试', () => {
 
     await expect(page.locator('html')).toHaveAttribute('data-style', 'vereis')
     await expect(page.locator('#style-switcher-btn')).toBeVisible()
+    await expect(page.locator('#vereis-home-panel')).toHaveCount(0)
   })
 
   test('移动端可以切换风格', async ({ page }) => {
@@ -70,5 +85,20 @@ test.describe('风格切换器 E2E 测试', () => {
     await toggleStyle(page)
 
     await expect(page.locator('html')).toHaveAttribute('data-style', 'vereis')
+  })
+
+  test('移动端 Vereis 首页面板不溢出视口', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await page.waitForSelector('#style-switcher-btn')
+    await toggleStyle(page)
+
+    const panel = page.locator('#vereis-home-panel')
+    await expect(panel).toBeVisible()
+
+    const box = await panel.boundingBox()
+    expect(box).not.toBeNull()
+    expect(box!.x).toBeGreaterThanOrEqual(0)
+    expect(box!.x + box!.width).toBeLessThanOrEqual(375)
   })
 })

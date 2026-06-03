@@ -68,3 +68,18 @@ npx wrangler secret put GITHUB_OAUTH_REDIRECT_URI
 
 `POST /api/v1/admin/comments/:id/moderate` 需要 `Authorization: Bearer <admin-jwt>`。  
 管理员令牌由 `ADMIN_JWT_SECRET` 签名，建议你在后端单独提供签发脚本并短时效管理。
+
+## 8. Workers Builds 误触发排查
+
+仓库内 Worker 的实际配置在 `worker/wrangler.toml`，服务名是 `yurisachan-blog-api`。仓库自己的 Worker 部署入口是 `.github/workflows/worker-deploy.yml`，只会在 `main` 分支且 `worker/**` 或该 workflow 变化时触发。
+
+如果 GitHub PR 上出现 `Workers Builds: yurisachan-blog` 失败，而 `Cloudflare Pages` 和 `verify` 都成功，通常表示 Cloudflare Dashboard 里还有一个独立的 Workers Builds Git Integration 绑定到了旧服务或错误根目录。它不影响静态博客 Pages 部署，但会让 PR 检查变红。
+
+推荐修复：
+
+1. 打开 Cloudflare Dashboard -> Workers & Pages -> Workers -> `yurisachan-blog`。
+2. 进入该 Worker 的 Builds / Settings / Git repository 配置。
+3. 如果 `yurisachan-blog` 是旧服务或不再负责本仓库部署，断开它的 Git repository 绑定，不删除 Worker。
+4. 如果仍要保留 Workers Builds，改为绑定实际服务 `yurisachan-blog-api`，Root directory 设为 `worker`。
+5. 配置 Build watch paths：Include `worker/*`，必要时 Exclude `*` 后再只 include `worker/*`，确保博客 CSS/文章/Pages 改动不会触发 Worker build。
+6. 保留 GitHub Actions 的 `worker-deploy.yml` 作为主要 Worker 部署入口，避免 Cloudflare 原生 Workers Builds 和 GitHub Actions 同时部署同一个 Worker。

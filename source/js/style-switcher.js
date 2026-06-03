@@ -48,6 +48,65 @@
     btn.setAttribute('aria-pressed', style === 'vereis' ? 'true' : 'false')
   }
 
+  function isHomePage () {
+    var path = window.location.pathname
+    return path === '/' || path === '/index.html'
+  }
+
+  function removeHomePanel () {
+    var panel = document.getElementById('vereis-home-panel')
+    if (panel && panel.parentNode) panel.parentNode.removeChild(panel)
+  }
+
+  function createHomePanel () {
+    var panel = document.createElement('aside')
+    panel.id = 'vereis-home-panel'
+    panel.className = 'vereis-home-panel'
+    panel.setAttribute('aria-label', '柔和手账风首页状态')
+    panel.innerHTML = [
+      '<div class="vereis-panel-status">',
+      '<span class="vereis-status-dot" aria-hidden="true"></span>',
+      '<span>Creative log online</span>',
+      '</div>',
+      '<div class="vereis-panel-main">',
+      '<span class="vereis-panel-kicker">Yurisachan studio</span>',
+      '<strong>Writing, code, music notes.</strong>',
+      '<p>把技术记录、创作日常和一点点未来计划收进同一个小站。</p>',
+      '</div>',
+      '<div class="vereis-panel-grid" aria-label="内容方向">',
+      '<span><i class="fas fa-pen-nib" aria-hidden="true"></i>Writing</span>',
+      '<span><i class="fas fa-code-branch" aria-hidden="true"></i>Projects</span>',
+      '<span><i class="fas fa-music" aria-hidden="true"></i>Music</span>',
+      '</div>'
+    ].join('')
+    return panel
+  }
+
+  function ensureHomePanel () {
+    if (!isHomePage()) {
+      removeHomePanel()
+      return null
+    }
+
+    var siteInfo = document.getElementById('site-info')
+    if (!siteInfo) return null
+
+    var panel = document.getElementById('vereis-home-panel')
+    if (!panel) panel = createHomePanel()
+    if (panel.parentNode !== siteInfo) siteInfo.appendChild(panel)
+
+    return panel
+  }
+
+  function syncHomePanel (style) {
+    var panel = ensureHomePanel()
+    if (!panel) return
+
+    var visible = style === 'vereis'
+    panel.hidden = !visible
+    panel.setAttribute('aria-hidden', visible ? 'false' : 'true')
+  }
+
   function applyStyle (style, persist) {
     var next = isValidStyle(style) ? style : DEFAULT_STYLE
     document.documentElement.dataset.style = next
@@ -57,6 +116,7 @@
     }
 
     updateButtonState(next)
+    syncHomePanel(next)
     return next
   }
 
@@ -120,7 +180,11 @@
       nextStyle: nextStyle,
       applyStyle: applyStyle,
       injectRightsideButton: injectRightsideButton,
-      bindButton: bindButton
+      bindButton: bindButton,
+      isHomePage: isHomePage,
+      removeHomePanel: removeHomePanel,
+      ensureHomePanel: ensureHomePanel,
+      syncHomePanel: syncHomePanel
     }
   }
 })()

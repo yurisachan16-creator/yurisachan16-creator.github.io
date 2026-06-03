@@ -700,10 +700,6 @@ body.page-type-post #footer {
   color: inherit;
 }
 
-#rightside {
-  display: none !important;
-}
-
 #waifu-toggle {
   align-items: center;
   background: var(--pink-primary, #ff69b4);

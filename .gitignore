@@ -7,6 +7,7 @@ worker/.wrangler/
 worker/.dev.vars
 playwright-report/
 test-results/
+tests/e2e/screenshots/
 public/
 .deploy*/
 _multiconfig.yml
