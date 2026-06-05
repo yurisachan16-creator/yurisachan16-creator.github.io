@@ -13,6 +13,11 @@ categories:
 keywords: Claude Code, Agent Loop, queryLoop, 源码分析, AI Agent, TypeScript, 上下文压缩
 description: 深入剖析 Claude Code 的 Agent Loop 核心实现——从 while(true) 状态机到多层上下文压缩，从并发工具执行到 3 种错误恢复路径，完整还原一个生产级 LLM 循环引擎的全貌。
 permalink: /2026/04/07/claude-code-agent-loop/
+article_version: 1.0.0
+article_history:
+  - version: 1.0.0
+    date: 2026-04-07
+    summary: 首次发布
 ---
 
 2026 年 3 月末，随着 Claude Code 源码因意外泄露的 `.map` 文件而公开，我们得以直视一个生产级 AI Agent 的内部构造。我在此前的文章中梳理了整体架构，而本文聚焦于最核心的部分——**Agent Loop**：也就是让 Claude Code 能够持续思考、调用工具、从错误中恢复的那个 `while (true)` 循环。

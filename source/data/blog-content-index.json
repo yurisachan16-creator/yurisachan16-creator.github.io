@@ -1,0 +1,881 @@
+{
+  "generatedAt": "2026-05-29",
+  "posts": [
+    {
+      "title": "罗大佑《未来的主人翁》：儿童、债务和上一代的亏欠",
+      "url": "/music/luo-dayou-future-master/05-weilai-de-zhurenweng/",
+      "date": "2026-05-29",
+      "updated": "2026-05-29",
+      "description": "重读罗大佑《未来的主人翁》标题曲，分析它怎样把儿童、未来、教育、社会责任和上一代的亏欠写成整张专辑的核心审问。",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "华语流行音乐",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ],
+      "articleVersion": "1.1.0",
+      "articleHistory": [
+        {
+          "version": "1.1.0",
+          "date": "2026-05-29",
+          "summary": "加深标题曲的科技、教育和专辑结构读法"
+        },
+        {
+          "version": "1.0.0",
+          "date": "2026-05-29",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/luo-dayou-future-master-05-weilai-de-zhurenweng.md"
+    },
+    {
+      "title": "罗大佑《未来的主人翁》总序：一张唱片怎样审问未来",
+      "url": "/music/luo-dayou-future-master/00-guide/",
+      "date": "2026-05-29",
+      "updated": "2026-05-29",
+      "description": "以 1983 年实体版 10 首曲目为口径，重读罗大佑《未来的主人翁》的时代背景、曲目结构、来源等级和系列写作方法。",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "华语流行音乐",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ],
+      "articleVersion": "1.1.0",
+      "articleHistory": [
+        {
+          "version": "1.1.0",
+          "date": "2026-05-29",
+          "summary": "加深系列方法论、曲序读法和资料边界"
+        },
+        {
+          "version": "1.0.0",
+          "date": "2026-05-29",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/luo-dayou-future-master-00-guide.md"
+    },
+    {
+      "title": "罗大佑《现象七十二变》：民国七十二年的都市讽刺",
+      "url": "/music/luo-dayou-future-master/03-xianxiang-qishier-bian/",
+      "date": "2026-05-29",
+      "updated": "2026-05-29",
+      "description": "重读罗大佑《现象七十二变》，从民国七十二年的时间暗号、都市化经验和社会观察，看这首歌如何把 1983 年写成一组变形现场。",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "现象七十二变",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ],
+      "articleVersion": "1.1.0",
+      "articleHistory": [
+        {
+          "version": "1.1.0",
+          "date": "2026-05-29",
+          "summary": "加深民国七十二年文案、都市化和讽刺机制"
+        },
+        {
+          "version": "1.0.0",
+          "date": "2026-05-29",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/luo-dayou-future-master-03-xianxiang-qishier-bian.md"
+    },
+    {
+      "title": "罗大佑《亚细亚的孤儿》：岛屿身份为什么会被唱成孤儿",
+      "url": "/music/luo-dayou-future-master/01-yaxiya-de-gu-er/",
+      "date": "2026-05-29",
+      "updated": "2026-05-29",
+      "description": "重读罗大佑《亚细亚的孤儿》，从吴浊流小说标题、台湾身份经验和《未来的主人翁》的专辑结构，看这首歌为什么不是简单的政治隐喻。",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "亚细亚的孤儿",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ],
+      "articleVersion": "1.1.0",
+      "articleHistory": [
+        {
+          "version": "1.1.0",
+          "date": "2026-05-29",
+          "summary": "加深文学互文、审查语境和身份问题的边界"
+        },
+        {
+          "version": "1.0.0",
+          "date": "2026-05-29",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/luo-dayou-future-master-01-yaxiya-de-gu-er.md"
+    },
+    {
+      "title": "我把博客换到了 yurisa.top",
+      "url": "/2026/05/26/cloudflare-short-domain-blog/",
+      "date": "2026-05-26",
+      "updated": "2026-05-26",
+      "description": "记录一次把 Hexo 博客从 Cloudflare Pages 默认域名换到 yurisa.top 的过程，包括买域名、改 Nameserver、绑定 Pages、自定义 API 子域名，以及中间踩到的几个坑。",
+      "tags": [
+        "博客",
+        "Hexo",
+        "Cloudflare",
+        "域名"
+      ],
+      "categories": [
+        "博客搭建"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-05-26",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-05-26-cloudflare-short-domain-blog.md"
+    },
+    {
+      "title": "AI WebSearch 工具横评与 MCP 实战：给 Agent 接上可靠互联网",
+      "url": "/2026/05/14/ai-websearch-mcp/",
+      "date": "2026-05-14",
+      "updated": "2026-05-14",
+      "description": "从 WebSearch provider 横评开始，设计并实现一个通用 Python MCP 服务，让 OpenClaw、Hermes、Claude Desktop、Cursor 等 Agent 客户端共享可替换的联网搜索能力。",
+      "tags": [
+        "AI",
+        "MCP",
+        "Agent",
+        "WebSearch",
+        "Python"
+      ],
+      "categories": [
+        "技术研究"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-05-14",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-05-14-ai-websearch-mcp.md"
+    },
+    {
+      "title": "Claude Code 源码解析：深度拆解 Agent Loop 主循环",
+      "url": "/2026/04/07/claude-code-agent-loop/",
+      "date": "2026-04-07",
+      "updated": "2026-04-07",
+      "description": "深入剖析 Claude Code 的 Agent Loop 核心实现——从 while(true) 状态机到多层上下文压缩，从并发工具执行到 3 种错误恢复路径，完整还原一个生产级 LLM 循环引擎的全貌。",
+      "tags": [
+        "源码分析",
+        "AI",
+        "Agent",
+        "TypeScript",
+        "架构设计"
+      ],
+      "categories": [
+        "技术研究"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-04-07",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-04-07-claude-code-agent-loop.md"
+    },
+    {
+      "title": "Claude Code 源码深度解析：泄露代码里的记忆系统是如何运转的",
+      "url": "/2026/04/07/claude-code-memory-architecture/",
+      "date": "2026-04-07",
+      "updated": "2026-04-07",
+      "description": "从 Claude Code 泄露源码出发，系统拆解其记忆架构：跨会话文件记忆、查询期相关记忆召回、会话摘要、后台提取、AutoDream 整理，以及团队与 Agent 级扩展。",
+      "tags": [
+        "源码分析",
+        "AI",
+        "Claude Code",
+        "Memory",
+        "TypeScript"
+      ],
+      "categories": [
+        "技术研究"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-04-07",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-04-07-claude-code-memory-architecture.md"
+    },
+    {
+      "title": "Claude Code 源码深度解析：一个 AI 编程 CLI 的完整架构拆解",
+      "url": "/2026/04/02/claude-code-architecture/",
+      "date": "2026-04-02",
+      "updated": "2026-04-02",
+      "description": "通过对 Claude Code CLI 泄露源码的逐层解析，深入理解一个生产级 AI 驱动命令行工具的完整架构——从启动优化、工具系统、权限模型，到多智能体协调与 IDE 桥接。",
+      "tags": [
+        "源码分析",
+        "AI",
+        "CLI",
+        "TypeScript",
+        "架构设计"
+      ],
+      "categories": [
+        "技术研究"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-04-02",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-04-02-claude-code-architecture.md"
+    },
+    {
+      "title": "手机Root后如何正常使用手机银行App",
+      "url": "/2026/02/24/root-phone-banking/",
+      "date": "2026-02-24",
+      "updated": "2026-02-24",
+      "description": "手机Root后，手机银行App检测到Root权限无法打开？本文教你用Magisk+Shamiko模块屏蔽检测，正常使用手机银行。",
+      "tags": [
+        "教程",
+        "手机"
+      ],
+      "categories": [
+        "生活"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-02-24",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-02-24-root-phone-banking.md"
+    },
+    {
+      "title": "类幸存者游戏：从玩法循环到数值设计的实战总结",
+      "url": "/2026/02/09/lei-xing-cun-zhe-you-xi/",
+      "date": "2026-02-09",
+      "updated": "2026-02-09",
+      "description": "本文拆解类幸存者游戏的玩法循环，分享数值与关卡节奏调优经验",
+      "tags": [
+        "[ survivor-like, 数值设计, 游戏策划 ]"
+      ],
+      "categories": [
+        "游戏开发"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-02-09",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-02-09-lei-xing-cun-zhe-you-xi.md"
+    },
+    {
+      "title": "欢迎来到我的博客！",
+      "url": "/2025/11/25/my-first-blog/",
+      "date": "2025-11-25",
+      "updated": "2026-04-16",
+      "description": "这是博客的起点文章，记录站点从初次搭建到进入正式版本管理阶段的变化。",
+      "tags": [
+        "博客",
+        "开始"
+      ],
+      "categories": [
+        "生活"
+      ],
+      "articleVersion": "1.1.0",
+      "articleHistory": [
+        {
+          "version": "1.1.0",
+          "date": "2026-04-16",
+          "summary": "同步 Cloudflare 部署、版本管理和评论能力的最新状态"
+        },
+        {
+          "version": "1.0.0",
+          "date": "2025-11-25",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2025/2025-11-25-my-first-blog.md"
+    }
+  ],
+  "routes": [
+    {
+      "id": "claude-code",
+      "title": "Claude Code 源码阅读路线",
+      "summary": "从整体架构进入，再读 Agent Loop、记忆系统和工程边界。",
+      "accent": "#49b1f5",
+      "keywords": [
+        "Claude Code",
+        "Agent",
+        "Memory",
+        "AI CLI",
+        "源码分析"
+      ],
+      "entries": [
+        {
+          "step": 1,
+          "title": "Claude Code 源码深度解析：一个 AI 编程 CLI 的完整架构拆解",
+          "url": "/2026/04/02/claude-code-architecture/",
+          "date": "2026-04-02",
+          "description": "通过对 Claude Code CLI 泄露源码的逐层解析，深入理解一个生产级 AI 驱动命令行工具的完整架构——从启动优化、工具系统、权限模型，到多智能体协调与 IDE 桥接。",
+          "tags": [
+            "源码分析",
+            "AI",
+            "CLI",
+            "TypeScript",
+            "架构设计"
+          ],
+          "categories": [
+            "技术研究"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "Claude Code 源码解析：深度拆解 Agent Loop 主循环",
+          "url": "/2026/04/07/claude-code-agent-loop/",
+          "date": "2026-04-07",
+          "description": "深入剖析 Claude Code 的 Agent Loop 核心实现——从 while(true) 状态机到多层上下文压缩，从并发工具执行到 3 种错误恢复路径，完整还原一个生产级 LLM 循环引擎的全貌。",
+          "tags": [
+            "源码分析",
+            "AI",
+            "Agent",
+            "TypeScript",
+            "架构设计"
+          ],
+          "categories": [
+            "技术研究"
+          ]
+        },
+        {
+          "step": 3,
+          "title": "Claude Code 源码深度解析：泄露代码里的记忆系统是如何运转的",
+          "url": "/2026/04/07/claude-code-memory-architecture/",
+          "date": "2026-04-07",
+          "description": "从 Claude Code 泄露源码出发，系统拆解其记忆架构：跨会话文件记忆、查询期相关记忆召回、会话摘要、后台提取、AutoDream 整理，以及团队与 Agent 级扩展。",
+          "tags": [
+            "源码分析",
+            "AI",
+            "Claude Code",
+            "Memory",
+            "TypeScript"
+          ],
+          "categories": [
+            "技术研究"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "future-master",
+      "title": "罗大佑《未来的主人翁》系列",
+      "summary": "按总序、索引和单曲长文推进，重读一张唱片里的时代问题。",
+      "accent": "#ee9ab3",
+      "keywords": [
+        "罗大佑",
+        "未来的主人翁",
+        "音乐札记",
+        "专辑考证"
+      ],
+      "entries": [
+        {
+          "step": 1,
+          "title": "罗大佑《未来的主人翁》总序：一张唱片怎样审问未来",
+          "url": "/music/luo-dayou-future-master/00-guide/",
+          "date": "2026-05-29",
+          "description": "以 1983 年实体版 10 首曲目为口径，重读罗大佑《未来的主人翁》的时代背景、曲目结构、来源等级和系列写作方法。",
+          "tags": [
+            "罗大佑",
+            "未来的主人翁",
+            "华语流行音乐",
+            "台湾流行音乐",
+            "专辑考证"
+          ],
+          "categories": [
+            "音乐札记"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "罗大佑《亚细亚的孤儿》：岛屿身份为什么会被唱成孤儿",
+          "url": "/music/luo-dayou-future-master/01-yaxiya-de-gu-er/",
+          "date": "2026-05-29",
+          "description": "重读罗大佑《亚细亚的孤儿》，从吴浊流小说标题、台湾身份经验和《未来的主人翁》的专辑结构，看这首歌为什么不是简单的政治隐喻。",
+          "tags": [
+            "罗大佑",
+            "未来的主人翁",
+            "亚细亚的孤儿",
+            "台湾流行音乐",
+            "专辑考证"
+          ],
+          "categories": [
+            "音乐札记"
+          ]
+        },
+        {
+          "step": 3,
+          "title": "罗大佑《现象七十二变》：民国七十二年的都市讽刺",
+          "url": "/music/luo-dayou-future-master/03-xianxiang-qishier-bian/",
+          "date": "2026-05-29",
+          "description": "重读罗大佑《现象七十二变》，从民国七十二年的时间暗号、都市化经验和社会观察，看这首歌如何把 1983 年写成一组变形现场。",
+          "tags": [
+            "罗大佑",
+            "未来的主人翁",
+            "现象七十二变",
+            "台湾流行音乐",
+            "专辑考证"
+          ],
+          "categories": [
+            "音乐札记"
+          ]
+        },
+        {
+          "step": 4,
+          "title": "罗大佑《未来的主人翁》：儿童、债务和上一代的亏欠",
+          "url": "/music/luo-dayou-future-master/05-weilai-de-zhurenweng/",
+          "date": "2026-05-29",
+          "description": "重读罗大佑《未来的主人翁》标题曲，分析它怎样把儿童、未来、教育、社会责任和上一代的亏欠写成整张专辑的核心审问。",
+          "tags": [
+            "罗大佑",
+            "未来的主人翁",
+            "华语流行音乐",
+            "台湾流行音乐",
+            "专辑考证"
+          ],
+          "categories": [
+            "音乐札记"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blog-building",
+      "title": "博客搭建与 Cloudflare 路线",
+      "summary": "从 Butterfly 主题体验到 Cloudflare 域名、Pages 和 Worker 动态接口。",
+      "accent": "#76bea7",
+      "keywords": [
+        "Hexo",
+        "Butterfly",
+        "Cloudflare",
+        "博客搭建",
+        "域名"
+      ],
+      "entries": [
+        {
+          "step": 1,
+          "title": "我把博客换到了 yurisa.top",
+          "url": "/2026/05/26/cloudflare-short-domain-blog/",
+          "date": "2026-05-26",
+          "description": "记录一次把 Hexo 博客从 Cloudflare Pages 默认域名换到 yurisa.top 的过程，包括买域名、改 Nameserver、绑定 Pages、自定义 API 子域名，以及中间踩到的几个坑。",
+          "tags": [
+            "博客",
+            "Hexo",
+            "Cloudflare",
+            "域名"
+          ],
+          "categories": [
+            "博客搭建"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-tools",
+      "title": "AI 工具与 Web 搜索路线",
+      "summary": "聚焦 AI 工具、MCP、搜索和开发工作流里的系统拆解。",
+      "accent": "#b78bec",
+      "keywords": [
+        "AI",
+        "MCP",
+        "WebSearch",
+        "工具",
+        "架构设计"
+      ],
+      "entries": [
+        {
+          "step": 1,
+          "title": "AI WebSearch 工具横评与 MCP 实战：给 Agent 接上可靠互联网",
+          "url": "/2026/05/14/ai-websearch-mcp/",
+          "date": "2026-05-14",
+          "description": "从 WebSearch provider 横评开始，设计并实现一个通用 Python MCP 服务，让 OpenClaw、Hermes、Claude Desktop、Cursor 等 Agent 客户端共享可替换的联网搜索能力。",
+          "tags": [
+            "AI",
+            "MCP",
+            "Agent",
+            "WebSearch",
+            "Python"
+          ],
+          "categories": [
+            "技术研究"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "我把博客换到了 yurisa.top",
+          "url": "/2026/05/26/cloudflare-short-domain-blog/",
+          "date": "2026-05-26",
+          "description": "记录一次把 Hexo 博客从 Cloudflare Pages 默认域名换到 yurisa.top 的过程，包括买域名、改 Nameserver、绑定 Pages、自定义 API 子域名，以及中间踩到的几个坑。",
+          "tags": [
+            "博客",
+            "Hexo",
+            "Cloudflare",
+            "域名"
+          ],
+          "categories": [
+            "博客搭建"
+          ]
+        },
+        {
+          "step": 3,
+          "title": "罗大佑《未来的主人翁》：儿童、债务和上一代的亏欠",
+          "url": "/music/luo-dayou-future-master/05-weilai-de-zhurenweng/",
+          "date": "2026-05-29",
+          "description": "重读罗大佑《未来的主人翁》标题曲，分析它怎样把儿童、未来、教育、社会责任和上一代的亏欠写成整张专辑的核心审问。",
+          "tags": [
+            "罗大佑",
+            "未来的主人翁",
+            "华语流行音乐",
+            "台湾流行音乐",
+            "专辑考证"
+          ],
+          "categories": [
+            "音乐札记"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "game-design",
+      "title": "游戏体验与系统拆解路线",
+      "summary": "把游戏体验、玩家模型和系统循环拆开看，适合做设计复盘。",
+      "accent": "#ffb84d",
+      "keywords": [
+        "游戏",
+        "玩家模型",
+        "系统拆解",
+        "玩法设计"
+      ],
+      "entries": [
+        {
+          "step": 1,
+          "title": "类幸存者游戏：从玩法循环到数值设计的实战总结",
+          "url": "/2026/02/09/lei-xing-cun-zhe-you-xi/",
+          "date": "2026-02-09",
+          "description": "本文拆解类幸存者游戏的玩法循环，分享数值与关卡节奏调优经验",
+          "tags": [
+            "[ survivor-like, 数值设计, 游戏策划 ]"
+          ],
+          "categories": [
+            "游戏开发"
+          ]
+        }
+      ]
+    }
+  ],
+  "updates": [
+    {
+      "title": "罗大佑《未来的主人翁》：儿童、债务和上一代的亏欠",
+      "url": "/music/luo-dayou-future-master/05-weilai-de-zhurenweng/",
+      "version": "1.1.0",
+      "date": "2026-05-29",
+      "summary": "加深标题曲的科技、教育和专辑结构读法",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "华语流行音乐",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "罗大佑《未来的主人翁》总序：一张唱片怎样审问未来",
+      "url": "/music/luo-dayou-future-master/00-guide/",
+      "version": "1.1.0",
+      "date": "2026-05-29",
+      "summary": "加深系列方法论、曲序读法和资料边界",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "华语流行音乐",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "罗大佑《现象七十二变》：民国七十二年的都市讽刺",
+      "url": "/music/luo-dayou-future-master/03-xianxiang-qishier-bian/",
+      "version": "1.1.0",
+      "date": "2026-05-29",
+      "summary": "加深民国七十二年文案、都市化和讽刺机制",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "现象七十二变",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "罗大佑《亚细亚的孤儿》：岛屿身份为什么会被唱成孤儿",
+      "url": "/music/luo-dayou-future-master/01-yaxiya-de-gu-er/",
+      "version": "1.1.0",
+      "date": "2026-05-29",
+      "summary": "加深文学互文、审查语境和身份问题的边界",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "亚细亚的孤儿",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "罗大佑《未来的主人翁》：儿童、债务和上一代的亏欠",
+      "url": "/music/luo-dayou-future-master/05-weilai-de-zhurenweng/",
+      "version": "1.0.0",
+      "date": "2026-05-29",
+      "summary": "首次发布",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "华语流行音乐",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "罗大佑《未来的主人翁》总序：一张唱片怎样审问未来",
+      "url": "/music/luo-dayou-future-master/00-guide/",
+      "version": "1.0.0",
+      "date": "2026-05-29",
+      "summary": "首次发布",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "华语流行音乐",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "罗大佑《现象七十二变》：民国七十二年的都市讽刺",
+      "url": "/music/luo-dayou-future-master/03-xianxiang-qishier-bian/",
+      "version": "1.0.0",
+      "date": "2026-05-29",
+      "summary": "首次发布",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "现象七十二变",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "罗大佑《亚细亚的孤儿》：岛屿身份为什么会被唱成孤儿",
+      "url": "/music/luo-dayou-future-master/01-yaxiya-de-gu-er/",
+      "version": "1.0.0",
+      "date": "2026-05-29",
+      "summary": "首次发布",
+      "tags": [
+        "罗大佑",
+        "未来的主人翁",
+        "亚细亚的孤儿",
+        "台湾流行音乐",
+        "专辑考证"
+      ],
+      "categories": [
+        "音乐札记"
+      ]
+    },
+    {
+      "title": "我把博客换到了 yurisa.top",
+      "url": "/2026/05/26/cloudflare-short-domain-blog/",
+      "version": "1.0.0",
+      "date": "2026-05-26",
+      "summary": "首次发布",
+      "tags": [
+        "博客",
+        "Hexo",
+        "Cloudflare",
+        "域名"
+      ],
+      "categories": [
+        "博客搭建"
+      ]
+    },
+    {
+      "title": "AI WebSearch 工具横评与 MCP 实战：给 Agent 接上可靠互联网",
+      "url": "/2026/05/14/ai-websearch-mcp/",
+      "version": "1.0.0",
+      "date": "2026-05-14",
+      "summary": "首次发布",
+      "tags": [
+        "AI",
+        "MCP",
+        "Agent",
+        "WebSearch",
+        "Python"
+      ],
+      "categories": [
+        "技术研究"
+      ]
+    },
+    {
+      "title": "欢迎来到我的博客！",
+      "url": "/2025/11/25/my-first-blog/",
+      "version": "1.1.0",
+      "date": "2026-04-16",
+      "summary": "同步 Cloudflare 部署、版本管理和评论能力的最新状态",
+      "tags": [
+        "博客",
+        "开始"
+      ],
+      "categories": [
+        "生活"
+      ]
+    },
+    {
+      "title": "Claude Code 源码解析：深度拆解 Agent Loop 主循环",
+      "url": "/2026/04/07/claude-code-agent-loop/",
+      "version": "1.0.0",
+      "date": "2026-04-07",
+      "summary": "首次发布",
+      "tags": [
+        "源码分析",
+        "AI",
+        "Agent",
+        "TypeScript",
+        "架构设计"
+      ],
+      "categories": [
+        "技术研究"
+      ]
+    },
+    {
+      "title": "Claude Code 源码深度解析：泄露代码里的记忆系统是如何运转的",
+      "url": "/2026/04/07/claude-code-memory-architecture/",
+      "version": "1.0.0",
+      "date": "2026-04-07",
+      "summary": "首次发布",
+      "tags": [
+        "源码分析",
+        "AI",
+        "Claude Code",
+        "Memory",
+        "TypeScript"
+      ],
+      "categories": [
+        "技术研究"
+      ]
+    },
+    {
+      "title": "Claude Code 源码深度解析：一个 AI 编程 CLI 的完整架构拆解",
+      "url": "/2026/04/02/claude-code-architecture/",
+      "version": "1.0.0",
+      "date": "2026-04-02",
+      "summary": "首次发布",
+      "tags": [
+        "源码分析",
+        "AI",
+        "CLI",
+        "TypeScript",
+        "架构设计"
+      ],
+      "categories": [
+        "技术研究"
+      ]
+    },
+    {
+      "title": "手机Root后如何正常使用手机银行App",
+      "url": "/2026/02/24/root-phone-banking/",
+      "version": "1.0.0",
+      "date": "2026-02-24",
+      "summary": "首次发布",
+      "tags": [
+        "教程",
+        "手机"
+      ],
+      "categories": [
+        "生活"
+      ]
+    },
+    {
+      "title": "类幸存者游戏：从玩法循环到数值设计的实战总结",
+      "url": "/2026/02/09/lei-xing-cun-zhe-you-xi/",
+      "version": "1.0.0",
+      "date": "2026-02-09",
+      "summary": "首次发布",
+      "tags": [
+        "[ survivor-like, 数值设计, 游戏策划 ]"
+      ],
+      "categories": [
+        "游戏开发"
+      ]
+    },
+    {
+      "title": "欢迎来到我的博客！",
+      "url": "/2025/11/25/my-first-blog/",
+      "version": "1.0.0",
+      "date": "2025-11-25",
+      "summary": "首次发布",
+      "tags": [
+        "博客",
+        "开始"
+      ],
+      "categories": [
+        "生活"
+      ]
+    }
+  ]
+}

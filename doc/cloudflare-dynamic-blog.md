@@ -64,10 +64,34 @@ npx wrangler secret put GITHUB_OAUTH_REDIRECT_URI
 - <meta name="dynamic-api-base" content="https://your-worker.workers.dev/api/v1">
 ```
 
-## 7. 管理员审核接口
+## 7. 管理员审核后台
 
-`POST /api/v1/admin/comments/:id/moderate` 需要 `Authorization: Bearer <admin-jwt>`。  
-管理员令牌由 `ADMIN_JWT_SECRET` 签名，建议你在后端单独提供签发脚本并短时效管理。
+前端入口是 `/admin/comments/`，页面本身不公开 Token，也不会把 Token 写入 localStorage；当前会话内仅保存到 sessionStorage。
+
+后台使用两个管理员接口：
+
+- `GET /api/v1/admin/comments?status=pending|approved|hidden|all`
+- `POST /api/v1/admin/comments/:id/moderate`
+
+两个接口都需要请求头 `Authorization: Bearer <admin-jwt>`。管理员令牌必须由 `ADMIN_JWT_SECRET` 签名，并包含 `role=admin`。建议使用短时效 Token，审核完成后在页面点击“清除 Token”。
+
+可在仓库根目录本地签发短时效 Token：
+
+```bash
+ADMIN_JWT_SECRET=你的生产密钥 npm run admin:token -- --ttl 1h --subject yurisa
+```
+
+生产 API 烟测：
+
+```bash
+BLOG_API_BASE=https://api.yurisa.top/api/v1 ADMIN_JWT=你的管理员JWT npm run smoke:api
+```
+
+默认烟测只检查 CORS、未授权访问必须返回 401、以及管理员评论列表结构。公开文章 metrics/comments 接口会调用 Worker 的 `ensurePost`，可能写入 D1；如需检查公开接口，必须显式允许：
+
+```bash
+BLOG_API_BASE=https://api.yurisa.top/api/v1 BLOG_SMOKE_SLUG=2026/04/02/claude-code-architecture BLOG_SMOKE_ALLOW_WRITES=true npm run smoke:api
+```
 
 ## 8. Workers Builds 误触发排查
 

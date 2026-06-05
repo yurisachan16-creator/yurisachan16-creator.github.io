@@ -44,3 +44,28 @@ npm run dev
 ```
 
 默认 API 路径前缀：`/api/v1`。
+
+## 管理员审核
+
+评论审核前端在站点 `/admin/comments/`，需要粘贴管理员 JWT。
+
+在仓库根目录本地签发短期管理员 JWT：
+
+```bash
+ADMIN_JWT_SECRET=你的生产密钥 npm run admin:token -- --ttl 1h --subject yurisa
+```
+
+生产 API 烟测同样在仓库根目录执行：
+
+```bash
+BLOG_API_BASE=https://api.yurisa.top/api/v1 ADMIN_JWT=你的管理员JWT npm run smoke:api
+```
+
+默认烟测不会调用可能写入 D1 的公开文章接口；如需覆盖 metrics/comments，需要显式设置 `BLOG_SMOKE_ALLOW_WRITES=true` 和 `BLOG_SMOKE_SLUG`。
+
+管理员接口：
+
+- `GET /api/v1/admin/comments?status=pending|approved|hidden|all`
+- `POST /api/v1/admin/comments/:id/moderate`
+
+两个接口都要求 `Authorization: Bearer <admin-jwt>`；该 JWT 需要由 `ADMIN_JWT_SECRET` 签名，并包含 `role=admin`。

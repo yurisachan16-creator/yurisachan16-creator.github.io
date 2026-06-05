@@ -18,6 +18,7 @@ const COMMENT_MAX_LEN = 1200
 const NICKNAME_MAX_LEN = 40
 const EMAIL_MAX_LEN = 80
 const COMMENT_PAGE_SIZE = 20
+const ADMIN_COMMENT_PAGE_SIZE = 30
 
 export default {
   async fetch (request: Request, env: Env): Promise<Response> {
@@ -63,6 +64,9 @@ export default {
       }
 
       const moderateMatch = path.match(/^\/admin\/comments\/(\d+)\/moderate$/)
+      if (request.method === 'GET' && path === '/admin/comments') {
+        return handleListAdminComments(url, request, env, cors)
+      }
       if (request.method === 'POST' && moderateMatch) {
         return handleModerateComment(Number(moderateMatch[1]), request, env, cors)
       }
@@ -323,6 +327,47 @@ async function handleModerateComment (commentId: number, request: Request, env: 
   return json({ ok: true, status: nextStatus }, 200, cors)
 }
 
+async function handleListAdminComments (url: URL, request: Request, env: Env, cors: HeadersInit): Promise<Response> {
+  const admin = await requireAdmin(request, env)
+  if (!admin) return json({ error: 'Unauthorized' }, 401, cors)
+
+  const status = normalizeAdminCommentStatus(url.searchParams.get('status') || 'pending')
+  if (!status) return json({ error: 'Invalid status' }, 400, cors)
+
+  const cursor = Number(url.searchParams.get('cursor') || '0')
+  const hasCursor = Number.isInteger(cursor) && cursor > 0
+
+  const baseSelect = `SELECT id, slug, parent_id, nickname, content, status, created_at, updated_at
+    FROM comments`
+  const orderLimit = 'ORDER BY id DESC LIMIT ?'
+  const query = status === 'all'
+    ? hasCursor
+        ? env.DB.prepare(baseSelect + ' WHERE id < ? ' + orderLimit).bind(cursor, ADMIN_COMMENT_PAGE_SIZE)
+        : env.DB.prepare(baseSelect + ' ' + orderLimit).bind(ADMIN_COMMENT_PAGE_SIZE)
+    : hasCursor
+        ? env.DB.prepare(baseSelect + ' WHERE status = ? AND id < ? ' + orderLimit).bind(status, cursor, ADMIN_COMMENT_PAGE_SIZE)
+        : env.DB.prepare(baseSelect + ' WHERE status = ? ' + orderLimit).bind(status, ADMIN_COMMENT_PAGE_SIZE)
+
+  const result = await query.all<{
+    id: number
+    slug: string
+    parent_id: number | null
+    nickname: string
+    content: string
+    status: string
+    created_at: string
+    updated_at: string
+  }>()
+
+  const rows = result.results || []
+  const nextCursor = rows.length >= ADMIN_COMMENT_PAGE_SIZE ? rows[rows.length - 1].id : null
+
+  return json({
+    comments: rows,
+    nextCursor: nextCursor
+  }, 200, cors)
+}
+
 async function handleGithubAuthStart (request: Request, env: Env, cors: HeadersInit): Promise<Response> {
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_OAUTH_REDIRECT_URI) {
     return json({ error: 'GitHub OAuth is not configured' }, 500, cors)
@@ -465,6 +510,11 @@ function inferTitleFromSlug (slug: string): string {
 function normalizeAction (action: string): 'toggle' | 'like' | 'unlike' {
   if (action === 'like' || action === 'unlike') return action
   return 'toggle'
+}
+
+function normalizeAdminCommentStatus (status: string): 'pending' | 'approved' | 'hidden' | 'all' | null {
+  if (status === 'pending' || status === 'approved' || status === 'hidden' || status === 'all') return status
+  return null
 }
 
 function assertSlug (slug: string): void {

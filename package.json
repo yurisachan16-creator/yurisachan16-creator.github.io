@@ -7,13 +7,16 @@
     "url": "https://github.com/yurisachan16-creator/yurisachan16-creator.github.io.git"
   },
   "scripts": {
-    "build": "hexo generate && node tools/prune-public-assets.mjs",
+    "build": "node tools/build-blog-data.mjs && hexo generate && node tools/prune-public-assets.mjs",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
     "sync-themes": "node tools/sync-themes.mjs",
     "postinstall": "npm run sync-themes",
     "doc:requirements": "node tools/write-requirements-xlsx.mjs",
+    "content:validate": "node tools/validate-article-metadata.mjs",
+    "admin:token": "node tools/sign-admin-jwt.mjs",
+    "smoke:api": "node tools/smoke-dynamic-api.mjs",
     "worker:dev": "npm --prefix worker run dev",
     "worker:deploy": "npm --prefix worker run deploy",
     "worker:migrate": "npm --prefix worker run migrate:remote",
@@ -21,7 +24,7 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "test": "vitest run && playwright test",
-    "verify": "npm run test:unit && npm run worker:typecheck && npm run build",
+    "verify": "npm run content:validate && npm run test:unit && npm run worker:typecheck && npm run build",
     "release:dry-run": "sh -c 'tmp_dir=$(mktemp -d); trap \"rm -rf \\\"$tmp_dir\\\"\" EXIT; git clone . \"$tmp_dir\" >/dev/null 2>&1; (cd \"$tmp_dir\" && git checkout -B main >/dev/null 2>&1 && git update-ref refs/remotes/origin/main HEAD); npx -y release-please release-pr --dry-run --local --local-path \"$tmp_dir\" --target-branch main --repo-url yurisachan16-creator/yurisachan16-creator.github.io --release-type node --config-file .github/release-please-config.json'"
   },
   "hexo": {

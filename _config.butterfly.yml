@@ -14,7 +14,9 @@ nav:
 # 菜单
 menu:
   首页: / || fas fa-home
+  路线: /reading/ || fas fa-route
   归档: /archives/ || fas fa-archive
+  更新: /updates/ || fas fa-history
   标签: /tags/ || fas fa-tags
   分类: /categories/ || fas fa-folder-open
   关于: /about/ || fas fa-heart
@@ -428,6 +430,8 @@ inject:
     - <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
     # 风格预设覆盖层
     - <link rel="stylesheet" href="/css/theme-preset.css">
+    # 博客功能页与阅读记忆
+    - <link rel="stylesheet" href="/css/blog-features.css">
     # 音乐播放器默认配置
     - <meta name="music-default-source" content="netease">
     - <meta name="music-default-volume" content="0.1">
@@ -444,6 +448,7 @@ inject:
     - <meta name="live2d-debug" content="false">
     - <meta name="live2d-tips-path" content="/live2d-widget/waifu-tips-yurisa.json">
     - <meta name="live2d-site-index-path" content="/search.xml">
+    - <meta name="live2d-blog-index-path" content="/data/blog-content-index.json">
     - <meta name="live2d-model-path" content="/live2d-widget/models/aphrodite/fense.model3.json">
     - <meta name="live2d-model-id" content="0">
     - <meta name="live2d-tools" content="assistant,model,search,random,progress,music,style,photo,quit">
@@ -481,5 +486,8 @@ inject:
     # 6. 动态博客前端脚本（评论/点赞/阅读量）
     - <script src="/js/dynamic-blog.js"></script>
 
-    # 7. Live2D 看板娘（本地 widget dist + 博客桥接层）
+    # 7. 稍后读、收藏和阅读历史
+    - <script src="/js/reading-memory.js"></script>
+
+    # 8. Live2D 看板娘（本地 widget dist + 博客桥接层）
     - <script src="/js/live2d-assistant.js"></script>

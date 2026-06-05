@@ -14,6 +14,7 @@
     debug: false,
     tipsPath: '/live2d-widget/waifu-tips-yurisa.json',
     siteIndexPath: '/search.xml',
+    blogIndexPath: '/data/blog-content-index.json',
     modelPath: '/live2d-widget/models/aphrodite/fense.model3.json',
     cubism5Path: 'https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js',
     pixiPath: 'https://cdn.jsdelivr.net/npm/pixi.js@6.5.10/dist/browser/pixi.min.js',
@@ -53,6 +54,7 @@
     modelBaseSize: null,
     tipsData: null,
     siteIndex: null,
+    blogIndex: null,
     modelView: null,
     lastMotionAt: 0,
     pointerFrame: 0,
@@ -94,6 +96,7 @@
       debug: parseBool(meta('live2d-debug'), DEFAULT_CONFIG.debug),
       tipsPath: meta('live2d-tips-path') || DEFAULT_CONFIG.tipsPath,
       siteIndexPath: meta('live2d-site-index-path') || DEFAULT_CONFIG.siteIndexPath,
+      blogIndexPath: meta('live2d-blog-index-path') || DEFAULT_CONFIG.blogIndexPath,
       modelPath: meta('live2d-model-path') || DEFAULT_CONFIG.modelPath,
       cdnPath: metaElement('live2d-cdn-path') ? meta('live2d-cdn-path') : '',
       cubism5Path: meta('live2d-cubism5-path') || DEFAULT_CONFIG.cubism5Path,
@@ -708,17 +711,101 @@
     })
   }
 
+  function parseSearchJson (jsonText) {
+    try {
+      var data = JSON.parse(jsonText)
+      return (Array.isArray(data) ? data : []).map(function (entry) {
+        return {
+          title: stripText(entry.title),
+          url: normalizeSiteUrl(entry.url),
+          content: stripText(entry.content)
+        }
+      }).filter(function (entry) {
+        return entry.title && entry.url
+      })
+    } catch (_) {
+      return []
+    }
+  }
+
+  function parseSearchIndexText (text, path) {
+    var trimmed = String(text || '').trim()
+    if ((path && /\.json(?:$|\?)/.test(path)) || trimmed.charAt(0) === '[') return parseSearchJson(trimmed)
+    return parseSearchXml(trimmed)
+  }
+
+  function loadBlogIndex (config) {
+    if (state.blogIndex) return Promise.resolve(state.blogIndex)
+    if (!config.blogIndexPath) return Promise.resolve(null)
+    if (typeof fetch !== 'function') return Promise.resolve(null)
+    return fetch(config.blogIndexPath).then(function (response) {
+      if (!response.ok) throw new Error('Blog index load failed: ' + config.blogIndexPath)
+      return response.json()
+    }).then(function (data) {
+      state.blogIndex = data || null
+      return state.blogIndex
+    }).catch(function () {
+      state.blogIndex = null
+      return null
+    })
+  }
+
+  function comparableUrl (url) {
+    return normalizeSiteUrl(url).replace(/\/index\.html$/, '/').replace(/\/+$/, '/') || '/'
+  }
+
+  function mergeBlogIndexEntries (entries, blogIndex) {
+    var posts = blogIndex && Array.isArray(blogIndex.posts) ? blogIndex.posts : []
+    if (!posts.length) return entries
+    var postByUrl = {}
+    posts.forEach(function (post) {
+      postByUrl[comparableUrl(post.url)] = post
+    })
+
+    var seen = {}
+    var merged = entries.map(function (entry) {
+      var post = postByUrl[comparableUrl(entry.url)]
+      var next = post ? Object.assign({}, post, {
+        title: post.title || entry.title,
+        url: normalizeSiteUrl(post.url || entry.url),
+        content: entry.content || post.description || ''
+      }) : entry
+      seen[comparableUrl(next.url)] = true
+      return next
+    })
+
+    posts.forEach(function (post) {
+      var key = comparableUrl(post.url)
+      if (seen[key]) return
+      merged.push(Object.assign({}, post, {
+        url: normalizeSiteUrl(post.url),
+        content: post.description || ''
+      }))
+    })
+
+    return merged
+  }
+
   function loadSiteIndex (config) {
     if (state.siteIndex) return Promise.resolve(state.siteIndex)
+    if (typeof fetch !== 'function') {
+      state.siteIndex = collectPostsFromDom()
+      return Promise.resolve(state.siteIndex)
+    }
     return fetch(config.siteIndexPath).then(function (response) {
       if (!response.ok) throw new Error('Search index load failed: ' + config.siteIndexPath)
       return response.text()
     }).then(function (xmlText) {
-      state.siteIndex = parseSearchXml(xmlText)
-      return state.siteIndex
+      var searchEntries = parseSearchIndexText(xmlText, config.siteIndexPath)
+      return loadBlogIndex(config).then(function (blogIndex) {
+        state.siteIndex = mergeBlogIndexEntries(searchEntries, blogIndex)
+        return state.siteIndex
+      })
     }).catch(function () {
-      state.siteIndex = collectPostsFromDom()
-      return state.siteIndex
+      return loadBlogIndex(config).then(function (blogIndex) {
+        state.siteIndex = mergeBlogIndexEntries(collectPostsFromDom(), blogIndex)
+        return state.siteIndex
+      })
     })
   }
 
@@ -742,6 +829,66 @@
     return entries.filter(function (entry) {
       return (entry.title + ' ' + entry.content).toLowerCase().indexOf(keyword) >= 0
     }).slice(0, limit)
+  }
+
+  function getCurrentEntry (entries) {
+    var currentPath = comparableUrl(window.location.pathname)
+    var list = Array.isArray(entries) ? entries : []
+    var matched = list.find(function (entry) {
+      return comparableUrl(entry.url) === currentPath
+    })
+    if (matched) return matched
+
+    var titleNode = document.querySelector('#article-title, .post-title, h1')
+    var title = stripText(titleNode && titleNode.textContent)
+    if (!title) return null
+    return { title: title, url: currentPath, tags: [], categories: [], content: '' }
+  }
+
+  function getRecommendedEntries (entries, limit) {
+    var list = Array.isArray(entries) ? entries : []
+    var current = getCurrentEntry(list)
+    var max = Math.max(1, limit || 4)
+    if (!current) return list.slice(0, max)
+
+    var scored = list.filter(function (entry) {
+      return comparableUrl(entry.url) !== comparableUrl(current.url)
+    }).map(function (entry) {
+      return { entry: entry, score: recommendationScore(current, entry) }
+    }).sort(function (a, b) {
+      if (b.score !== a.score) return b.score - a.score
+      return String(b.entry.date || '').localeCompare(String(a.entry.date || ''))
+    })
+
+    var strong = scored.filter(function (item) { return item.score > 0 }).map(function (item) { return item.entry })
+    if (strong.length >= max) return strong.slice(0, max)
+    var fallback = scored.map(function (item) { return item.entry })
+    return strong.concat(fallback.filter(function (entry) {
+      return strong.indexOf(entry) < 0
+    })).slice(0, max)
+  }
+
+  function recommendationScore (current, entry) {
+    var score = 0
+    var currentCategories = current.categories || []
+    var entryCategories = entry.categories || []
+    var currentTags = current.tags || []
+    var entryTags = entry.tags || []
+
+    entryCategories.forEach(function (category) {
+      if (currentCategories.indexOf(category) >= 0) score += 5
+    })
+    entryTags.forEach(function (tag) {
+      if (currentTags.indexOf(tag) >= 0) score += 3
+    })
+
+    var currentTitle = stripText(current.title).toLowerCase()
+    var entryTitle = stripText(entry.title).toLowerCase()
+    currentTitle.split(/[\s:：、，。｜|-]+/).forEach(function (token) {
+      if (token.length >= 3 && entryTitle.indexOf(token) >= 0) score += 1
+    })
+
+    return score
   }
 
   function getPanel () {
@@ -789,7 +936,9 @@
     var latest = list.slice(0, Math.max(1, config.maxPanelPosts))
     var body = mode === 'model'
       ? renderModelControls(getModelView(config))
-      : [
+      : mode === 'recommend'
+        ? renderRecommendationPanel(list, config)
+        : [
           '<div class="waifu-panel-search">',
             '<input id="waifu-search-input" type="search" placeholder="搜索文章、标签或关键词" autocomplete="off" value="">',
           '</div>',
@@ -808,6 +957,8 @@
       body,
       '<div class="waifu-panel-actions">',
         '<button type="button" data-waifu-action="latest"><i class="fas fa-clock"></i><span>最新</span></button>',
+        '<button type="button" data-waifu-action="recommend"><i class="fas fa-stream"></i><span>推荐</span></button>',
+        '<button type="button" data-waifu-action="reading"><i class="fas fa-route"></i><span>路线</span></button>',
         '<button type="button" data-waifu-action="model"><i class="fas fa-sliders-h"></i><span>模型</span></button>',
         '<button type="button" data-waifu-action="random"><i class="fas fa-dice"></i><span>随读</span></button>',
         '<button type="button" data-waifu-action="categories"><i class="fas fa-folder"></i><span>分类</span></button>',
@@ -844,7 +995,9 @@
           '</div>',
           '<div class="waifu-bubble-links">',
             '<button type="button" data-waifu-bubble-action="search">◇ 搜索文章</button>',
+            '<button type="button" data-waifu-bubble-action="recommend">◆ 推荐下一篇</button>',
             '<button type="button" data-waifu-bubble-action="random">◆ 随机一篇</button>',
+            '<button type="button" data-waifu-bubble-action="reading">◇ 阅读路线</button>',
             '<button type="button" data-waifu-bubble-action="model">◇ 调整模型</button>',
           '</div>'
         ].join('')
@@ -899,6 +1052,31 @@
         return '<li><a href="' + entry.url + '">' + escapeHtml(entry.title) + '</a></li>'
       }).join(''),
       '</ul>'
+    ].join('')
+  }
+
+  function renderRecommendationPanel (entries, config) {
+    var recommendations = getRecommendedEntries(entries, Math.max(1, config.maxPanelPosts))
+    if (!recommendations.length) return '<div class="waifu-panel-empty">暂时没有可推荐的下一篇。</div>'
+    return [
+      '<div class="waifu-panel-recommend">',
+        '<div class="waifu-panel-list-label">推荐下一篇</div>',
+        '<ul class="waifu-panel-list">',
+          recommendations.map(function (entry) {
+            var meta = [(entry.categories || [])[0], (entry.tags || []).slice(0, 2).join(' / ')].filter(Boolean).join(' · ')
+            return [
+              '<li>',
+                '<a href="' + entry.url + '">' + escapeHtml(entry.title) + '</a>',
+                meta ? '<small>' + escapeHtml(meta) + '</small>' : '',
+              '</li>'
+            ].join('')
+          }).join(''),
+        '</ul>',
+        '<div class="waifu-model-presets">',
+          '<button type="button" data-waifu-action="go-recommend">打开第一篇推荐</button>',
+          '<button type="button" data-waifu-action="reading">阅读路线</button>',
+        '</div>',
+      '</div>'
     ].join('')
   }
 
@@ -1004,6 +1182,13 @@
   function runAssistantAction (action, entries) {
     if (action === 'latest') {
       openAssistantPanel('home')
+    } else if (action === 'recommend') {
+      closeBubble()
+      openAssistantPanel('recommend')
+    } else if (action === 'go-recommend') {
+      goRecommendedPost(entries)
+    } else if (action === 'reading') {
+      window.location.href = '/reading/'
     } else if (action === 'search') {
       openBubble('search')
     } else if (action === 'model') {
@@ -1046,6 +1231,30 @@
     })
     var target = pick(candidates.length ? candidates : entries)
     say('给你挑一篇：' + target.title, 9)
+    setTimeout(function () {
+      window.location.href = target.url
+    }, 350)
+    return true
+  }
+
+  function goRecommendedPost (entries) {
+    var config = readConfigFromMeta()
+    var list = Array.isArray(entries) && entries.length ? entries : state.siteIndex
+    if (list && list.length) return navigateToRecommendedPost(list, config)
+    loadSiteIndex(config).then(function (loaded) {
+      navigateToRecommendedPost(loaded, config)
+    })
+    return true
+  }
+
+  function navigateToRecommendedPost (entries, config) {
+    var recommendations = getRecommendedEntries(entries, Math.max(1, (config && config.maxPanelPosts) || DEFAULT_CONFIG.maxPanelPosts))
+    if (!recommendations.length) {
+      say('暂时没找到合适的下一篇。', 9)
+      return false
+    }
+    var target = recommendations[0]
+    say('下一篇可以读：' + target.title, 9)
     setTimeout(function () {
       window.location.href = target.url
     }, 350)
@@ -1420,7 +1629,8 @@
       assistant: {
         panelOpen: !!(getPanel() && !getPanel().hidden),
         panelMode: state.panelMode,
-        indexCount: state.siteIndex ? state.siteIndex.length : 0
+        indexCount: state.siteIndex ? state.siteIndex.length : 0,
+        blogIndexCount: state.blogIndex && Array.isArray(state.blogIndex.posts) ? state.blogIndex.posts.length : 0
       },
       dom: {
         waifu: !!document.getElementById('waifu'),
@@ -1499,6 +1709,7 @@
     applyModelView: applyModelView,
     resetModelView: resetModelView,
     randomPost: goRandomPost,
+    recommendedPost: goRecommendedPost,
     reportProgress: reportReadingProgress,
     playRandomMotion: function () { return playRandomMotion(readConfigFromMeta()) },
     capturePhoto: capturePhoto,
@@ -1524,10 +1735,15 @@
       applyModelView: applyModelView,
       resetModelView: resetModelView,
       parseSearchXml: parseSearchXml,
+      parseSearchJson: parseSearchJson,
+      parseSearchIndexText: parseSearchIndexText,
       normalizeSiteUrl: normalizeSiteUrl,
       searchEntries: searchEntries,
+      getRecommendedEntries: getRecommendedEntries,
+      recommendationScore: recommendationScore,
       getReadingProgress: getReadingProgress,
       goRandomPost: goRandomPost,
+      goRecommendedPost: goRecommendedPost,
       getDebugState: getDebugState,
       say: say
     }

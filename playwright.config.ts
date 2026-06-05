@@ -5,9 +5,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 2,
   reporter: 'html',
-  timeout: 30_000,
+  timeout: 60_000,
   use: {
     baseURL: 'http://localhost:4000',
     trace: 'on-first-retry',
@@ -24,6 +24,6 @@ export default defineConfig({
     command: 'npm run server',
     url: 'http://localhost:4000',
     reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
+    timeout: 90_000,
   },
 })

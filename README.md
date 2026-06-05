@@ -15,7 +15,9 @@
 - [source/](./source/)：站点源内容
   - `_posts/`：文章（Markdown）
   - `about/`、`categories/`、`tags/`：独立页面
+  - `reading/`、`updates/`、`admin/comments/`：阅读路线、最近更新和评论审核页面
   - `css/`、`js/`、`fonts/`、`img/`：站点静态资源
+  - `data/`：构建时生成的博客内容索引
 - [themes/](./themes/)：Hexo 主题目录（`themes/butterfly` 由脚本自动生成，不纳入版本控制）
 - [tools/](./tools/)：本地素材处理脚本与辅助工具（不会发布到站点）
 - 关键配置
@@ -42,6 +44,39 @@ npm run server
 
 开发、调试、更新和关闭方式见 [docs/live2d-assistant-dev.md](./docs/live2d-assistant-dev.md)，许可记录见 [license-matrix.md](./license-matrix.md)。
 
+## 博客功能页
+
+- `/reading/`：按专题组织现有文章路线，数据来自 `source/data/blog-content-index.json`
+- `/updates/`：聚合文章 front-matter 中的 `article_history`
+- 文章页“阅读动作”：使用 localStorage 保存稍后读和最近阅读，不需要登录
+- `/admin/comments/`：评论审核前端，需要粘贴由 `ADMIN_JWT_SECRET` 签名且 `role=admin` 的管理员 JWT
+
+`source/data/blog-content-index.json` 由 `tools/build-blog-data.mjs` 生成；`npm run build` 会先运行该脚本，再执行 Hexo 生成。
+
+本地签发短期管理员 Token：
+
+```bash
+ADMIN_JWT_SECRET=你的生产密钥 npm run admin:token -- --ttl 1h --subject yurisa
+```
+
+生产 API 烟测需要显式指定目标，默认不会猜测生产地址：
+
+```bash
+BLOG_API_BASE=https://api.yurisa.top/api/v1 ADMIN_JWT=你的管理员JWT npm run smoke:api
+```
+
+该烟测默认只检查 CORS、管理员鉴权边界和管理员评论列表读取。公开文章 metrics/comments 接口会调用 Worker 的 `ensurePost`，可能写入 D1；只有明确允许时才会运行：
+
+```bash
+BLOG_API_BASE=https://api.yurisa.top/api/v1 BLOG_SMOKE_SLUG=2026/04/02/claude-code-architecture BLOG_SMOKE_ALLOW_WRITES=true npm run smoke:api
+```
+
+不访问外网的本地 mock 验证：
+
+```bash
+npm run smoke:api -- --mock
+```
+
 ## 线上访问
 
 - 主站（Cloudflare Pages）：`https://yurisa.top/`
@@ -62,6 +97,20 @@ npm run build
 ```
 
 生成物输出到 `public/`（默认已在 `.gitignore` 忽略）。
+
+上线前建议至少执行：
+
+```bash
+npm run verify
+npm run test:e2e -- --project=chromium --project=mobile-chrome
+```
+
+完整 Playwright 矩阵包含 Chromium、Firefox、WebKit、移动 Chrome 和移动 Safari；首次运行完整矩阵前需要先安装 Playwright 浏览器：
+
+```bash
+npx playwright install
+npm run test:e2e
+```
 
 ## 主题同步机制
 
@@ -103,6 +152,7 @@ npm run deploy
 - 仓库发版：使用 `SemVer`，标签格式固定为 `vX.Y.Z`，GitHub Release 与 tag 同名。
 - 仓库变更记录：统一写入 [CHANGELOG.md](./CHANGELOG.md)，分类固定为 `Features`、`Content`、`Fixes`、`Performance`、`SEO`、`Infra`。
 - 文章版本：每篇文章通过 `article_version` 和 `article_history` 记录修订历史，并在文章页展示“更新记录”。
+- 版本门禁：`npm run content:validate` 会检查 `source/_posts/` 下每篇文章都有 `article_version` 和至少一条完整 `article_history`；该检查已接入 `npm run verify`。
 
 ### 提交与分支约定
 

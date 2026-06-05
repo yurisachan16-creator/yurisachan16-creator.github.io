@@ -72,6 +72,7 @@ describe('live2d-assistant config', () => {
     expect(config.enabled).toBe(true)
     expect(config.tipsPath).toBe('/live2d-widget/waifu-tips-yurisa.json')
     expect(config.siteIndexPath).toBe('/search.xml')
+    expect(config.blogIndexPath).toBe('/data/blog-content-index.json')
     expect(config.modelPath).toBe('/live2d-widget/models/aphrodite/fense.model3.json')
     expect(config.pixiPath).toContain('pixi.js@6.5.10')
     expect(config.pixiLive2dPath).toContain('pixi-live2d-display@0.4.0')
@@ -94,6 +95,7 @@ describe('live2d-assistant config', () => {
       <meta name="live2d-debug" content="true">
       <meta name="live2d-tips-path" content="/custom/tips.json">
       <meta name="live2d-site-index-path" content="/custom/search.xml">
+      <meta name="live2d-blog-index-path" content="/custom/blog-index.json">
       <meta name="live2d-model-path" content="/custom/model.model3.json">
       <meta name="live2d-cdn-path" content="https://example.com/models">
       <meta name="live2d-pixi-path" content="/vendor/pixi.js">
@@ -115,6 +117,7 @@ describe('live2d-assistant config', () => {
     expect(config.debug).toBe(true)
     expect(config.tipsPath).toBe('/custom/tips.json')
     expect(config.siteIndexPath).toBe('/custom/search.xml')
+    expect(config.blogIndexPath).toBe('/custom/blog-index.json')
     expect(config.modelPath).toBe('/custom/model.model3.json')
     expect(config.cdnPath).toBe('https://example.com/models')
     expect(config.pixiPath).toBe('/vendor/pixi.js')
@@ -153,6 +156,30 @@ describe('live2d-assistant config', () => {
     expect(entries).toEqual([
       { title: '测试文章', url: '/2026/06/03/test/', content: '动画 音乐 技术' }
     ])
+  })
+
+  it('parses search JSON and normalizes post URLs', () => {
+    const { parseSearchJson } = loadModule()
+    const entries = parseSearchJson(JSON.stringify([
+      { title: 'JSON 文章', url: '//2026/06/04/json/', content: 'AI MCP' }
+    ]))
+
+    expect(entries).toEqual([
+      { title: 'JSON 文章', url: '/2026/06/04/json/', content: 'AI MCP' }
+    ])
+  })
+
+  it('recommends posts with shared categories and tags first', () => {
+    document.body.innerHTML = '<article id="post"><h1 id="article-title">当前文章</h1></article>'
+    window.history.replaceState({}, '', '/2026/06/03/current/')
+    const { getRecommendedEntries } = loadModule()
+    const entries = [
+      { title: '当前文章', url: '/2026/06/03/current/', categories: ['技术研究'], tags: ['AI'] },
+      { title: '同分类同标签', url: '/2026/06/04/a/', categories: ['技术研究'], tags: ['AI', 'MCP'] },
+      { title: '不同主题', url: '/2026/06/04/b/', categories: ['音乐札记'], tags: ['罗大佑'] }
+    ]
+
+    expect(getRecommendedEntries(entries, 2).map((entry) => entry.title)).toEqual(['同分类同标签', '不同主题'])
   })
 })
 
@@ -319,7 +346,44 @@ describe('live2d-assistant DOM helpers', () => {
     expect(panel.textContent).toContain('第一篇')
     expect(panel.querySelector('[data-waifu-action="music"]')).not.toBeNull()
     expect(panel.querySelector('[data-waifu-action="model"]')).not.toBeNull()
+    expect(panel.querySelector('[data-waifu-action="recommend"]')).not.toBeNull()
+    expect(panel.querySelector('[data-waifu-action="reading"]')).not.toBeNull()
     expect(panel.querySelector('#waifu-search-input')).not.toBeNull()
+  })
+
+  it('opens recommendation panel from current post context', async () => {
+    document.body.innerHTML = `
+      <article id="post">
+        <h1 id="article-title">当前文章</h1>
+      </article>
+      <div id="waifu">
+        <div id="waifu-tips"></div>
+        <div id="waifu-panel" hidden></div>
+        <div id="waifu-canvas"></div>
+        <div id="waifu-tool"></div>
+      </div>
+    `
+    window.history.replaceState({}, '', '/2026/06/03/current/')
+    const { openAssistantPanel } = loadModule()
+    globalThis.fetch = () => Promise.resolve({
+      ok: true,
+      text: () => Promise.resolve('<search><entry><title>当前文章</title><url>/2026/06/03/current/</url><content>AI</content></entry><entry><title>下一篇</title><url>/2026/06/04/next/</url><content>AI MCP</content></entry></search>'),
+      json: () => Promise.resolve({
+        posts: [
+          { title: '当前文章', url: '/2026/06/03/current/', categories: ['技术研究'], tags: ['AI'], description: '' },
+          { title: '下一篇', url: '/2026/06/04/next/', categories: ['技术研究'], tags: ['AI', 'MCP'], description: '' }
+        ]
+      })
+    })
+
+    expect(openAssistantPanel('recommend')).toBe(true)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+
+    const panel = document.getElementById('waifu-panel')
+    expect(panel.hidden).toBe(false)
+    expect(panel.textContent).toContain('推荐下一篇')
+    expect(panel.textContent).toContain('下一篇')
+    expect(panel.querySelector('[data-waifu-action="go-recommend"]')).not.toBeNull()
   })
 
   it('opens model controls and exposes scale/x/y presets', () => {
