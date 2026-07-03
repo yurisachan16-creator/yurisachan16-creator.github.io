@@ -142,7 +142,7 @@
             '<input id="db-email" name="email" maxlength="80" placeholder="邮箱（可选，仅用于头像hash）" />' +
           '</div>' +
           '<textarea id="db-content" name="content" minlength="2" maxlength="1200" placeholder="写下你的评论..." required></textarea>' +
-          '<div id="db-turnstile" class="cf-turnstile"></div>' +
+          '<div id="db-turnstile"></div>' +
           '<div class="db-form-actions">' +
             '<button class="db-submit-btn" type="submit">发布评论</button>' +
             '<a id="db-login-link" class="db-login-link" href="#" rel="nofollow">GitHub 登录（可选）</a>' +
@@ -206,6 +206,7 @@
 
     var turnstileSiteKey = getMeta('turnstile-site-key')
     if (turnstileSiteKey && turnstileWrap) {
+      turnstileWrap.classList.add('cf-turnstile')
       turnstileWrap.setAttribute('data-sitekey', turnstileSiteKey)
     } else if (turnstileWrap) {
       turnstileWrap.style.display = 'none'
