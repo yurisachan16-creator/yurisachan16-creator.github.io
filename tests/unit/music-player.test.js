@@ -147,6 +147,7 @@ describe('readConfigFromMeta', () => {
     expect(config.volume).toBe(0.1)
     expect(config.autoplayHome).toBe(false)
     expect(config.order).toBe('list')
+    expect(config.lazy).toBe(true)
   })
 
   it('reads and validates meta config values', () => {
@@ -156,6 +157,7 @@ describe('readConfigFromMeta', () => {
       <meta name="music-autoplay-home" content="false" />
       <meta name="music-default-order" content="random" />
       <meta name="music-netease-id" content="123456" />
+      <meta name="music-lazy" content="false" />
     `
     const { readConfigFromMeta } = loadModule()
     const config = readConfigFromMeta()
@@ -164,6 +166,7 @@ describe('readConfigFromMeta', () => {
     expect(config.autoplayHome).toBe(false)
     expect(config.order).toBe('random')
     expect(config.neteaseId).toBe('123456')
+    expect(config.lazy).toBe(false)
   })
 })
 
@@ -284,6 +287,7 @@ describe('AudioBridge', () => {
   it('sets default volume to 0.1', () => {
     const ab = new AudioBridge()
     expect(ab.audio.volume).toBe(0.1)
+    expect(ab.audio.preload).toBe('metadata')
   })
 
   it('setVolume clamps to 0-1', () => {
@@ -561,5 +565,30 @@ describe('createDOM', () => {
     injectRightsideButton()
 
     expect(document.getElementById('music-player-btn')).toBeNull()
+  })
+
+  it('keeps drawer lazy until the rightside button is clicked', () => {
+    document.body.innerHTML = `
+      <div id="rightside">
+        <div id="rightside-config-show">
+          <button id="go-up" type="button"><i class="fas fa-arrow-up"></i></button>
+        </div>
+      </div>
+    `
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve([])
+    })
+
+    const { init } = loadModule()
+    init()
+
+    expect(document.getElementById('music-player-btn')).toBeTruthy()
+    expect(document.getElementById('music-drawer')).toBeNull()
+
+    document.getElementById('music-player-btn').click()
+
+    expect(document.getElementById('music-drawer')).toBeTruthy()
+    expect(window.__musicPlayer.ctrl).toBeTruthy()
   })
 })

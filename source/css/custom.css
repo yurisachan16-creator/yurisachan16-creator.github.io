@@ -387,6 +387,7 @@ body.page-type-post #footer {
 #music-source-switch {
   font-family: 'Zpix', sans-serif;
   font-size: 11px;
+  min-height: 44px;
   padding: 3px 6px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 6px;
@@ -400,6 +401,8 @@ body.page-type-post #footer {
   font-size: 16px;
   cursor: pointer;
   color: #666;
+  min-width: 44px;
+  min-height: 44px;
   padding: 4px 6px;
   border-radius: 6px;
   transition: background 0.2s;
@@ -522,8 +525,8 @@ body.page-type-post #footer {
   font-size: 16px;
   color: #555;
   cursor: pointer;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1346,15 +1349,20 @@ body.page-type-post #footer {
 
 @media screen and (max-width: 480px) {
   #waifu {
-    transform: scale(0.62) translateY(30px);
+    bottom: 8px !important;
+    height: 252px !important;
+    max-width: calc(100vw - 96px);
+    right: 72px !important;
+    transform: translateY(30px);
+    width: 220px !important;
   }
 
   #waifu.waifu-active {
-    transform: scale(0.62) translateY(0);
+    transform: translateY(0);
   }
 
   #waifu:hover {
-    transform: scale(0.62) translateY(24px);
+    transform: translateY(24px);
   }
 
   #waifu-tips {
@@ -1367,6 +1375,129 @@ body.page-type-post #footer {
 
   #waifu-bubble {
     display: none;
+  }
+
+  #waifu-canvas {
+    height: 252px !important;
+    width: 220px !important;
+  }
+
+  #waifu-actionbar {
+    bottom: 8px;
+    gap: 2px;
+    min-height: 44px;
+    padding: 4px;
+  }
+
+  #waifu-actionbar button {
+    font-size: 11px;
+    height: 44px;
+    min-width: 44px;
+    padding: 0 6px;
+  }
+}
+
+/* ==================== 12.8 Mobile touch targets ==================== */
+@media screen and (max-width: 768px) {
+  #rightside {
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px;
+    right: auto;
+    transform: translateY(calc(100% + 18px));
+  }
+
+  #rightside.rightside-show {
+    transform: translateY(0);
+  }
+
+  #rightside #rightside-config-hide,
+  #rightside #rightside-config {
+    display: none !important;
+  }
+
+  #rightside > div {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  #rightside #rightside-config-show {
+    max-width: calc(100vw - 80px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  #rightside #rightside-config-show::-webkit-scrollbar {
+    display: none;
+  }
+
+  #rightside > div > button,
+  #rightside > div > a {
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px;
+    margin: 0 !important;
+    line-height: 44px !important;
+    font-size: 17px !important;
+  }
+
+  #toggle-menu,
+  #nav .site-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  #nav .nav-page-title {
+    display: block;
+    max-width: calc(100vw - 96px);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #nav .nav-page-title > * {
+    display: inline;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #site_social_icons .social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #page-header.full_page #site-info {
+    padding: 0 16px;
+    width: 100%;
+  }
+
+  #site-title {
+    font-size: 30px !important;
+    line-height: 1.18;
+    margin: 0 auto;
+    max-width: calc(100vw - 32px);
+    white-space: nowrap;
+  }
+
+  #site-subtitle {
+    font-size: 22px !important;
+    line-height: 1.25;
+  }
+
+  #waifu-toggle {
+    bottom: max(12px, env(safe-area-inset-bottom));
+    right: 12px;
   }
 }
 

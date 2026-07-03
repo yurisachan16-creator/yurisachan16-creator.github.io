@@ -25,6 +25,7 @@
     showToggleAfterQuit: true,
     logLevel: 'warn',
     mobile: true,
+    mobileLazy: true,
     position: 'right',
     right: '92px',
     left: '24px',
@@ -108,6 +109,7 @@
       showToggleAfterQuit: parseBool(meta('live2d-show-toggle-after-quit'), DEFAULT_CONFIG.showToggleAfterQuit),
       logLevel: meta('live2d-log-level') || DEFAULT_CONFIG.logLevel,
       mobile: parseBool(meta('live2d-mobile'), DEFAULT_CONFIG.mobile),
+      mobileLazy: parseBool(meta('live2d-mobile-lazy'), DEFAULT_CONFIG.mobileLazy),
       position: meta('live2d-position') || DEFAULT_CONFIG.position,
       right: meta('live2d-right') || DEFAULT_CONFIG.right,
       left: meta('live2d-left') || DEFAULT_CONFIG.left,
@@ -271,6 +273,10 @@
     } catch (_) {
       return false
     }
+  }
+
+  function isMobileViewport () {
+    return !!(window.matchMedia && window.matchMedia('(max-width: 768px)').matches)
   }
 
   function pick (value) {
@@ -493,7 +499,7 @@
     }
   }
 
-  function createShell (config) {
+  function createToggleButton () {
     if (!document.getElementById('waifu-toggle')) {
       var toggleBtn = document.createElement('button')
       toggleBtn.id = 'waifu-toggle'
@@ -506,6 +512,11 @@
       toggleBtn.addEventListener('click', show)
       document.body.appendChild(toggleBtn)
     }
+    return document.getElementById('waifu-toggle')
+  }
+
+  function createShell (config) {
+    createToggleButton()
 
     var waifu = document.getElementById('waifu')
     if (!waifu) {
@@ -1318,7 +1329,7 @@
       saveState({ visible: true })
       return
     }
-    init()
+    init({ forceLoad: true })
   }
 
   function hide () {
@@ -1640,7 +1651,18 @@
     }
   }
 
-  function init () {
+  function bootstrapMobileLazy (config) {
+    createToggleButton()
+    setToggleVisible(true)
+    window.__live2dAssistant = window.__live2dAssistant || {}
+    window.__live2dAssistant.config = config
+    setStatus('mobile-lazy')
+    pushEvent('mobile:lazy-ready')
+    return Promise.resolve(false)
+  }
+
+  function init (options) {
+    options = options || {}
     var config = readConfigFromMeta()
     window.__live2dAssistant = window.__live2dAssistant || {}
     window.__live2dAssistant.config = config
@@ -1649,9 +1671,13 @@
       setStatus('disabled')
       return Promise.resolve(false)
     }
-    if (!config.mobile && window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+    var mobileViewport = isMobileViewport()
+    if (!config.mobile && mobileViewport) {
       setStatus('mobile-disabled')
       return Promise.resolve(false)
+    }
+    if (config.mobileLazy && mobileViewport && !options.forceLoad && !state.initialized && !state.loading) {
+      return bootstrapMobileLazy(config)
     }
     if (!supportsWebGL()) {
       setStatus('webgl-disabled')
