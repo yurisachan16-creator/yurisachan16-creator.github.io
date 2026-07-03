@@ -16,7 +16,7 @@
   var STORAGE_KEY = 'music_player_state'
   var RETRY_DELAYS = [2000, 4000, 8000]
   var PLAYLIST_URL = '/music/playlist.json'
-  var DEFAULT_CONFIG = { source: 'both', volume: 0.1, autoplayHome: false, order: 'list', neteaseId: '' }
+  var DEFAULT_CONFIG = { source: 'both', volume: 0.1, autoplayHome: false, order: 'list', neteaseId: '', lazy: true }
 
   /* ============================
      工具函数
@@ -80,7 +80,8 @@
       volume: volume,
       autoplayHome: parseBool(meta('music-autoplay-home'), DEFAULT_CONFIG.autoplayHome),
       order: order,
-      neteaseId: meta('music-netease-id') || DEFAULT_CONFIG.neteaseId
+      neteaseId: meta('music-netease-id') || DEFAULT_CONFIG.neteaseId,
+      lazy: parseBool(meta('music-lazy'), DEFAULT_CONFIG.lazy)
     }
   }
 
@@ -167,6 +168,32 @@
     }
   }
 
+  function exposeLazyApi (config) {
+    window.__musicPlayer = window.__musicPlayer || {}
+    window.__musicPlayer.config = config
+    window.__musicPlayer.init = function () {
+      return ensureController(readConfigFromMeta(), false)
+    }
+    window.__musicPlayer.open = function () {
+      return ensureController(readConfigFromMeta(), true)
+    }
+  }
+
+  function bindLazyOpenButton (config) {
+    var btn = document.getElementById('music-player-btn')
+    if (!btn || btn.dataset.musicLazyBound === '1' || btn.dataset.musicBound === '1') return
+    var handler = function (event) {
+      event.stopPropagation()
+      btn.removeEventListener('click', handler)
+      delete btn.dataset.musicLazyBound
+      delete btn._musicLazyHandler
+      ensureController(config, true)
+    }
+    btn.addEventListener('click', handler)
+    btn.dataset.musicLazyBound = '1'
+    btn._musicLazyHandler = handler
+  }
+
   /* ============================
      PlaylistManager — 播放列表管理
      ============================ */
@@ -223,7 +250,7 @@
      ============================ */
   function AudioBridge (config) {
     this.audio = new Audio()
-    this.audio.preload = 'auto'
+    this.audio.preload = 'metadata'
     var defaultVolume = (config && typeof config.volume === 'number') ? config.volume : DEFAULT_CONFIG.volume
     this.audio.volume = Math.max(0, Math.min(1, defaultVolume))
     this._onTimeUpdate = null
@@ -724,15 +751,28 @@
   /* ============================
      初始化入口
      ============================ */
-  function init () {
-    var config = readConfigFromMeta()
-    // 动态创建所有 DOM（按钮 + 抽屉 + 遮罩）
+  function ensureController (config, shouldOpen) {
+    config = config || readConfigFromMeta()
+    var current = window.__musicPlayer && window.__musicPlayer.ctrl
+    if (current && document.getElementById('music-drawer')) {
+      current.els.openBtn = document.getElementById('music-player-btn')
+      current._bindOpenButton()
+      if (shouldOpen) current.openDrawer()
+      return current
+    }
+
     createDOM()
 
     // 确认 DOM 注入成功
     if (!document.getElementById('music-drawer')) {
       console.warn('[MusicPlayer] DOM creation failed, aborting init')
-      return
+      return null
+    }
+    var openBtn = document.getElementById('music-player-btn')
+    if (openBtn && openBtn._musicLazyHandler) {
+      openBtn.removeEventListener('click', openBtn._musicLazyHandler)
+      delete openBtn._musicLazyHandler
+      delete openBtn.dataset.musicLazyBound
     }
 
     var pm = new PlaylistManager(config)
@@ -740,8 +780,28 @@
     var ctrl = new DrawerController({ playlist: pm, bridge: bridge, config: config })
     ctrl._loadPlaylists()
 
-    // 暴露给全局以便调试
-    window.__musicPlayer = { ctrl: ctrl, playlist: pm, bridge: bridge }
+    window.__musicPlayer = {
+      ctrl: ctrl,
+      playlist: pm,
+      bridge: bridge,
+      config: config,
+      init: function () { return ensureController(readConfigFromMeta(), false) },
+      open: function () { return ensureController(readConfigFromMeta(), true) }
+    }
+
+    if (shouldOpen) ctrl.openDrawer()
+    return ctrl
+  }
+
+  function init () {
+    var config = readConfigFromMeta()
+    injectRightsideButton()
+    exposeLazyApi(config)
+    if (config.lazy) {
+      bindLazyOpenButton(config)
+      return
+    }
+    ensureController(config, false)
   }
 
   // DOMContentLoaded 或立即执行
@@ -762,11 +822,13 @@
       ctrl.els.openBtn = document.getElementById('music-player-btn')
       ctrl._bindOpenButton()
       ctrl._updateRightsideIcon()
+    } else {
+      bindLazyOpenButton(readConfigFromMeta())
     }
   })
 
   // 导出给测试用
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { PlaylistManager: PlaylistManager, AudioBridge: AudioBridge, DrawerController: DrawerController, State: State, formatTime: formatTime, fetchWithRetry: fetchWithRetry, createDOM: createDOM, injectRightsideButton: injectRightsideButton, readConfigFromMeta: readConfigFromMeta }
+    module.exports = { PlaylistManager: PlaylistManager, AudioBridge: AudioBridge, DrawerController: DrawerController, State: State, formatTime: formatTime, fetchWithRetry: fetchWithRetry, createDOM: createDOM, injectRightsideButton: injectRightsideButton, readConfigFromMeta: readConfigFromMeta, ensureController: ensureController, init: init }
   }
 })()

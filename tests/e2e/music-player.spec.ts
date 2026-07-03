@@ -38,7 +38,6 @@ async function openHome (page) {
   await mockNeteasePlaylist(page)
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   await page.waitForSelector('#music-player-btn')
-  await page.waitForSelector('#music-drawer', { state: 'attached' })
 }
 
 async function showRightside (page) {
@@ -66,6 +65,7 @@ test.describe('音乐播放器 E2E 测试', () => {
     await expect(btn).toBeAttached()
     // 图标正确
     await expect(btn.locator('i.fas.fa-music')).toBeAttached()
+    await expect(page.locator('#music-drawer')).toHaveCount(0)
   })
 
   /* === 抽屉开关 === */
@@ -229,7 +229,11 @@ test.describe('音乐播放器 E2E 测试', () => {
   test('页面导航后播放器 DOM 保持', async ({ page }) => {
     await showRightside(page)
 
-    // 确认播放器存在
+    // 首次点击前只保留入口按钮，不创建抽屉
+    await expect(page.locator('#music-drawer')).toHaveCount(0)
+    await clickByEvent(page, '#music-player-btn')
+
+    // 确认播放器已按需创建
     await expect(page.locator('#music-drawer')).toBeAttached()
 
     // 导航到 about 页面

@@ -87,6 +87,7 @@ describe('live2d-assistant config', () => {
     expect(config.position).toBe('right')
     expect(config.right).toBe('92px')
     expect(config.bottom).toBe('8px')
+    expect(config.mobileLazy).toBe(true)
   })
 
   it('reads configured meta values', () => {
@@ -102,6 +103,7 @@ describe('live2d-assistant config', () => {
       <meta name="live2d-pixi-live2d-path" content="/vendor/cubism4.js">
       <meta name="live2d-model-id" content="2">
       <meta name="live2d-tools" content="info,quit">
+      <meta name="live2d-mobile-lazy" content="false">
       <meta name="live2d-position" content="left">
       <meta name="live2d-left" content="32px">
       <meta name="live2d-bottom" content="12px">
@@ -124,6 +126,7 @@ describe('live2d-assistant config', () => {
     expect(config.pixiLive2dPath).toBe('/vendor/cubism4.js')
     expect(config.modelId).toBe(2)
     expect(config.tools).toEqual(['info', 'quit'])
+    expect(config.mobileLazy).toBe(false)
     expect(config.position).toBe('left')
     expect(config.left).toBe('32px')
     expect(config.bottom).toBe('12px')
@@ -222,6 +225,35 @@ describe('live2d-assistant DOM helpers', () => {
 
     expect(document.getElementById('live2d-assistant-btn')).toBeNull()
     expect(window.__live2dAssistant.debug().status).toBe('disabled')
+  })
+
+  it('shows only the toggle on mobile before the user loads Live2D', async () => {
+    const originalMatchMedia = window.matchMedia
+    Object.defineProperty(window, 'matchMedia', {
+      configurable: true,
+      value: (query) => ({
+        matches: query === '(max-width: 768px)',
+        media: query,
+        addEventListener: () => {},
+        removeEventListener: () => {}
+      })
+    })
+
+    try {
+      const { init } = loadModule()
+
+      await init()
+
+      expect(document.getElementById('waifu-toggle')).not.toBeNull()
+      expect(document.getElementById('waifu-toggle').classList.contains('waifu-toggle-visible')).toBe(true)
+      expect(document.getElementById('waifu')).toBeNull()
+      expect(window.__live2dAssistant.debug().status).toBe('mobile-lazy')
+    } finally {
+      Object.defineProperty(window, 'matchMedia', {
+        configurable: true,
+        value: originalMatchMedia
+      })
+    }
   })
 
   it('show tolerates unavailable localStorage when waifu already exists', () => {

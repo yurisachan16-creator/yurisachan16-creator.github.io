@@ -152,7 +152,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 13px;
   border: 0;
   border-radius: 8px;
@@ -271,7 +271,7 @@
 }
 
 .reading-memory-tabs button {
-  min-height: 34px;
+  min-height: 44px;
   border: 1px solid var(--feature-border);
   border-radius: 8px;
   background: transparent;
@@ -323,7 +323,7 @@
 .comment-admin-token input,
 .comment-admin-filter select {
   width: 100%;
-  min-height: 40px;
+  min-height: 44px;
   border: 1px solid var(--feature-border);
   border-radius: 8px;
   padding: 0 10px;
