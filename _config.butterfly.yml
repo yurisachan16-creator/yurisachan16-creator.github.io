@@ -412,8 +412,8 @@ inject:
     # bootstrap 同步执行且不引入 Three.js，确保首帧前完成资格判定。
     - <meta name="yurisa-launch-enabled" content="true">
     - <link rel="stylesheet" href="/css/genshin-launch.css">
-    - <script src="/js/genshin-launch-policies.js"></script>
-    - <script src="/js/genshin-launch.js"></script>
+    - <script src="/js/genshin-launch-policies.js?v=launch-v2"></script>
+    - <script src="/js/genshin-launch.js?v=launch-v2"></script>
     # 风格切换首屏状态：尽早设置 html[data-style]，减少换肤闪烁
     - |
       <script>
