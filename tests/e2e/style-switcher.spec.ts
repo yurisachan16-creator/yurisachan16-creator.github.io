@@ -8,9 +8,9 @@ test.describe('风格切换器 E2E 测试', () => {
   }
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await page.goto('/?launch=off', { waitUntil: 'domcontentloaded' })
     await page.evaluate(() => localStorage.removeItem('site_style_v1'))
-    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await page.goto('/?launch=off', { waitUntil: 'domcontentloaded' })
     await page.waitForSelector('#style-switcher-btn')
   })
 
@@ -51,7 +51,7 @@ test.describe('风格切换器 E2E 测试', () => {
     await toggleStyle(page)
     await expect(page.locator('html')).toHaveAttribute('data-style', 'vereis')
 
-    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await page.goto('/?launch=off', { waitUntil: 'domcontentloaded' })
     await page.waitForSelector('#style-switcher-btn')
 
     await expect(page.locator('html')).toHaveAttribute('data-style', 'vereis')
@@ -77,7 +77,7 @@ test.describe('风格切换器 E2E 测试', () => {
 
   test('移动端可以切换风格', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 })
-    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await page.goto('/?launch=off', { waitUntil: 'domcontentloaded' })
     await page.waitForSelector('#style-switcher-btn')
 
     await page.evaluate(() => window.scrollTo(0, 300))
@@ -89,7 +89,7 @@ test.describe('风格切换器 E2E 测试', () => {
 
   test('移动端 Vereis 首页面板不溢出视口', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 })
-    await page.goto('/', { waitUntil: 'domcontentloaded' })
+    await page.goto('/?launch=off', { waitUntil: 'domcontentloaded' })
     await page.waitForSelector('#style-switcher-btn')
     await toggleStyle(page)
 

@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: production-pages-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   launch-release-gate:
     if: github.ref == 'refs/heads/main'

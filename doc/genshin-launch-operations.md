@@ -4,10 +4,10 @@
 
 ## 运行方式与开关
 
-- 正式开关位于 `_config.butterfly.yml` 的 `yurisa-launch-enabled` meta，默认必须为 `false`。
-- `/?launch=preview`：在开关关闭时强制预览，但仍尊重 reduced-motion、Save-Data 和 WebGL2 门槛。
+- 正式开关位于 `_config.butterfly.yml` 的 `yurisa-launch-enabled` meta，当前生产值为 `true`。
+- `/?launch=preview`：不受会话已看标记影响，强制预览，但仍尊重 reduced-motion、Save-Data 和 WebGL2 门槛。
 - `/?launch=off`：最高优先级关闭，用于普通站点回归和紧急排障。
-- 正常自动播放每个会话只发生一次，记录键为 `sessionStorage.yurisa_launch_seen_v1`；重播与 preview 不写该键。
+- 正常自动播放每个标签页会话只发生一次，记录键为 `sessionStorage.yurisa_launch_seen_v2`；重播与 preview 不写该键。首次正式开启时升级了键版本，避免历史 preview 误写的 v1 标记抑制首次自动播放。
 - 紧急回滚只需把 meta 改回 `false` 并重新部署。关闭状态不得请求 `/assets/launch/manifest.json` 或任何 3D/音频资源。
 
 运行时边界如下：
@@ -73,7 +73,9 @@ npm run launch:reference:capture -- --upstream-dir /absolute/path/to/www-genshin
 | 每日回归 | `launch-nightly.yml` | 完整 verify；五个 Playwright 项目；Slow 4G；context loss；五轮重播清理 |
 | 正式 Release | `release-please.yml` → `launch-release-gate.yml` | 与每日回归相同；门禁通过后 Release Please 才能运行 |
 | 手动复核 | Actions → `Launch Release Gate` → Run workflow | 与正式 Release 相同，报告保留 14 天 |
-| 受信任预览 | `pages-preview.yml`（`codex/**`） | verify 后部署 Cloudflare branch preview，仍保持正式开关关闭 |
+| 受信任预览 | `pages-preview.yml`（`codex/**`） | verify 后部署 Cloudflare branch preview，并继承分支中的显式开关值 |
+
+正式生产的唯一写入者应为 `.github/workflows/pages.yml` 中通过 Wrangler 执行的 deploy job。Cloudflare Pages 原生 Git production auto-deploy 必须关闭，否则它可能绕过 `launch-release-gate` 提前发布开关。
 
 自动化分层：
 
@@ -157,3 +159,9 @@ iPhone: PASS/BLOCKED — 证据链接：
 ```
 
 Android、iPhone 或自动化任一项为 `BLOCKED` 时，不得开启正式 meta；保持 `false` 并使用 preview URL 继续修复。
+
+### 2026-07-16 首次生产开启决策
+
+- 站点所有者在完成桌面端与一台连接手机的 preview 验收后，在本发布任务中明确指示“开启”。
+- 手机型号、Android/iPhone 双设备表格与性能 trace 尚未归档，因此上述严格真机门禁未完整满足。本次作为站点所有者的一次性明示豁免执行，不改变后续发布的默认要求。
+- 风险控制保持不变：`?launch=off` 在硬件探测前熔断、meta 可重新部署回滚，且自动化 Launch Release Gate 必须全部通过。
