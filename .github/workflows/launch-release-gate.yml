@@ -1,0 +1,84 @@
+name: Launch Release Gate
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: launch-release-gate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-launch-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            worker/package-lock.json
+
+      - run: npm ci
+      - run: npm --prefix worker ci
+
+      - name: Install launch media tooling
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Run deterministic build and verification
+        run: npm run verify
+
+      - name: Install full browser matrix
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Run launch release matrix
+        run: npm run test:e2e:release
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: launch-release-playwright-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
+  visual-regression:
+    runs-on: macos-14
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: npm
+
+      - run: npm ci
+
+      - name: Ensure launch media tooling
+        run: brew list ffmpeg >/dev/null 2>&1 || brew install ffmpeg
+
+      - name: Install canonical visual browser
+        run: npx playwright install chromium
+
+      - name: Run deterministic shell and production Three.js visual regression
+        run: npm run test:e2e:visual
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: launch-release-visual-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14

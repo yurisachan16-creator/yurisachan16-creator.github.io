@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "https://github.com/gamemcu/www-genshin",
+  "sourceCommit": "090cb905a53a078fb192fc7e3da2a7a679d35ff4",
+  "sourceTree": "https://github.com/gamemcu/www-genshin/tree/090cb905a53a078fb192fc7e3da2a7a679d35ff4",
+  "vendorRoot": "vendor/genshin-launch/original",
+  "licensePath": "LICENSE",
+  "publicationBase": "/assets/launch/assets/",
+  "files": [
+    {
+      "id": "source.license",
+      "relativePath": "LICENSE",
+      "sha256": "9530a39ba1b3a39a3cd582cf61b9b0ebad8e079c0d5608aeeee3c5e92c46ac1a",
+      "bytes": 1064,
+      "tier": 0,
+      "critical": false,
+      "purpose": "上游仓库代码的 MIT 许可证原文；不代表第三方游戏素材已获授权",
+      "publish": false
+    },
+    {
+      "id": "audio.bgm",
+      "relativePath": "public/Genshin/BGM.mp3",
+      "sha256": "c81882fcba6c52f7f8e265186cc929ad0e589c92fb6306f85d49a29bdc3d6d0d",
+      "bytes": 4045643,
+      "tier": 2,
+      "critical": false,
+      "purpose": "启动流程背景音乐，仅在用户手势后加载",
+      "publish": "audio/bgm.mp3"
+    },
+    {
+      "id": "audio.doorComeout",
+      "relativePath": "public/Genshin/Genshin Impact [DoorComeout].mp3",
+      "sha256": "77bcc2e02973e9e5a51e6e953361b6bb3136f3fc525650ea7345a1674c2792e5",
+      "bytes": 101688,
+      "tier": 1,
+      "critical": false,
+      "purpose": "门体显现音效",
+      "publish": "audio/door-comeout.mp3"
+    },
+    {
+      "id": "audio.doorThrough",
+      "relativePath": "public/Genshin/Genshin Impact [DoorThrough].mp3",
+      "sha256": "ba9f1d9360e2b836fc2dda317ec2532fd09141b94c6b8638fc3f80ac8d653865",
+      "bytes": 82880,
+      "tier": 1,
+      "critical": false,
+      "purpose": "穿门过场音效",
+      "publish": "audio/door-through.mp3"
+    },
+    {
+      "id": "audio.duang",
+      "relativePath": "public/Genshin/Genshin Impact [Duang].mp3",
+      "sha256": "575443ebe463b6094ff29a52485a2374ae3e1ad6a462c83d93a2286369bf69c1",
+      "bytes": 26449,
+      "tier": 1,
+      "critical": false,
+      "purpose": "启动确认与门体强调音效",
+      "publish": "audio/duang.mp3"
+    },
+    {
+      "id": "model.door",
+      "relativePath": "public/Genshin/Login/DOOR.glb",
+      "sha256": "60913bd61b33f04c3f47cd03869749c5bff6cde8ad53533f921321ac18f8a833",
+      "bytes": 118644,
+      "tier": 0,
+      "critical": true,
+      "purpose": "门体模型与开门动画",
+      "publish": "models/door.glb"
+    },
+    {
+      "id": "model.bigCloud",
+      "relativePath": "public/Genshin/Login/SM_BigCloud.glb",
+      "sha256": "8c4b96cba435486b05f16fc478b90f2ac1476e08df1051ba186925220123b3d1",
+      "bytes": 2588,
+      "tier": 0,
+      "critical": true,
+      "purpose": "大型云层几何体",
+      "publish": "models/big-cloud.glb"
+    },
+    {
+      "id": "model.light",
+      "relativePath": "public/Genshin/Login/SM_Light.glb",
+      "sha256": "4911016996bc15a98f0f612d51ca1ccccbfc0b3536457e232697d342d9541701",
+      "bytes": 1060,
+      "tier": 0,
+      "critical": true,
+      "purpose": "极光平面几何体",
+      "publish": "models/light.glb"
+    },
+    {
+      "id": "model.bridge01",
+      "relativePath": "public/Genshin/Login/SM_Qiao01.glb",
+      "sha256": "af4c8d50c0d5958ae0e4d0e0ac9e7365cd97a351291165f3c57d79dd254eed3b",
+      "bytes": 70432,
+      "tier": 0,
+      "critical": true,
+      "purpose": "天空长廊桥段 01",
+      "publish": "models/bridge-01.glb"
+    },
+    {
+      "id": "model.bridge02",
+      "relativePath": "public/Genshin/Login/SM_Qiao02.glb",
+      "sha256": "f27d048577170f8c83f98f75682bd47f6b5f8c6c37eac841163c2b78e18e1074",
+      "bytes": 78524,
+      "tier": 0,
+      "critical": true,
+      "purpose": "天空长廊桥段 02",
+      "publish": "models/bridge-02.glb"
+    },
+    {
+      "id": "model.bridge03",
+      "relativePath": "public/Genshin/Login/SM_Qiao03.glb",
+      "sha256": "574ff462e82dd518605225d177c0164a52a846ffac31e8f21326aa667e16dd09",
+      "bytes": 73440,
+      "tier": 0,
+      "critical": true,
+      "purpose": "天空长廊桥段 03",
+      "publish": "models/bridge-03.glb"
+    },
+    {
+      "id": "model.bridge04",
+      "relativePath": "public/Genshin/Login/SM_Qiao04.glb",
+      "sha256": "7efc15ef7eaa1b318cb66e4b36d3814a3b79c1e12ed9f6b3b154725e49ce0ad1",
+      "bytes": 76772,
+      "tier": 0,
+      "critical": true,
+      "purpose": "天空长廊桥段 04",
+      "publish": "models/bridge-04.glb"
+    },
+    {
+      "id": "model.road",
+      "relativePath": "public/Genshin/Login/SM_Road.glb",
+      "sha256": "b93652de31324d1a8e29c387e26351feba76f1b875d80d75cc03177e689efd64",
+      "bytes": 235196,
+      "tier": 0,
+      "critical": true,
+      "purpose": "主路与镜头推进路径",
+      "publish": "models/road.glb"
+    },
+    {
+      "id": "model.column01",
+      "relativePath": "public/Genshin/Login/SM_ZhuZi01.glb",
+      "sha256": "12d0f8564b37634fb68865553f17817188f43a9a77cdcb87aa93db500c43c412",
+      "bytes": 675888,
+      "tier": 0,
+      "critical": true,
+      "purpose": "远景柱群模型 01",
+      "publish": "models/column-01.glb"
+    },
+    {
+      "id": "model.column02",
+      "relativePath": "public/Genshin/Login/SM_ZhuZi02.glb",
+      "sha256": "bc95898a33ca6df44e95a2e149c1e45ce2302e280b79efdb332da9fffe6d5b79",
+      "bytes": 636712,
+      "tier": 0,
+      "critical": true,
+      "purpose": "远景柱群模型 02",
+      "publish": "models/column-02.glb"
+    },
+    {
+      "id": "model.column03",
+      "relativePath": "public/Genshin/Login/SM_ZhuZi03.glb",
+      "sha256": "c65024e9dfec249d3914da5ca76a7d3cc4c7297e3aff9836045977e2867aff74",
+      "bytes": 111220,
+      "tier": 0,
+      "critical": true,
+      "purpose": "远景柱群模型 03",
+      "publish": "models/column-03.glb"
+    },
+    {
+      "id": "model.column04",
+      "relativePath": "public/Genshin/Login/SM_ZhuZi04.glb",
+      "sha256": "b4ebf6b8d9a04261eda287c947ad29b38c9d645200be31275e23f845256248ac",
+      "bytes": 686312,
+      "tier": 0,
+      "critical": true,
+      "purpose": "远景柱群模型 04",
+      "publish": "models/column-04.glb"
+    },
+    {
+      "id": "texture.archive0061",
+      "relativePath": "public/Genshin/Login/Textures/Tex_0061.png",
+      "sha256": "8de98076530a59acf4faf18d5cf991381377195a80e9f5755ca5dd08b2a01b2b",
+      "bytes": 174629,
+      "tier": 1,
+      "critical": false,
+      "purpose": "上游保留纹理；锁定提交的运行时未直接引用，仅归档",
+      "publish": false
+    },
+    {
+      "id": "texture.cloud",
+      "relativePath": "public/Genshin/Login/Textures/Tex_0062.png",
+      "sha256": "c846c94b10dae561b6a7c1a826f1c6bd88bae863b281918c888fe2e23d14b3d3",
+      "bytes": 160100,
+      "tier": 0,
+      "critical": true,
+      "purpose": "云层主纹理",
+      "publish": "textures/tex-0062.png"
+    },
+    {
+      "id": "texture.cloud0",
+      "relativePath": "public/Genshin/Login/Textures/Tex_0063.png",
+      "sha256": "2a63c32f645bc20a07bcdb98a1c7eb33d2aa19a581793b4bfe775f34b953a0e1",
+      "bytes": 172024,
+      "tier": 0,
+      "critical": true,
+      "purpose": "云层变体纹理 0",
+      "publish": "textures/tex-0063.png"
+    },
+    {
+      "id": "texture.cloud1",
+      "relativePath": "public/Genshin/Login/Textures/Tex_0067b.png",
+      "sha256": "9d80b876c8613aa8a49f4c491ad174f37606a7c65f7c169bd13681d3b424597e",
+      "bytes": 23284,
+      "tier": 0,
+      "critical": true,
+      "purpose": "云层变体纹理 1",
+      "publish": "textures/tex-0067b.png"
+    },
+    {
+      "id": "texture.light",
+      "relativePath": "public/Genshin/Login/Textures/Tex_0071.png",
+      "sha256": "8e6e2fd14ecc1159c496a02f38e154e9b73a0046c722aa05052d5ba1acb3297f",
+      "bytes": 44096,
+      "tier": 0,
+      "critical": true,
+      "purpose": "极光与远景光幕纹理",
+      "publish": "textures/tex-0071.png"
+    },
+    {
+      "id": "texture.star",
+      "relativePath": "public/Genshin/Login/Textures/Tex_0075.png",
+      "sha256": "4b3cd876209493ebf2c9eb7a4ebb7c71f107776e6e1aa7b73134c3079422d81f",
+      "bytes": 21971,
+      "tier": 0,
+      "critical": true,
+      "purpose": "星点粒子纹理",
+      "publish": "textures/tex-0075.png"
+    },
+    {
+      "id": "texture.archive0077",
+      "relativePath": "public/Genshin/Login/Textures/Tex_0077.png",
+      "sha256": "344acf501a28cade1266d7f9bea3fc4b1cf4f620bd667647730169e67f735e21",
+      "bytes": 200762,
+      "tier": 1,
+      "critical": false,
+      "purpose": "上游保留纹理；锁定提交的运行时未直接引用，仅归档",
+      "publish": false
+    },
+    {
+      "id": "model.whitePlane",
+      "relativePath": "public/Genshin/Login/WHITE_PLANE.glb",
+      "sha256": "956f3f82b066373e9a9b2178cad43067f2daf29f47ad7fe9da432549c27e587d",
+      "bytes": 1348,
+      "tier": 0,
+      "critical": true,
+      "purpose": "穿门后白场过渡平面",
+      "publish": "models/white-plane.glb"
+    }
+  ]
+}

@@ -62,7 +62,13 @@
     dragState: null,
     boundRendererEvents: false,
     bubbleMode: 'home',
-    panelMode: 'home'
+    panelMode: 'home',
+    launchSuspended: false,
+    launchWaiting: false,
+    launchSnapshots: [],
+    launchTickerWasRunning: false,
+    launchStatusBeforeSuspend: 'idle',
+    boundLaunchLifecycle: false
   }
 
   function metaElement (name) {
@@ -1647,8 +1653,114 @@
         waifu: !!document.getElementById('waifu'),
         tips: !!document.getElementById('waifu-tips'),
         button: !!document.getElementById(BUTTON_ID)
+      },
+      launch: {
+        suspended: state.launchSuspended,
+        waiting: state.launchWaiting
       }
     }
+  }
+
+  function isLaunchPending () {
+    var launchState = document.documentElement && document.documentElement.dataset.launchState
+    return ['candidate', 'active', 'loading', 'ready', 'travelling', 'gate-ready', 'entering'].indexOf(launchState) >= 0
+  }
+
+  function snapshotLaunchElement (element) {
+    if (!element) return
+    state.launchSnapshots.push({
+      element: element,
+      visibility: element.style.visibility,
+      pointerEvents: element.style.pointerEvents,
+      ariaHidden: element.getAttribute('aria-hidden')
+    })
+    element.style.visibility = 'hidden'
+    element.style.pointerEvents = 'none'
+    element.setAttribute('aria-hidden', 'true')
+  }
+
+  function restoreLaunchElements () {
+    state.launchSnapshots.forEach(function (snapshot) {
+      if (!snapshot.element) return
+      snapshot.element.style.visibility = snapshot.visibility
+      snapshot.element.style.pointerEvents = snapshot.pointerEvents
+      if (snapshot.ariaHidden === null) snapshot.element.removeAttribute('aria-hidden')
+      else snapshot.element.setAttribute('aria-hidden', snapshot.ariaHidden)
+    })
+    state.launchSnapshots = []
+  }
+
+  /**
+   * Temporarily pause and hide Live2D without touching the user's visibility
+   * preference. The launch coordinator keeps the existing page active when
+   * suspension fails, so Pixi and Three never render concurrently.
+   */
+  function suspendForLaunch () {
+    if (state.launchSuspended) return true
+    // If initialization has not created a ticker yet there is nothing we can
+    // reliably pause; report failure so the coordinator does not mount Three.
+    if (state.loading && !state.app) return false
+    state.launchStatusBeforeSuspend = state.status
+    state.launchTickerWasRunning = false
+    state.launchSnapshots = []
+
+    try {
+      if (state.app && state.app.ticker) {
+        if (typeof state.app.ticker.stop !== 'function') return false
+        state.launchTickerWasRunning = state.app.ticker.started !== false
+        state.app.ticker.stop()
+      }
+      snapshotLaunchElement(document.getElementById('waifu'))
+      snapshotLaunchElement(document.getElementById('waifu-toggle'))
+      state.launchSuspended = true
+      setStatus('launch-suspended')
+      pushEvent('launch:suspend')
+      return true
+    } catch (error) {
+      restoreLaunchElements()
+      if (state.launchTickerWasRunning && state.app && state.app.ticker && typeof state.app.ticker.start === 'function') {
+        try { state.app.ticker.start() } catch (_) {}
+      }
+      state.launchTickerWasRunning = false
+      state.launchSuspended = false
+      pushEvent('launch:suspend-failed', { message: error && error.message })
+      return false
+    }
+  }
+
+  function resumeFromLaunch () {
+    if (!state.launchSuspended && !state.launchWaiting && !state.launchSnapshots.length) {
+      return Promise.resolve(false)
+    }
+    var wasSuspended = state.launchSuspended
+    var shouldInitialize = state.launchWaiting && !state.initialized && !state.loading
+    restoreLaunchElements()
+
+    if (wasSuspended && state.launchTickerWasRunning && state.app && state.app.ticker && typeof state.app.ticker.start === 'function') {
+      try { state.app.ticker.start() } catch (_) {}
+    }
+    state.launchTickerWasRunning = false
+    state.launchSuspended = false
+    state.launchWaiting = false
+    if (wasSuspended) setStatus(state.launchStatusBeforeSuspend || (state.initialized ? 'visible' : 'idle'))
+    pushEvent('launch:resume')
+
+    if (shouldInitialize) return init()
+    return Promise.resolve(wasSuspended)
+  }
+
+  function bootWhenLaunchReady () {
+    if (!isLaunchPending()) return init()
+    state.launchWaiting = true
+    setStatus('launch-waiting')
+    pushEvent('launch:wait')
+    return Promise.resolve(false)
+  }
+
+  function bindLaunchLifecycle () {
+    if (state.boundLaunchLifecycle) return
+    state.boundLaunchLifecycle = true
+    document.addEventListener('yurisa:launch-complete', resumeFromLaunch)
   }
 
   function bootstrapMobileLazy (config) {
@@ -1739,6 +1851,8 @@
     reportProgress: reportReadingProgress,
     playRandomMotion: function () { return playRandomMotion(readConfigFromMeta()) },
     capturePhoto: capturePhoto,
+    suspendForLaunch: suspendForLaunch,
+    resumeFromLaunch: resumeFromLaunch,
     injectRightsideButton: injectRightsideButton,
     readConfigFromMeta: readConfigFromMeta,
     debug: getDebugState,
@@ -1771,14 +1885,19 @@
       goRandomPost: goRandomPost,
       goRecommendedPost: goRecommendedPost,
       getDebugState: getDebugState,
+      isLaunchPending: isLaunchPending,
+      suspendForLaunch: suspendForLaunch,
+      resumeFromLaunch: resumeFromLaunch,
+      bootWhenLaunchReady: bootWhenLaunchReady,
       say: say
     }
     return
   }
 
+  bindLaunchLifecycle()
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init)
+    document.addEventListener('DOMContentLoaded', bootWhenLaunchReady)
   } else {
-    init()
+    bootWhenLaunchReady()
   }
 })()

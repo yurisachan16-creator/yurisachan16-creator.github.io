@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 function loadModule () {
   const modulePath = require.resolve('../../source/js/live2d-assistant.js')
@@ -193,6 +193,7 @@ describe('live2d-assistant DOM helpers', () => {
 
   afterEach(() => {
     document.body.innerHTML = ''
+    document.documentElement.removeAttribute('data-launch-state')
     delete window.__live2dAssistant
     delete window.PIXI
     delete globalThis.fetch
@@ -206,6 +207,65 @@ describe('live2d-assistant DOM helpers', () => {
 
     expect(document.querySelectorAll('#live2d-assistant-btn')).toHaveLength(1)
     expect(document.getElementById('live2d-assistant-btn').getAttribute('aria-label')).toBe('显示或隐藏看板娘')
+  })
+
+  it('waits for an active launch before initializing', async () => {
+    document.documentElement.dataset.launchState = 'active'
+    document.head.innerHTML = '<meta name="live2d-enabled" content="false">'
+    const { bootWhenLaunchReady, resumeFromLaunch } = loadModule()
+
+    await bootWhenLaunchReady()
+
+    expect(window.__live2dAssistant.debug().status).toBe('launch-waiting')
+    expect(window.__live2dAssistant.debug().launch.waiting).toBe(true)
+    expect(document.getElementById('waifu')).toBeNull()
+
+    document.documentElement.removeAttribute('data-launch-state')
+    await resumeFromLaunch()
+
+    expect(window.__live2dAssistant.debug().launch.waiting).toBe(false)
+    expect(window.__live2dAssistant.debug().status).toBe('disabled')
+  })
+
+  it('restores Live2D once when direct finalize and completion-event paths both resume', async () => {
+    document.body.insertAdjacentHTML('beforeend', `
+      <button id="waifu-toggle" style="visibility: visible"></button>
+      <div id="waifu" class="waifu-active" style="pointer-events: auto"></div>
+    `)
+    const setItem = vi.spyOn(Storage.prototype, 'setItem')
+    const { suspendForLaunch, resumeFromLaunch } = loadModule()
+
+    expect(suspendForLaunch()).toBe(true)
+    expect(document.getElementById('waifu').style.visibility).toBe('hidden')
+    expect(document.getElementById('waifu').getAttribute('aria-hidden')).toBe('true')
+    expect(window.__live2dAssistant.debug().launch.suspended).toBe(true)
+
+    await resumeFromLaunch()
+    await resumeFromLaunch()
+
+    expect(document.getElementById('waifu').style.visibility).toBe('')
+    expect(document.getElementById('waifu').style.pointerEvents).toBe('auto')
+    expect(document.getElementById('waifu').hasAttribute('aria-hidden')).toBe(false)
+    expect(window.__live2dAssistant.debug().launch.suspended).toBe(false)
+    expect(window.__live2dAssistant.debug().events.filter((event) => event.key === 'launch:resume')).toHaveLength(1)
+    expect(setItem).not.toHaveBeenCalled()
+    setItem.mockRestore()
+  })
+
+  it('reports suspension unavailable while Live2D is loading before its ticker exists', () => {
+    Object.defineProperty(window, 'WebGLRenderingContext', {
+      configurable: true,
+      value: function WebGLRenderingContext () {}
+    })
+    HTMLCanvasElement.prototype.getContext = () => ({})
+    globalThis.fetch = () => new Promise(() => {})
+    const { init, suspendForLaunch } = loadModule()
+
+    void init()
+
+    expect(window.__live2dAssistant.debug().loading).toBe(true)
+    expect(suspendForLaunch()).toBe(false)
+    expect(window.__live2dAssistant.debug().launch.suspended).toBe(false)
   })
 
   it('does nothing when rightside container is missing', () => {

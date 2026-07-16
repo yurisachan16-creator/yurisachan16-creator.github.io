@@ -1,0 +1,47 @@
+name: Build and Deploy Preview (Cloudflare Pages)
+
+on:
+  push:
+    branches:
+      - "codex/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            worker/package-lock.json
+
+      - run: npm ci
+      - run: npm --prefix worker ci
+      - name: Install launch media tooling
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm run verify
+
+      - name: Select a non-production preview branch
+        id: preview-branch
+        shell: bash
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            echo "name=manual-${GITHUB_RUN_ID}" >> "${GITHUB_OUTPUT}"
+          else
+            echo "name=${GITHUB_REF_NAME}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Deploy trusted branch preview
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy public --project-name yurisachan16-creator-github-io --branch ${{ steps.preview-branch.outputs.name }}
