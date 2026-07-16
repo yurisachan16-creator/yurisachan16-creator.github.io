@@ -7,6 +7,7 @@
 - Node.js + npm
 - Hexo（站点生成）
 - Butterfly 主题（通过 npm 安装并同步到 `themes/butterfly`）
+- Three.js + Vite + TypeScript（原神式首页启动体验）
 
 ## 目录结构
 
@@ -20,13 +21,15 @@
   - `data/`：构建时生成的博客内容索引
 - [themes/](./themes/)：Hexo 主题目录（`themes/butterfly` 由脚本自动生成，不纳入版本控制）
 - [tools/](./tools/)：本地素材处理脚本与辅助工具（不会发布到站点）
+- [launch/](./launch/)：Three.js 启动场景、状态机与素材来源清单
+- [vendor/](./vendor/)：固定上游 commit 的原始练习素材，不由 Hexo 直接发布
 - 关键配置
   - [_config.yml](./_config.yml)：站点主配置
   - [_config.butterfly.yml](./_config.butterfly.yml)：主题配置
 
 ## 本地开发
 
-建议使用 Node.js 18+。
+要求 Node.js 20.19+；构建启动音频还需要本机安装 `ffmpeg`。
 
 ```bash
 npm install
@@ -35,6 +38,22 @@ npm run server
 ```
 
 访问 `http://localhost:4000/` 预览。
+
+## Three.js 启动体验
+
+首页接入了非官方的原神式天空长廊与开门动画。正式开关默认关闭，本地可用以下地址检查真实场景：
+
+```text
+http://localhost:4000/?launch=preview
+```
+
+开发场景与 Hexo 并行 watch：
+
+```bash
+npm run dev
+```
+
+实现架构、故障处理、CI/release 门禁和 Android/iPhone 真机验收清单见 [启动体验发布手册](./doc/genshin-launch-operations.md)；素材来源与风险边界见 [许可矩阵](./doc/genshin-launch-license-matrix.md)。
 
 ## Live2D 看板娘
 
@@ -110,6 +129,12 @@ npm run test:e2e -- --project=chromium --project=mobile-chrome
 ```bash
 npx playwright install
 npm run test:e2e
+```
+
+启动体验的发布级矩阵（五浏览器项目、Slow 4G、context loss 和五轮资源回收）：
+
+```bash
+npm run test:e2e:release
 ```
 
 ## 主题同步机制
