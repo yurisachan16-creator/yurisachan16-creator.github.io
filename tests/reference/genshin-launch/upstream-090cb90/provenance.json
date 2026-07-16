@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-15T03:33:39.104Z",
+  "sourceRepository": "https://github.com/gamemcu/www-genshin",
+  "sourceCommit": "090cb905a53a078fb192fc7e3da2a7a679d35ff4",
+  "sourceTree": "1c0289fe201c16d1605d4e6f957c72f71ef6eca7",
+  "sourceVideo": "https://www.bilibili.com/video/BV1E8411v7xy/",
+  "threeRevision": "150",
+  "referenceProfile": "090cb90-r150",
+  "sourceCheckout": {
+    "trackedFilesClean": true,
+    "generatedPackageLockSha256": "90aa2b676ce21a7f46e0ebebc0d2add929e70af59dd9bf9ee208d657920241ca"
+  },
+  "runtimeSemantics": {
+    "reactStrictModeDevelopmentDoubleMountDisabled": true,
+    "reason": "Match the single Canvas/Game mount used by React production builds; the Vite development-only double effect leaves a stale global GameManager listener.",
+    "enterTransitionDispatch": "Direct invocation of the exact StateGame._jump method registered by the upstream DeviceInput pointer handler, avoiding a synthetic-event/RAF boundary race.",
+    "enterTransitionUniforms": "Captured from BloomTransition.effect immediately after each evidence frame so nominal capture time remains distinguishable from TweenManager's preceding-RAF sample.",
+    "activeRoadInitialState": {
+      "childNames": [
+        "SM_MERGED474",
+        "SM_MERGED475",
+        "SM_MERGED476",
+        "SM_MERGED477",
+        "SM_MERGED478",
+        "SM_MERGED479",
+        "SM_MERGED480",
+        "SM_MERGED481",
+        "SM_MERGED482",
+        "SM_MERGED483",
+        "SM_MERGED484",
+        "SM_SM_MERGED043",
+        "SM_MERGED474",
+        "SM_MERGED475",
+        "SM_MERGED476",
+        "SM_MERGED477",
+        "SM_MERGED478",
+        "SM_MERGED479",
+        "SM_MERGED480",
+        "SM_MERGED481",
+        "SM_MERGED482",
+        "SM_MERGED483",
+        "SM_MERGED484",
+        "SM_SM_MERGED043"
+      ],
+      "childZ": [
+        -181.1192398071289,
+        7.218359375000006,
+        -8.700793457031239,
+        -39.25151367187499,
+        -22.044775390624977,
+        -75.53781738281249,
+        -56.22413330078123,
+        -115.45274658203124,
+        -96.72434082031249,
+        -133.9354248046875,
+        -159.9483642578125,
+        24.42500000000001,
+        -393.5219398071289,
+        -205.184340625,
+        -221.10349345703125,
+        -251.654213671875,
+        -234.447475390625,
+        -287.9405173828125,
+        -268.62683330078124,
+        -327.8554465820313,
+        -309.1270408203125,
+        -346.3381248046875,
+        -372.3510642578125,
+        -187.9777
+      ],
+      "roadUnitLength": 12,
+      "loopLength": 424.8054
+    }
+  },
+  "sourceFiles": {
+    "package.json": "a91d9cc437872b941565afe2e17e8e5fdb10f8fb0f61753feaf88c6087c22463",
+    "src/core/Game.ts": "77233c3b39e56e10523135b15b062f550ff98a6c65ff107ffab4d85511aa9c11",
+    "src/core/components/BloomTransition.ts": "687240287be0def37158e4edb4b1b8667a98a7be8daf64b7c2ea6f5390ad887a",
+    "src/core/components/ForwardCamera.ts": "dc1ebc96ca3b955479974a3c90d8f85f32b0f5aa0a62c994896f0dde6b5af295",
+    "src/core/components/Materials.ts": "83b226b0830761491264b5a09bbe9943e67f5238872c452d9e1c857a20d548f3",
+    "src/core/components/Road.ts": "5f9d8320910eb374b6f52e12804b9f474e8d6a6e401137579c6315a62eaf04db",
+    "src/core/components/gradientBackground.ts": "6ca7d7084320c5125c3f4c3381c1b16627b32c68184b10b05b6d7b36dc8d307d",
+    "src/shader/chunk/ACES.chunk.ts": "fd7e366845af7c80b41300bad7e50ae4988e7a443ddcfee85582ece92256312c"
+  },
+  "visualResourceQuiescence": {
+    "requiredPaths": [
+      "/Genshin/Login/DOOR.glb",
+      "/Genshin/Login/SM_BigCloud.glb",
+      "/Genshin/Login/SM_Light.glb",
+      "/Genshin/Login/SM_Qiao01.glb",
+      "/Genshin/Login/SM_Qiao02.glb",
+      "/Genshin/Login/SM_Qiao03.glb",
+      "/Genshin/Login/SM_Qiao04.glb",
+      "/Genshin/Login/SM_Road.glb",
+      "/Genshin/Login/SM_ZhuZi01.glb",
+      "/Genshin/Login/SM_ZhuZi02.glb",
+      "/Genshin/Login/SM_ZhuZi03.glb",
+      "/Genshin/Login/SM_ZhuZi04.glb",
+      "/Genshin/Login/WHITE_PLANE.glb",
+      "/Genshin/Login/Textures/Tex_0062.png",
+      "/Genshin/Login/Textures/Tex_0063.png",
+      "/Genshin/Login/Textures/Tex_0067b.png",
+      "/Genshin/Login/Textures/Tex_0071.png",
+      "/Genshin/Login/Textures/Tex_0075.png"
+    ],
+    "observedPathCount": 24,
+    "stableForMs": 1000
+  },
+  "sceneGraphQuiescence": {
+    "objects": 108,
+    "meshes": 67,
+    "instancedMeshes": 16,
+    "points": 1,
+    "directChildren": [
+      "AmbientLight:",
+      "Object3D:",
+      "Object3D:",
+      "DirectionalLight:",
+      "Object3D:",
+      "Points:",
+      "Object3D:",
+      "Mesh:",
+      "Object3D:",
+      "Mesh:",
+      "Object3D:",
+      "Object3D:",
+      "Object3D:",
+      "Object3D:",
+      "Group:Scene",
+      "Audio:",
+      "Audio:",
+      "Group:Scene",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:",
+      "Mesh:"
+    ]
+  },
+  "browser": {
+    "name": "chromium",
+    "version": "145.0.7632.6",
+    "args": [
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader"
+    ]
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "deviceScaleFactor": 1,
+  "seed": 240713,
+  "clock": {
+    "epoch": "2023-10-08T00:00:00.000Z",
+    "mode": "Playwright Clock explicitly pauseAt() before navigation/resource loading, then runFor() in chronological steps no larger than 16ms",
+    "simulationViewport": {
+      "width": 160,
+      "height": 90
+    },
+    "evidenceViewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "maximumFrameStepMs": 16,
+    "evidenceFrameMs": 16,
+    "readyFrameCount": 2,
+    "readyRenderMs": 32,
+    "evidenceFrameCount": 4,
+    "gateTriggerElapsedMs": 2048,
+    "doorFormationSemanticMs": 1458,
+    "doorFormationRenderedMs": 1472,
+    "simulationDrawCallsSuppressed": false,
+    "simulationRenderPluginsPaused": true
+  },
+  "captureNotes": "Canvas-only 1280x720 maintainer reference. Animation/Tween callbacks advance at <=16ms while the upstream RenderPlugin and PostprocessingPlugin are paused between milestones; ready initializes with two native frames and every later PNG follows four native 1280x720 frames ending on its exact milestone. No WebGL method is monkeypatched. The demo terminal Bilibili navigation is suppressed without changing its animation timeline. PR jobs consume checked-in PNGs and never rebuild upstream.",
+  "captures": [
+    {
+      "name": "ready",
+      "elapsedMs": 0,
+      "file": "ready.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "bcbe78d449b6720e590816a0072d4a045dd8fa78a0eb7e0d7a8093e357e8f879"
+    },
+    {
+      "name": "road-rise-0600",
+      "elapsedMs": 2648,
+      "file": "road-rise-0600.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "667c0a9e29fb04b0fde45eaab66004c0f70954ad8324e6962ac95f7c90daf635"
+    },
+    {
+      "name": "door-formed-1458",
+      "elapsedMs": 3506,
+      "renderedElapsedMs": 3520,
+      "file": "door-formed-1458.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "4f3ef7c855a5cc08c437ec1c427d7b6cb628ad5c201d5bacfc9659bb09b46620"
+    },
+    {
+      "name": "road-settled-2000",
+      "elapsedMs": 4048,
+      "file": "road-settled-2000.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "9081722840984dffb90fd159c79e9da863c10f5df75ef8788a4ac8501716fc6e"
+    },
+    {
+      "name": "gate-stable-5000",
+      "elapsedMs": 7048,
+      "file": "gate-stable-5000.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "424785e623ba97c6d781368775310a424ab6d271132d061a62da1ca138d59aa9"
+    },
+    {
+      "name": "enter-0500",
+      "elapsedMs": 7548,
+      "file": "enter-0500.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "cf8f28005994864da53d8585a519f9fc0c43eb2607dfee51d327df6064680d8c",
+      "enterElapsedMs": 500,
+      "transitionUniforms": {
+        "intensity": 0.5882241658568204,
+        "whiteAlpha": 0
+      },
+      "whitePixelRatio": 0.6624500868055555
+    },
+    {
+      "name": "enter-0700",
+      "elapsedMs": 7748,
+      "file": "enter-0700.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "4df5d0ce1b07af8e094cfb25d033bc1d14770f28d5771e3dc1f49652f6d1fbdd",
+      "enterElapsedMs": 700,
+      "transitionUniforms": {
+        "intensity": 1.7065189504373164,
+        "whiteAlpha": 0.9799999999999986
+      },
+      "whitePixelRatio": 1
+    },
+    {
+      "name": "enter-0840",
+      "elapsedMs": 7888,
+      "file": "enter-0840.png",
+      "width": 1280,
+      "height": 720,
+      "sha256": "27abb4affaed83ae85739b62b71e5e860d2e6ee7b4fa91c915f5a3c26227b944",
+      "enterElapsedMs": 840,
+      "transitionUniforms": {
+        "intensity": 2.999999999999999,
+        "whiteAlpha": 1
+      },
+      "whitePixelRatio": 1
+    }
+  ]
+}

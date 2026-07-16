@@ -2,15 +2,27 @@
   "name": "hexo-site",
   "version": "0.2.0",
   "private": true,
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/yurisachan16-creator/yurisachan16-creator.github.io.git"
   },
   "scripts": {
-    "build": "node tools/build-blog-data.mjs && hexo generate && node tools/prune-public-assets.mjs",
+    "build": "node tools/build-blog-data.mjs && hexo generate && npm run launch:build && node tools/prune-public-assets.mjs && npm run launch:verify",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server",
+    "server": "npm run launch:build && hexo server",
+    "server:hexo": "hexo server",
+    "dev": "npm run launch:build && concurrently --kill-others-on-fail --names hexo,launch npm:server:hexo npm:launch:watch",
+    "launch:assets": "node tools/build-genshin-launch.mjs prepare",
+    "launch:bundle": "vite build --config launch/vite.config.ts",
+    "launch:manifest": "node tools/build-genshin-launch.mjs finalize",
+    "launch:build": "npm run launch:assets && npm run launch:bundle && npm run launch:manifest",
+    "launch:watch": "node tools/watch-genshin-launch.mjs",
+    "launch:reference:capture": "node tools/capture-genshin-reference.mjs",
+    "launch:verify": "node tools/build-genshin-launch.mjs verify",
     "sync-themes": "node tools/sync-themes.mjs",
     "postinstall": "npm run sync-themes",
     "doc:requirements": "node tools/write-requirements-xlsx.mjs",
@@ -22,9 +34,14 @@
     "worker:migrate": "npm --prefix worker run migrate:remote",
     "worker:typecheck": "npm --prefix worker run typecheck",
     "test:unit": "vitest run",
+    "test:coverage:launch": "vitest run --config vitest.launch.config.ts --coverage",
     "test:e2e": "playwright test",
+    "test:e2e:launch": "playwright test tests/e2e/genshin-launch.spec.ts",
+    "test:e2e:release": "playwright test tests/e2e/genshin-launch.spec.ts tests/e2e/genshin-launch-release.spec.ts",
+    "test:e2e:visual": "playwright test --config=playwright.visual.config.ts tests/e2e/genshin-launch-visual.spec.ts tests/e2e/genshin-launch-scene-visual.spec.ts",
+    "test:e2e:critical": "playwright test --project=chromium --project=webkit tests/e2e/genshin-launch.spec.ts",
     "test": "vitest run && playwright test",
-    "verify": "npm run content:validate && npm run test:unit && npm run worker:typecheck && npm run build",
+    "verify": "npm run content:validate && npm run test:unit && npm run test:coverage:launch && npm run worker:typecheck && npm run build",
     "release:dry-run": "sh -c 'tmp_dir=$(mktemp -d); trap \"rm -rf \\\"$tmp_dir\\\"\" EXIT; git clone . \"$tmp_dir\" >/dev/null 2>&1; (cd \"$tmp_dir\" && git checkout -B main >/dev/null 2>&1 && git update-ref refs/remotes/origin/main HEAD); npx -y release-please release-pr --dry-run --local --local-path \"$tmp_dir\" --target-branch main --repo-url yurisachan16-creator/yurisachan16-creator.github.io --release-type node --config-file .github/release-please-config.json'"
   },
   "hexo": {
@@ -48,8 +65,17 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0",
+    "@types/node": "22.20.1",
+    "@types/three": "0.185.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "concurrently": "9.2.1",
     "exceljs": "^4.4.0",
     "jsdom": "^24.0.0",
-    "vitest": "^1.3.0"
+    "sharp": "0.34.3",
+    "terser": "5.44.1",
+    "three": "0.185.1",
+    "typescript": "5.9.3",
+    "vite": "8.1.4",
+    "vitest": "4.1.10"
   }
 }

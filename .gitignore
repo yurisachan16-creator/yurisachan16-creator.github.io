@@ -9,7 +9,16 @@ playwright-report/
 test-results/
 tests/e2e/screenshots/
 public/
+# Keep the pinned upstream launch sources trackable even though their original
+# repository stores assets below a directory named `public`.
+!/vendor/genshin-launch/original/public/
+!/vendor/genshin-launch/original/public/**
 .deploy*/
 _multiconfig.yml
 themes/butterfly/
 .gstack/
+.cache/
+coverage/
+dist/
+output/playwright/
+.playwright-cli/

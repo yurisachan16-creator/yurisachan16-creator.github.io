@@ -31,24 +31,15 @@ function shouldPrune (filePath, size) {
 
 async function main () {
   const files = await walkFiles(PUBLIC_DIR)
-  let prunedCount = 0
-  let prunedBytes = 0
-
   for (const file of files) {
     const stat = await fs.stat(file)
     if (!shouldPrune(file, stat.size)) continue
 
-    try {
-      await fs.unlink(file)
-      prunedCount += 1
-      prunedBytes += stat.size
-      console.log(`[prune] removed oversized asset: ${path.relative(PUBLIC_DIR, file)} (${stat.size} bytes)`)
-    } catch (err) {
-      console.warn(`[prune] failed to remove ${file}:`, err.message)
-    }
+    const relative = path.relative(PUBLIC_DIR, file)
+    throw new Error(`public asset exceeds the Cloudflare 25 MiB limit: ${relative} (${stat.size} bytes)`)
   }
 
-  console.log(`[prune] done. removed ${prunedCount} files, ${(prunedBytes / (1024 * 1024)).toFixed(2)} MiB total.`)
+  console.log(`[prune] checked ${files.length} public files; none exceeds 25 MiB.`)
 }
 
 main().catch((err) => {
