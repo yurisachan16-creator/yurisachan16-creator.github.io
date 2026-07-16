@@ -345,6 +345,8 @@ test.describe('Genshin launch integration', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' })
 
     await expect(page.locator('meta[name="yurisa-launch-enabled"]')).toHaveAttribute('content', 'true')
+    await expect(page.locator('script[src^="/js/genshin-launch-policies.js"]')).toHaveAttribute('src', '/js/genshin-launch-policies.js?v=launch-v2')
+    await expect(page.locator('script[src^="/js/genshin-launch.js"]')).toHaveAttribute('src', '/js/genshin-launch.js?v=launch-v2')
     await expect(page.locator(HOST_SELECTOR)).toBeVisible()
     await expect(page.locator(HOST_SELECTOR)).toHaveAttribute('data-phase', 'ready', { timeout: 5_000 })
     await expect(page.locator('#body-wrap')).toHaveAttribute('inert', '')

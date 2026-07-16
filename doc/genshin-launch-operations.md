@@ -28,6 +28,8 @@ head bootstrap（资格/单例/fail-open）
 - `launch/asset-source-manifest.json`：固定来源、散列、层级和关键性。
 - `tools/build-genshin-launch.mjs`：派生资源、runtime manifest 与发布预算校验。
 
+`genshin-launch-policies.js` 与 `genshin-launch.js` 是 head 中的稳定文件名，Cloudflare 会让浏览器缓存 4 小时。修改任一 bootstrap 后，必须同步升级 `_config.butterfly.yml` 里两个 script URL 的 `v` 查询版本，避免新 HTML 搭配旧策略脚本。
+
 ## 本地开发
 
 要求 Node.js `>=20.19.0`、npm，以及可执行的 `ffmpeg`。首次安装后运行：
