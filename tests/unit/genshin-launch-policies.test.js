@@ -31,6 +31,10 @@ describe('genshin launch pure policies', () => {
 
   it('normalizes the launch query and homepage route safely', () => {
     expect(policies.getLaunchParam({ search: '?launch=preview' })).toBe('preview')
+    expect(policies.getLaunchParam({ search: '?launch=preview&launch=off' })).toBe('off')
+    expect(policies.getLaunchParam({ search: '?launch=off&launch=preview' })).toBe('off')
+    expect(policies.getLaunchParam({ search: '?launch=unknown&launch=preview' })).toBe('preview')
+    expect(policies.getLaunchParam({ search: '?launch=unknown' })).toBe('unknown')
     expect(policies.getLaunchParam({ search: '' })).toBe('')
     expect(
       policies.getLaunchParam({

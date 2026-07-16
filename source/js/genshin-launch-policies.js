@@ -18,7 +18,7 @@
 
   function getLaunchParam (location) {
     try {
-      return new URLSearchParams(location.search || '').get('launch') || ''
+      return prioritizeLaunchParam(new URLSearchParams(location.search || '').getAll('launch'))
     } catch (_) {
       return ''
     }
@@ -62,6 +62,12 @@
   function decideFinalization (alreadyFinalized, outcome) {
     if (alreadyFinalized) return { accepted: false, outcome: null }
     return { accepted: true, outcome: outcome || 'fallback' }
+  }
+
+  function prioritizeLaunchParam (values) {
+    if (values.indexOf('off') !== -1) return 'off'
+    if (values.indexOf('preview') !== -1) return 'preview'
+    return values[0] || ''
   }
 
   root.__genshinLaunchPolicies = Object.freeze({

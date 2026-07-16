@@ -262,6 +262,8 @@ async function isolateLive2DForLaunch (page: Page) {
 
 async function installDeterministicWebGL2Gate (page: Page) {
   await page.addInitScript(() => {
+    const launchWindow = window as typeof window & { __launchWebGL2ProbeCount?: number }
+    launchWindow.__launchWebGL2ProbeCount = 0
     try {
       Object.defineProperty(window, 'WebGL2RenderingContext', {
         configurable: true,
@@ -272,6 +274,7 @@ async function installDeterministicWebGL2Gate (page: Page) {
     const originalGetContext = HTMLCanvasElement.prototype.getContext
     HTMLCanvasElement.prototype.getContext = function (type: string, ...args: unknown[]) {
       if (type === 'webgl2') {
+        launchWindow.__launchWebGL2ProbeCount = (launchWindow.__launchWebGL2ProbeCount || 0) + 1
         return {
           getExtension: () => null
         } as unknown as RenderingContext
@@ -310,6 +313,7 @@ async function preparePreview (page: Page) {
     return coordinator.getState()
   })
   expect(state).toMatchObject({ active: true, source: 'auto' })
+  expect(await page.evaluate(() => sessionStorage.getItem('yurisa_launch_seen_v2'))).toBeNull()
 }
 
 async function expectPageUnlocked (page: Page) {
@@ -327,19 +331,59 @@ async function waitForCompletionCount (page: Page, expected: number) {
 }
 
 test.describe('Genshin launch integration', () => {
-  test('default-off does not mount or request any 3D launch resource', async ({ page }) => {
+  test('enabled homepage auto-mounts once per tab session', async ({ page }) => {
     await blockUnrelatedThirdParty(page)
+    await isolateLive2DForLaunch(page)
+    await installLaunchObservers(page)
+    await installDeterministicWebGL2Gate(page)
+    await mockDeterministicRuntime(page)
     const launchRequests: string[] = []
     page.on('request', request => {
       if (request.url().includes('/assets/launch/')) launchRequests.push(request.url())
     })
 
     await page.goto('/', { waitUntil: 'domcontentloaded' })
+
+    await expect(page.locator('meta[name="yurisa-launch-enabled"]')).toHaveAttribute('content', 'true')
+    await expect(page.locator(HOST_SELECTOR)).toBeVisible()
+    await expect(page.locator(HOST_SELECTOR)).toHaveAttribute('data-phase', 'ready', { timeout: 5_000 })
+    await expect(page.locator('#body-wrap')).toHaveAttribute('inert', '')
+    expect(launchRequests.some(url => url.includes('/assets/launch/manifest.json'))).toBe(true)
+    expect(await page.evaluate(() => sessionStorage.getItem('yurisa_launch_seen_v2'))).toBe('1')
+
+    const firstVisitLaunchRequestCount = launchRequests.length
+    await page.reload({ waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(500)
 
-    await expect(page.locator('meta[name="yurisa-launch-enabled"]')).toHaveAttribute('content', 'false')
     await expect(page.locator(HOST_SELECTOR)).toHaveCount(0)
     await expect(page.locator('#site-title')).toBeVisible()
+    expect(launchRequests).toHaveLength(firstVisitLaunchRequestCount)
+  })
+
+  test('explicit launch=off does not mount or request any 3D launch resource', async ({ page }) => {
+    await blockUnrelatedThirdParty(page)
+    await installDeterministicWebGL2Gate(page)
+    const launchRequests: string[] = []
+    page.on('request', request => {
+      if (request.url().includes('/assets/launch/')) launchRequests.push(request.url())
+    })
+
+    await page.goto('/?launch=preview&launch=off', { waitUntil: 'domcontentloaded' })
+    await page.waitForTimeout(500)
+
+    const eligibility = await page.evaluate(() => (window as typeof window & {
+      __genshinLaunch: {
+        getEligibility(source: string): { eligible: boolean, reason: string }
+      }
+    }).__genshinLaunch.getEligibility('auto'))
+
+    await expect(page.locator('meta[name="yurisa-launch-enabled"]')).toHaveAttribute('content', 'true')
+    await expect(page.locator(HOST_SELECTOR)).toHaveCount(0)
+    await expect(page.locator('#site-title')).toBeVisible()
+    expect(eligibility).toMatchObject({ eligible: false, reason: 'off' })
+    expect(await page.evaluate(() => (window as typeof window & {
+      __launchWebGL2ProbeCount?: number
+    }).__launchWebGL2ProbeCount)).toBe(0)
     expect(launchRequests).toEqual([])
   })
 

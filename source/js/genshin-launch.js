@@ -19,7 +19,7 @@
 })(typeof window !== 'undefined' ? window : globalThis, function (window, policies) {
   'use strict'
 
-  var SESSION_KEY = 'yurisa_launch_seen_v1'
+  var SESSION_KEY = 'yurisa_launch_seen_v2'
   var COMPLETE_EVENT = 'yurisa:launch-complete'
   var REPLAY_EVENT = 'yurisa:launch-replay'
   var BUTTON_ID = 'genshin-launch-replay-btn'
@@ -267,7 +267,7 @@
         enabled: readEnabledMeta(document),
         reducedMotion: hasReducedMotion(window),
         saveData: hasSaveData(navigator),
-        webgl2: getWebGL2Support(),
+        get webgl2 () { return getWebGL2Support() },
         seenResult: readSeen(storage)
       })
     }
@@ -484,7 +484,7 @@
           document.documentElement.removeAttribute('data-launch-state')
           return false
         }
-        if (source === 'auto' && !markSeen(storage)) {
+        if (eligibility.mode === 'auto' && !markSeen(storage)) {
           current = null
           document.documentElement.removeAttribute('data-launch-state')
           resumeLive2D(instance)

@@ -408,9 +408,9 @@ music_player:
 # 插入自定义 CSS 或 JS
 inject:
   head:
-    # 原神式启动层：默认关闭，通过 ?launch=preview 进入预览。
+    # 原神式启动层：正式开启；可用 ?launch=off 紧急关闭当前访问。
     # bootstrap 同步执行且不引入 Three.js，确保首帧前完成资格判定。
-    - <meta name="yurisa-launch-enabled" content="false">
+    - <meta name="yurisa-launch-enabled" content="true">
     - <link rel="stylesheet" href="/css/genshin-launch.css">
     - <script src="/js/genshin-launch-policies.js"></script>
     - <script src="/js/genshin-launch.js"></script>

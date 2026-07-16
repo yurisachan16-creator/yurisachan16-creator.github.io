@@ -41,11 +41,13 @@ npm run server
 
 ## Three.js 启动体验
 
-首页接入了非官方的原神式天空长廊与开门动画。正式开关默认关闭，本地可用以下地址检查真实场景：
+首页已启用非官方的原神式天空长廊与开门动画。每个标签页会话首次满足条件的首页访问会自动播放；本地可用以下地址强制检查真实场景：
 
 ```text
 http://localhost:4000/?launch=preview
 ```
+
+需要跳过启动层排障时使用 `http://localhost:4000/?launch=off`。
 
 开发场景与 Hexo 并行 watch：
 
@@ -151,11 +153,13 @@ npm run sync-themes
 
 当前默认部署目标是 **Cloudflare Pages**（由 GitHub Actions 触发构建与发布）：
 
-1) 在 Cloudflare 创建 Pages 项目并绑定仓库
+1) 在 Cloudflare 创建 Pages 项目；生产发布仅由 GitHub Actions 中的 Wrangler 执行，不要同时开启 Cloudflare Git 原生生产自动部署
 2) 在 GitHub 仓库 Secrets 配置：
    - `CLOUDFLARE_API_TOKEN`
    - `CLOUDFLARE_ACCOUNT_ID`
 3) 推送到 `main` 分支后，`.github/workflows/pages.yml` 会自动构建并部署 `public/`
+
+如果 Cloudflare Dashboard 已经绑定该 Git 仓库，请关闭 Pages 的原生 production auto-deploy（或断开该 Git 绑定），避免它在 `launch-release-gate` 完成前抢先写入生产。分支预览由 `.github/workflows/pages-preview.yml` 统一发布。
 
 说明：`https://yurisachan16-creator.github.io/` 作为旧地址，仅通过 `.github/workflows/github-pages-redirect.yml` 发布重定向页，用于跳转到 Cloudflare 主站 `https://yurisa.top/`。
 

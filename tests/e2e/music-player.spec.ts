@@ -36,7 +36,7 @@ async function mockNeteasePlaylist (page) {
 
 async function openHome (page) {
   await mockNeteasePlaylist(page)
-  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await page.goto('/?launch=off', { waitUntil: 'domcontentloaded' })
   await page.waitForSelector('#music-player-btn')
 }
 

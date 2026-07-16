@@ -166,7 +166,7 @@ describe('genshin launch coordinator', () => {
     const harness = runtimeHarness()
 
     expect(harness.coordinator.start('auto')).toBe(true)
-    expect(harness.storage.setItem).toHaveBeenCalledWith('yurisa_launch_seen_v1', '1')
+    expect(harness.storage.setItem).toHaveBeenCalledWith('yurisa_launch_seen_v2', '1')
     const host = document.querySelector('.yurisa-launch')
     const tools = host.querySelector('.yurisa-launch__tools')
     const toolControls = Array.from(tools.children)
@@ -207,6 +207,22 @@ describe('genshin launch coordinator', () => {
     expect(complete).toHaveBeenCalledTimes(1)
     expect(complete.mock.calls[0][0].detail).toMatchObject({ outcome: 'entered' })
     document.removeEventListener('yurisa:launch-complete', complete)
+  })
+
+  it('does not consume the automatic first-visit marker during preview', async () => {
+    window.history.replaceState({}, '', '/?launch=preview')
+    const harness = runtimeHarness()
+
+    expect(harness.coordinator.start('auto')).toBe(true)
+    expect(harness.storage.setItem).not.toHaveBeenCalled()
+    expect(harness.coordinator.getEligibility('auto')).toMatchObject({
+      eligible: true,
+      reason: 'preview',
+      mode: 'preview'
+    })
+
+    expect(harness.coordinator.finalize('skipped')).toBe(true)
+    await flushRuntime()
   })
 
   it('resets the 10s stall watchdog on real progress while retaining the 30s total ceiling', async () => {
@@ -309,7 +325,7 @@ describe('genshin launch coordinator', () => {
 
     expect(harness.coordinator.start('auto')).toBe(true)
     expect(suspendForLaunch).toHaveBeenCalledTimes(1)
-    expect(storage.setItem).toHaveBeenCalledWith('yurisa_launch_seen_v1', '1')
+    expect(storage.setItem).toHaveBeenCalledWith('yurisa_launch_seen_v2', '1')
     await flushRuntime()
 
     expect(harness.coordinator.finalize('entered')).toBe(true)
@@ -612,7 +628,7 @@ describe('genshin launch coordinator', () => {
 
   it('does not start replay when active Live2D cannot be suspended', () => {
     const storage = memoryStorage()
-    storage.setItem('yurisa_launch_seen_v1', '1')
+    storage.setItem('yurisa_launch_seen_v2', '1')
     storage.setItem.mockClear()
     const suspendForLaunch = vi.fn(() => false)
     window.__live2dAssistant = {
