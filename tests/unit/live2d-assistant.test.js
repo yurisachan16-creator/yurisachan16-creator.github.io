@@ -232,8 +232,7 @@ describe('live2d-assistant DOM helpers', () => {
       <button id="waifu-toggle" style="visibility: visible"></button>
       <div id="waifu" class="waifu-active" style="pointer-events: auto"></div>
     `)
-    const setItem = window.localStorage.setItem
-    window.localStorage.setItem = vi.fn(setItem.bind(window.localStorage))
+    const setItem = vi.spyOn(Storage.prototype, 'setItem')
     const { suspendForLaunch, resumeFromLaunch } = loadModule()
 
     expect(suspendForLaunch()).toBe(true)
@@ -249,8 +248,8 @@ describe('live2d-assistant DOM helpers', () => {
     expect(document.getElementById('waifu').hasAttribute('aria-hidden')).toBe(false)
     expect(window.__live2dAssistant.debug().launch.suspended).toBe(false)
     expect(window.__live2dAssistant.debug().events.filter((event) => event.key === 'launch:resume')).toHaveLength(1)
-    expect(window.localStorage.setItem).not.toHaveBeenCalled()
-    window.localStorage.setItem = setItem
+    expect(setItem).not.toHaveBeenCalled()
+    setItem.mockRestore()
   })
 
   it('reports suspension unavailable while Live2D is loading before its ticker exists', () => {
