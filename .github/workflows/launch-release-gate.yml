@@ -1,17 +1,20 @@
-name: Quality Gate
+name: Launch Release Gate
 
 on:
-  pull_request:
-    branches: ["main"]
-  push:
-    branches: ["main"]
+  workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: launch-release-gate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  verify:
+  verify-launch-release:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -25,14 +28,30 @@ jobs:
 
       - run: npm ci
       - run: npm --prefix worker ci
+
       - name: Install launch media tooling
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
-      - run: npm run verify
-      - name: Install critical browsers
-        run: npx playwright install --with-deps chromium webkit
-      - run: npm run test:e2e:critical
 
-  launch-visual:
+      - name: Run deterministic build and verification
+        run: npm run verify
+
+      - name: Install full browser matrix
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Run launch release matrix
+        run: npm run test:e2e:release
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: launch-release-playwright-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
+  visual-regression:
     runs-on: macos-14
     timeout-minutes: 30
     steps:
@@ -51,15 +70,15 @@ jobs:
       - name: Install canonical visual browser
         run: npx playwright install chromium
 
-      - name: Compare production WebGL against checked-in upstream references
+      - name: Run deterministic shell and production Three.js visual regression
         run: npm run test:e2e:visual
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: launch-pr-visual-${{ github.run_id }}-${{ github.run_attempt }}
+          name: launch-release-visual-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             playwright-report
             test-results
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 14

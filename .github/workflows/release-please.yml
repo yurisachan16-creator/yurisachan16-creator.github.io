@@ -11,7 +11,11 @@ permissions:
   issues: write
 
 jobs:
+  launch-release-gate:
+    uses: ./.github/workflows/launch-release-gate.yml
+
   release-please:
+    needs: launch-release-gate
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4
