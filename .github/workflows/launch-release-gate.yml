@@ -2,7 +2,19 @@ name: Launch Release Gate
 
 on:
   workflow_call:
+    inputs:
+      run_macos_visual:
+        description: Run the manually approved macOS visual-regression job
+        required: false
+        type: boolean
+        default: false
   workflow_dispatch:
+    inputs:
+      run_macos_visual:
+        description: Run the macOS visual-regression job (standard public runners are currently free; explicit approval keeps this safe if billing conditions change)
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -52,6 +64,10 @@ jobs:
           retention-days: 14
 
   visual-regression:
+    # Keep macOS behind an explicit human gate. Standard runners are currently
+    # free for this public repository, but repository visibility, runner class,
+    # or GitHub billing rules can change independently of this workflow.
+    if: ${{ inputs.run_macos_visual }}
     runs-on: macos-14
     timeout-minutes: 30
     steps:

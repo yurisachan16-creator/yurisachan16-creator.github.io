@@ -16,6 +16,10 @@ jobs:
   launch-release-gate:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/launch-release-gate.yml
+    with:
+      # Production deploys use the free/default Ubuntu gate. Run macOS only by
+      # manually dispatching Launch Release Gate with explicit approval.
+      run_macos_visual: false
 
   build:
     if: github.ref == 'refs/heads/main'

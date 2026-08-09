@@ -16,3 +16,6 @@ concurrency:
 jobs:
   release-gate:
     uses: ./.github/workflows/launch-release-gate.yml
+    with:
+      # Nightly verification must remain on the free/default Ubuntu path.
+      run_macos_visual: false
