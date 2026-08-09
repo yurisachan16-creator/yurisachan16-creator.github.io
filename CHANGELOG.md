@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.3.0](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/compare/v0.2.0...v0.3.0) (2026-08-09)
+
+
+### Features
+
+* **site:** add Genshin-style Three.js launch experience ([#27](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/issues/27)) ([9899ee5](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/commit/9899ee5664e98c72900a852a84a35e77231c69e4))
+* **site:** enable Genshin launch experience ([#28](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/issues/28)) ([122f490](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/commit/122f490241897dde1242a30bbf948b2789cbede7))
+
+
+### Content
+
+* publish GitHub Actions billing incident ([5a217b4](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/commit/5a217b4961f26a1f73999a437c42593e002d108a))
+
+
+### Fixes
+
+* **site:** bust launch bootstrap cache ([#29](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/issues/29)) ([4f6fa78](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/commit/4f6fa787bd5261a7ebc32af5733ac4fe59ef5ec3))
+* **site:** skip turnstile widget without site key ([#26](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/issues/26)) ([eb08529](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/commit/eb0852959c66613f9c3d23008606b83b7bc9d2f9))
+
+
+### Performance
+
+* **site:** improve mobile loading and controls ([#24](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/issues/24)) ([dc4d43a](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/commit/dc4d43ad097912c6b5c02f744a166c79a430d34a))
+
+
+### Infra
+
+* gate macOS visual regression behind manual approval ([4f75b88](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/commit/4f75b88f93d98d690a22d579aecd5bbf9d9820eb))
+
 ## [0.2.0](https://github.com/yurisachan16-creator/yurisachan16-creator.github.io/compare/v0.1.0...v0.2.0) (2026-06-05)
 
 
