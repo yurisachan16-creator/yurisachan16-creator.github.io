@@ -1,6 +1,32 @@
 {
-  "generatedAt": "2026-05-29",
+  "generatedAt": "2026-08-09",
   "posts": [
+    {
+      "title": "GitHub Actions 半夜尝试扣我 50 美元，顺手记录一下这次 macOS Runner 踩坑",
+      "url": "/2026/08/09/github-actions-accidental-charge/",
+      "date": "2026-08-09",
+      "updated": "2026-08-09",
+      "description": "复盘一次由私有仓库 macOS Runner、高频 PR 更新和自动化工作流共同放大的 GitHub Actions 意外费用，以及发现后的止损、CI 加固和计费检查方法。",
+      "tags": [
+        "GitHub",
+        "GitHub Actions",
+        "CI/CD",
+        "AI Agent",
+        "macOS"
+      ],
+      "categories": [
+        "技术研究"
+      ],
+      "articleVersion": "1.0.0",
+      "articleHistory": [
+        {
+          "version": "1.0.0",
+          "date": "2026-08-09",
+          "summary": "首次发布"
+        }
+      ],
+      "source": "source/_posts/2026/2026-08-09-github-actions-accidental-charge.md"
+    },
     {
       "title": "罗大佑《未来的主人翁》：儿童、债务和上一代的亏欠",
       "url": "/music/luo-dayou-future-master/05-weilai-de-zhurenweng/",
@@ -570,6 +596,23 @@
           "categories": [
             "音乐札记"
           ]
+        },
+        {
+          "step": 4,
+          "title": "GitHub Actions 半夜尝试扣我 50 美元，顺手记录一下这次 macOS Runner 踩坑",
+          "url": "/2026/08/09/github-actions-accidental-charge/",
+          "date": "2026-08-09",
+          "description": "复盘一次由私有仓库 macOS Runner、高频 PR 更新和自动化工作流共同放大的 GitHub Actions 意外费用，以及发现后的止损、CI 加固和计费检查方法。",
+          "tags": [
+            "GitHub",
+            "GitHub Actions",
+            "CI/CD",
+            "AI Agent",
+            "macOS"
+          ],
+          "categories": [
+            "技术研究"
+          ]
         }
       ]
     },
@@ -602,6 +645,23 @@
     }
   ],
   "updates": [
+    {
+      "title": "GitHub Actions 半夜尝试扣我 50 美元，顺手记录一下这次 macOS Runner 踩坑",
+      "url": "/2026/08/09/github-actions-accidental-charge/",
+      "version": "1.0.0",
+      "date": "2026-08-09",
+      "summary": "首次发布",
+      "tags": [
+        "GitHub",
+        "GitHub Actions",
+        "CI/CD",
+        "AI Agent",
+        "macOS"
+      ],
+      "categories": [
+        "技术研究"
+      ]
+    },
     {
       "title": "罗大佑《未来的主人翁》：儿童、债务和上一代的亏欠",
       "url": "/music/luo-dayou-future-master/05-weilai-de-zhurenweng/",
